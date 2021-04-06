@@ -32,5 +32,9 @@ public class Conexion {
         }
         return con;
     }
+
+    public Connection Conectar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
