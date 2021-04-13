@@ -2,44 +2,45 @@
 package modelo;
 
 public class Producto {
-    int cod;
-    String nom;
-    String desc;
-    //foto;
-    int precio;
-    
+    private int codigo;
+    private String nombre;
+    private String descripcion;
+    private int precio;
+    private int tipo;
+
     public Producto() {
     }
 
-    public Producto(int cod, String nom, String desc, int precio) {
-        this.cod = cod;
-        this.nom = nom;
-        this.desc = desc;
+    public Producto(int codigo, String nombre, String descripcion, int precio, int tipo) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
         this.precio = precio;
+        this.tipo = tipo;
     }
 
-    public int getCod() {
-        return cod;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setCod(int cod) {
-        this.cod = cod;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
-    public String getNom() {
-        return nom;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public int getPrecio() {
@@ -49,7 +50,13 @@ public class Producto {
     public void setPrecio(int precio) {
         this.precio = precio;
     }
-    
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
     
 }
-    
