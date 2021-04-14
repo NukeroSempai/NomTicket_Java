@@ -12,12 +12,12 @@ import java.awt.Toolkit;
  *
  * @author Jiss
  */
-public class Login extends javax.swing.JFrame {
+public class LoginForm extends javax.swing.JFrame {
 
     /**
      * Creates new form Login
      */
-    public Login() {
+    public LoginForm() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -37,19 +37,23 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        JbuttonConectar = new javax.swing.JButton();
         jButtonSalir = new javax.swing.JButton();
         jLabelLogo = new javax.swing.JLabel();
         jLabelUsuario = new javax.swing.JLabel();
         jLabelPassword = new javax.swing.JLabel();
         jTextFieldUser = new javax.swing.JTextField();
+        borrame = new javax.swing.JButton();
         jPassword = new javax.swing.JPasswordField();
-        jButtonConectar = new javax.swing.JButton();
         jLabelFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        JbuttonConectar.setText("Conectar");
+        getContentPane().add(JbuttonConectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, -1, -1));
 
         jButtonSalir.setBackground(new java.awt.Color(204, 204, 255));
         jButtonSalir.setFont(new java.awt.Font("Arial Black", 1, 11)); // NOI18N
@@ -76,10 +80,15 @@ public class Login extends javax.swing.JFrame {
         jLabelPassword.setText("Password");
         getContentPane().add(jLabelPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, -1, -1));
         getContentPane().add(jTextFieldUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, 110, -1));
-        getContentPane().add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 110, -1));
 
-        jButtonConectar.setText("Conectar");
-        getContentPane().add(jButtonConectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, -1, -1));
+        borrame.setText("pasar");
+        borrame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrameActionPerformed(evt);
+            }
+        });
+        getContentPane().add(borrame, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, -1, -1));
+        getContentPane().add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 110, -1));
 
         jLabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo naranja.png"))); // NOI18N
         getContentPane().add(jLabelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 400));
@@ -91,6 +100,12 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButtonSalirActionPerformed
+
+    private void borrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrameActionPerformed
+        this.setVisible(false);
+        ProductoForm admP = new ProductoForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_borrameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -109,26 +124,28 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new LoginForm().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonConectar;
+    private javax.swing.JButton JbuttonConectar;
+    private javax.swing.JButton borrame;
     private javax.swing.JButton jButtonSalir;
     private javax.swing.JLabel jLabelFondo;
     private javax.swing.JLabel jLabelLogo;

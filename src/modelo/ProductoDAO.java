@@ -22,15 +22,13 @@ public class ProductoDAO implements CRUD{
            con=cn.Conectar();
            ps=con.prepareStatement(sql);
            rs=ps.executeQuery();           
-           while (rs.next()) {               
-               System.out.println(rs.getString("nom_prod"));
-                         
+           while (rs.next()) {
                Producto p=new Producto();
                p.setCodigo(rs.getInt("cod_prod"));
                p.setNombre(rs.getString("nom_prod"));
                p.setDescripcion(rs.getString("des_prod"));
-               p.setPrecio(rs.getInt("precio_prod"));
                p.setTipo(rs.getInt("fk_tipo_producto_id"));
+               p.setPrecio(rs.getInt("precio_prod"));               
                lista.add(p);               
            }
            con.close();
@@ -40,7 +38,27 @@ public class ProductoDAO implements CRUD{
        } 
        return lista;
     }
-
+    
+        public List listarTipo() {
+       List<String> lista =new ArrayList<>();
+       String sql="select * from TIPO_PRODUCTO order by id_tipo_producto";
+       try {
+           con=cn.Conectar();
+           ps=con.prepareStatement(sql);
+           rs=ps.executeQuery();           
+           while (rs.next()) {
+               String p=new String();
+               p=(rs.getString("nom_tipo_producto"));                             
+               lista.add(p);               
+           }
+           con.close();
+           
+       } catch (Exception e) {
+           System.out.println("error al listar Tipos de productos "+e.getMessage());
+       } 
+       return lista;
+    }
+    
     @Override
     public int add(Object[] o) {
         int r=0;
@@ -97,5 +115,5 @@ public class ProductoDAO implements CRUD{
         }
         return r;
     }
-    
+       
 }
