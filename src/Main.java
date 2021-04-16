@@ -1,6 +1,7 @@
 
 import modelo.Producto;
 import modelo.ProductoDAO;
+import SEGURIDAD.encriptadorHash;
 import vistas.LoginForm;
 
 /*
@@ -16,8 +17,12 @@ import vistas.LoginForm;
 public class Main {
     
     public static void main(String[] args) throws ClassNotFoundException {
+        String clave = "admin";
+        System.out.println(encriptadorHash.getHash(clave));
+        System.out.println(clave);
         vistas.LoginForm inicio = new LoginForm();
         inicio.setVisible(true);
+        
     }
     
 }
