@@ -7,6 +7,9 @@ package vistas;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import SEGURIDAD.seguridad;
+import javax.swing.JOptionPane;
+import javax.swing.SpringLayout;
 
 /**
  *
@@ -17,6 +20,7 @@ public class LoginForm extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    seguridad seg = new seguridad();
     public LoginForm() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -43,7 +47,6 @@ public class LoginForm extends javax.swing.JFrame {
         jLabelUsuario = new javax.swing.JLabel();
         jLabelPassword = new javax.swing.JLabel();
         jTextFieldUser = new javax.swing.JTextField();
-        borrame = new javax.swing.JButton();
         jPassword = new javax.swing.JPasswordField();
         jLabelFondo = new javax.swing.JLabel();
 
@@ -53,6 +56,11 @@ public class LoginForm extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         JbuttonConectar.setText("Conectar");
+        JbuttonConectar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JbuttonConectarActionPerformed(evt);
+            }
+        });
         getContentPane().add(JbuttonConectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, -1, -1));
 
         jButtonSalir.setBackground(new java.awt.Color(204, 204, 255));
@@ -80,14 +88,6 @@ public class LoginForm extends javax.swing.JFrame {
         jLabelPassword.setText("Password");
         getContentPane().add(jLabelPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, -1, -1));
         getContentPane().add(jTextFieldUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, 110, -1));
-
-        borrame.setText("pasar");
-        borrame.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                borrameActionPerformed(evt);
-            }
-        });
-        getContentPane().add(borrame, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, -1, -1));
         getContentPane().add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 110, -1));
 
         jLabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo naranja.png"))); // NOI18N
@@ -101,11 +101,21 @@ public class LoginForm extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
-    private void borrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrameActionPerformed
-        this.setVisible(false);
-        ProductoForm admP = new ProductoForm();
-        admP.setVisible(true);
-    }//GEN-LAST:event_borrameActionPerformed
+    private void JbuttonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbuttonConectarActionPerformed
+        String ingresoClave="";
+        for (int i = 0; i < jPassword.getPassword().length; i++) {
+            ingresoClave+=jPassword.getPassword()[i];
+        }
+        if(seg.iniciarSesion(jTextFieldUser.getText(), ingresoClave)==true){
+            JOptionPane.showMessageDialog(null, "Bienvenido!", "Exito!", JOptionPane.DEFAULT_OPTION);
+            ProductoForm prod = new ProductoForm();
+            prod.setVisible(true);
+            this.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(null, "ERROR usuario o contraseña invalidos", "error!", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_JbuttonConectarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,7 +155,6 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JbuttonConectar;
-    private javax.swing.JButton borrame;
     private javax.swing.JButton jButtonSalir;
     private javax.swing.JLabel jLabelFondo;
     private javax.swing.JLabel jLabelLogo;
