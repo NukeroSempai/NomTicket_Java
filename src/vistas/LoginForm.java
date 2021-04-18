@@ -114,7 +114,7 @@ public class LoginForm extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "ERROR usuario o contraseña invalidos", "error!", JOptionPane.ERROR_MESSAGE);
         }
-
+        
     }//GEN-LAST:event_JbuttonConectarActionPerformed
 
     /**
