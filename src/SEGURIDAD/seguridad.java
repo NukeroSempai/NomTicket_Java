@@ -31,13 +31,17 @@ public class seguridad {
         }
         return encriptado;
     }
+    
+    public String encriptar(String clave){
+        return generarHash(clave);        
+    }
 
     public boolean iniciarSesion(String nombre, String clave) {
         boolean autorizar = false;
         String usuarioRecuperado = "";
         String ClaveRecuperada = "";
         String ClaveProcesada = generarHash(clave);
-        String sql = "select nombreusuario,password_emp from empleado where nombreusuario=?";
+        String sql = "select nombreusuario,password_emp_casino from empleado where nombreusuario=?";
         //buscar y recuperar usuario y contraseña
         try {
             con = cn.Conectar();            

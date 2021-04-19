@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import modelo.UsuariosDAO;
+import SEGURIDAD.seguridad;
 
 public class UsuariosForm extends javax.swing.JFrame {
 
@@ -14,6 +15,7 @@ public class UsuariosForm extends javax.swing.JFrame {
     List<String> comedor = dao.listarComedor();
     List<String> comuna = dao.listarComuna();
     int identificador =0;
+    seguridad seg = new seguridad();
 
     DefaultTableModel modelo = new DefaultTableModel();
     int id_emp_casino;
@@ -45,8 +47,8 @@ public class UsuariosForm extends javax.swing.JFrame {
             ob[10] = comuna.get(lista.get(i).getComuna() - 1);
             modelo.addRow(ob);
         }
-        TablaUsuarios.setModel(modelo);
         identificador = lista.get(lista.size()-1).getId()+1;
+        TablaUsuarios.setModel(modelo);        
     }
 
     @SuppressWarnings("unchecked")
@@ -389,7 +391,7 @@ public class UsuariosForm extends javax.swing.JFrame {
         String dv_rut_emp_casino = txtDv.getText();
         String tel_emp_casino = txtTel.getText();
         String nomUsu = txtNomUsuario.getText();
-        String password_emp_casino = txtPassword.getText();
+        String password_emp_casino = seg.encriptar(txtPassword.getText());
         int tipo = CbComedor.getSelectedIndex() + 1;
         int comuna = CbComuna.getSelectedIndex() + 1;
         //String fk_comuna_id = txtComuna.getText();
