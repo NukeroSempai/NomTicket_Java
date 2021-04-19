@@ -114,7 +114,7 @@ public class UsuariosDAO implements CRUD {
     @Override
     public int actualizar(Object[] o) {
         int r=0;
-        String sql = "update emp_casino set id_emp_casino=?, nom_emp_casino=?,appat_emp_casino=?,apmat_emp_casino=?, rut_emp_casino=?, dv_rut_emp_casino=?, tel_emp_casino=?,fk_comedor_id,fk_comuna_id,password_emp_casino=?  where id_emp_casino=?";
+        String sql = "update emp_casino set nom_emp_casino=?,appat_emp_casino=?,apmat_emp_casino=?, rut_emp_casino=?, dv_rut_emp_casino=?, tel_emp_casino=?,fk_comedor_id,fk_comuna_id,password_emp_casino=?  where id_emp_casino=?";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
@@ -127,8 +127,7 @@ public class UsuariosDAO implements CRUD {
             ps.setObject(7, o[6]);
             ps.setObject(8, o[7]);
             ps.setObject(9, o[8]);
-            ps.setObject(10, o[9]);
-            ps.setObject(11, o[10]);
+            ps.setObject(10, o[9]);            
             r=ps.executeUpdate();
             con.close();
         } catch (Exception e) {
@@ -151,6 +150,6 @@ public class UsuariosDAO implements CRUD {
             System.out.println(e.getMessage());
         }
         return r;
-    }
+    } 
 
 }

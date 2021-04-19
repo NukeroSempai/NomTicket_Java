@@ -13,6 +13,7 @@ public class UsuariosForm extends javax.swing.JFrame {
     Usuarios u = new Usuarios();
     List<String> comedor = dao.listarComedor();
     List<String> comuna = dao.listarComuna();
+    int identificador =0;
 
     DefaultTableModel modelo = new DefaultTableModel();
     int id_emp_casino;
@@ -45,6 +46,7 @@ public class UsuariosForm extends javax.swing.JFrame {
             modelo.addRow(ob);
         }
         TablaUsuarios.setModel(modelo);
+        identificador = lista.get(lista.size()-1).getId()+1;
     }
 
     @SuppressWarnings("unchecked")
@@ -379,7 +381,7 @@ public class UsuariosForm extends javax.swing.JFrame {
         limpiarCampos();
     }//GEN-LAST:event_btnNuevoActionPerformed
     void agregar() {
-        int id_emp_casino = 0;
+        int id_emp_casino = identificador;
         String nom_emp_casino = txtNombre.getText();
         String appat_emp_casino = txtApPaterno.getText();
         String apmat_emp_casino = txtApMaterno.getText();
@@ -416,28 +418,28 @@ public class UsuariosForm extends javax.swing.JFrame {
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
         } else {
-            String id_emp_casino = txtNomUsuario.getText();
+            
             String nom_emp_casino = txtNombre.getText();
             String appat_emp_casino = txtApPaterno.getText();
             String apmat_emp_casino = txtApMaterno.getText();
             String rut_emp_casino = txtRut.getText();
             String dv_rut_emp_casino = txtDv.getText();
             String tel_emp_casino = txtTel.getText();
+            String nomUsuario = txtNomUsuario.getText();
             String password_emp_casino = txtPassword.getText();
             int tipo = CbComedor.getSelectedIndex() + 1;
             int comuna = CbComuna.getSelectedIndex() + 1;
             //String fk_comuna_id = txtComuna.getText();
-            Object[] ob = new Object[10];
-            ob[0] = id_emp_casino;
-            ob[1] = nom_emp_casino;
-            ob[2] = appat_emp_casino;
-            ob[3] = apmat_emp_casino;
-            ob[4] = rut_emp_casino;
-            ob[5] = dv_rut_emp_casino;
-            ob[6] = tel_emp_casino;
-            ob[7] = password_emp_casino;
-            ob[8] = comuna;
-            ob[9] = comedor;
+            Object[] ob = new Object[10];            
+            ob[0] = nom_emp_casino;
+            ob[1] = appat_emp_casino;
+            ob[2] = apmat_emp_casino;
+            ob[3] = rut_emp_casino;
+            ob[4] = dv_rut_emp_casino;
+            ob[5] = tel_emp_casino;
+            ob[6] = password_emp_casino;
+            ob[7] = comuna;
+            ob[8] = comedor;
             if (dao.actualizar(ob) > 0) {
                 JOptionPane.showMessageDialog(null, "Usuario Actualizado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
             } else {
