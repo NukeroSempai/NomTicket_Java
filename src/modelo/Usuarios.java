@@ -10,6 +10,7 @@ public class Usuarios {
     private int rut;
     private String dv;
     private int telefono;
+    private String nomUsuario;
     private String password;
     private int comedor;
     private int comuna;
@@ -19,7 +20,7 @@ public class Usuarios {
   
     }
 
-    public Usuarios(int id, String nombre, String paterno, String materno, int rut, String dv, int telefono, String password,int comedor, int comuna) {
+    public Usuarios(int id, String nombre, String paterno, String materno, int rut, String dv, int telefono,String nomUsuario, String password,int comedor, int comuna) {
         this.id = id;
         this.nombre = nombre;
         this.paterno = paterno;
@@ -27,6 +28,7 @@ public class Usuarios {
         this.rut = rut;
         this.dv = dv;
         this.telefono = telefono;
+        this.nomUsuario = nomUsuario;
         this.password = password;
         this.comedor = comedor;
         this.comuna = comuna;
@@ -86,6 +88,14 @@ public class Usuarios {
 
     public void setTelefono(int telefono) {
         this.telefono = telefono;
+    }
+    
+    public String getNomUsuario() {
+        return nomUsuario;
+    }
+
+    public void setNomUsuario(String nomUsuario) {
+        this.nomUsuario = nomUsuario;
     }
 
     public String getPassword() {

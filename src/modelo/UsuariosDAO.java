@@ -31,6 +31,7 @@ public class UsuariosDAO implements CRUD {
                 p.setRut(rs.getInt("rut_emp_casino"));
                 p.setDv(rs.getString("dv_rut_emp_casino"));
                 p.setTelefono(rs.getInt("tel_emp_casino"));
+                p.setNomUsuario(rs.getString("nombreusuario"));
                 p.setPassword(rs.getString("password_emp_casino"));
                 p.setComedor(rs.getInt("fk_comedor_id")); 
                 p.setComuna(rs.getInt("fk_comuna_id"));
@@ -87,7 +88,7 @@ public class UsuariosDAO implements CRUD {
     @Override
     public int add(Object[] o) {
         int r=0;
-        String sql = "insert into emp_casino(id_emp_casino,nom_emp_casino,appat_emp_casino,apmat_emp_casino,rut_emp_casino,dv_rut_emp_casino,tel_emp_casino, fk_comedor_id, fk_comuna_id,password_emp_casino)values(?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into emp_casino(id_emp_casino,nom_emp_casino,appat_emp_casino,apmat_emp_casino,rut_emp_casino,dv_rut_emp_casino,tel_emp_casino,nombreUsuario,password_emp_casino, fk_comedor_id, fk_comuna_id)values(?,?,?,?,?,?,?,?,?,?,?)";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
@@ -101,6 +102,7 @@ public class UsuariosDAO implements CRUD {
             ps.setObject(8, o[7]);
             ps.setObject(9, o[8]);
             ps.setObject(10, o[9]);
+            ps.setObject(11,o[10]);
             r=ps.executeUpdate();
             con.close();
         } catch (Exception e) {

@@ -29,7 +29,7 @@ public class UsuariosForm extends javax.swing.JFrame {
         List<Usuarios> lista = dao.listar();
 
         modelo = (DefaultTableModel) TablaUsuarios.getModel();
-        Object[] ob = new Object[10];
+        Object[] ob = new Object[11];
         for (int i = 0; i < lista.size(); i++) {
             ob[0] = lista.get(i).getId();
             ob[1] = lista.get(i).getNombre();
@@ -38,9 +38,10 @@ public class UsuariosForm extends javax.swing.JFrame {
             ob[4] = lista.get(i).getRut();
             ob[5] = lista.get(i).getDv();
             ob[6] = lista.get(i).getTelefono();
-            ob[7] = lista.get(i).getPassword();
-            ob[8] = comedor.get(lista.get(i).getComedor() - 1);
-            ob[9] = comuna.get(lista.get(i).getComuna() - 1);
+            ob[7] = lista.get(i).getNomUsuario();
+            ob[8] = lista.get(i).getPassword();
+            ob[9] = comedor.get(lista.get(i).getComedor() - 1);
+            ob[10] = comuna.get(lista.get(i).getComuna() - 1);
             modelo.addRow(ob);
         }
         TablaUsuarios.setModel(modelo);
@@ -72,7 +73,7 @@ public class UsuariosForm extends javax.swing.JFrame {
         jLabelPassword = new javax.swing.JLabel();
         jLabelComedor = new javax.swing.JLabel();
         jLabelComuna = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
+        txtNomUsuario = new javax.swing.JTextField();
         txtPassword = new javax.swing.JTextField();
         CbComedor = new javax.swing.JComboBox<>();
         CbComuna = new javax.swing.JComboBox<>();
@@ -154,7 +155,7 @@ public class UsuariosForm extends javax.swing.JFrame {
 
         jLabelId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelId.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelId.setText("Id");
+        jLabelId.setText("Usuario");
 
         jLabelPassword.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelPassword.setForeground(new java.awt.Color(255, 255, 255));
@@ -217,9 +218,9 @@ public class UsuariosForm extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(CbComedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                                    .addComponent(txtId)
+                                    .addComponent(txtNomUsuario)
                                     .addComponent(CbComuna, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                .addContainerGap(275, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,7 +235,7 @@ public class UsuariosForm extends javax.swing.JFrame {
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelNombre)
                     .addComponent(jLabelId)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNomUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelApPaterno)
@@ -268,18 +269,18 @@ public class UsuariosForm extends javax.swing.JFrame {
                 .addGap(28, 28, 28))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 340));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 340));
 
         TablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Id", "Nombre", "Apellido Paterno", "Apellido Materno", "Rut", "Dv", "Teléfono", "Password", "Comedor", "Comuna"
+                "Id", "Nombre", "Apellido Paterno", "Apellido Materno", "Rut", "Dv", "Teléfono", "Nombre Usuario", "Password", "Comedor", "Comuna"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -288,7 +289,7 @@ public class UsuariosForm extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TablaUsuarios);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 840, 330));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 870, 330));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 153, 0));
         jMenuBar1.setBorder(null);
@@ -378,18 +379,19 @@ public class UsuariosForm extends javax.swing.JFrame {
         limpiarCampos();
     }//GEN-LAST:event_btnNuevoActionPerformed
     void agregar() {
-        String id_emp_casino = txtId.getText();
+        int id_emp_casino = 0;
         String nom_emp_casino = txtNombre.getText();
         String appat_emp_casino = txtApPaterno.getText();
         String apmat_emp_casino = txtApMaterno.getText();
         String rut_emp_casino = txtRut.getText();
         String dv_rut_emp_casino = txtDv.getText();
         String tel_emp_casino = txtTel.getText();
+        String nomUsu = txtNomUsuario.getText();
         String password_emp_casino = txtPassword.getText();
         int tipo = CbComedor.getSelectedIndex() + 1;
         int comuna = CbComuna.getSelectedIndex() + 1;
         //String fk_comuna_id = txtComuna.getText();
-        Object[] ob = new Object[10];
+        Object[] ob = new Object[11];
         //Revisar
         ob[0] = id_emp_casino;
         ob[1] = nom_emp_casino;
@@ -398,9 +400,10 @@ public class UsuariosForm extends javax.swing.JFrame {
         ob[4] = rut_emp_casino;
         ob[5] = dv_rut_emp_casino;
         ob[6] = tel_emp_casino;
-        ob[7] = password_emp_casino;
-        ob[8] = comuna;
-        ob[9] = comedor;
+        ob[7] = nomUsu;
+        ob[8] = password_emp_casino;
+        ob[9] = comuna;
+        ob[10] = tipo;
         if (dao.add(ob) > 0) {
             JOptionPane.showMessageDialog(null, "Usuario Agregado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
         } else {
@@ -413,7 +416,7 @@ public class UsuariosForm extends javax.swing.JFrame {
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
         } else {
-            String id_emp_casino = txtId.getText();
+            String id_emp_casino = txtNomUsuario.getText();
             String nom_emp_casino = txtNombre.getText();
             String appat_emp_casino = txtApPaterno.getText();
             String apmat_emp_casino = txtApMaterno.getText();
@@ -451,9 +454,9 @@ public class UsuariosForm extends javax.swing.JFrame {
             int respuesta = JOptionPane.showConfirmDialog(null, "Eliminar producto?");
             if (respuesta == 0) {
                 if (dao.eliminar(id_emp_casino) > 0) {
-                    JOptionPane.showMessageDialog(null, "Producto eliminado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Usuario eliminado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "error al Actualizar producto", "error!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "error al eliminar usuario", "error!", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -478,7 +481,7 @@ public class UsuariosForm extends javax.swing.JFrame {
     }
 
     void limpiarCampos() {
-        txtId.setText("");
+        txtNomUsuario.setText("");
         txtNombre.setText("");
         txtApPaterno.setText("");
         txtApMaterno.setText("");
@@ -496,7 +499,7 @@ public class UsuariosForm extends javax.swing.JFrame {
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe Seleccionar una Fila");
         } else {
-            txtId.setEnabled(false);
+            txtNomUsuario.setEnabled(false);
             String id = TablaUsuarios.getValueAt(fila, 0).toString();
             String nombre = TablaUsuarios.getValueAt(fila, 1).toString();
             String paterno = TablaUsuarios.getValueAt(fila, 2).toString();
@@ -507,7 +510,7 @@ public class UsuariosForm extends javax.swing.JFrame {
             String password = TablaUsuarios.getValueAt(fila, 7).toString();
             String comedor = TablaUsuarios.getValueAt(fila, 8).toString();
             String comuna = TablaUsuarios.getValueAt(fila, 9).toString();
-            txtId.setText(id);
+            txtNomUsuario.setText(id);
             txtNombre.setText(nombre);
             txtApPaterno.setText(paterno);
             txtApMaterno.setText(materno);
@@ -602,14 +605,12 @@ public class UsuariosForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtApMaterno;
     private javax.swing.JTextField txtApPaterno;
     private javax.swing.JTextField txtDv;
-    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtNomUsuario;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtRut;
     private javax.swing.JTextField txtTel;
     // End of variables declaration//GEN-END:variables
 
-    /* private void cargarComboBox() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-}*/
+    
+}
