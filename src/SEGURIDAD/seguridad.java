@@ -31,9 +31,9 @@ public class seguridad {
         }
         return encriptado;
     }
-    
-    public String encriptar(String clave){
-        return generarHash(clave);        
+
+    public String encriptar(String clave) {
+        return generarHash(clave);
     }
 
     public boolean iniciarSesion(String nombre, String clave) {
@@ -41,26 +41,25 @@ public class seguridad {
         String usuarioRecuperado = "";
         String ClaveRecuperada = "";
         String ClaveProcesada = generarHash(clave);
-        String sql = "select nombreusuario,password_emp_casino from empleado where nombreusuario=?";
+        String sql = "select nombreusuario,password_emp_casino from EMP_CASINO where nombreusuario=?";
         //buscar y recuperar usuario y contraseña
         try {
-            con = cn.Conectar();            
+            con = cn.Conectar();
             ps = con.prepareStatement(sql);
             ps.setString(1, nombre);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 usuarioRecuperado = (rs.getString(1));
                 ClaveRecuperada = (rs.getString(2));
-            }      
+            }
             con.close();
         } catch (Exception e) {
-            System.out.println("error en Seguridad ="+e.getMessage());
+            System.out.println("error en Seguridad =" + e.getMessage());
         }
-        //comparar si son iguales
-            System.out.println(nombre+"   "+ClaveProcesada);
-        if ((nombre == usuarioRecuperado) == (ClaveRecuperada == ClaveProcesada)){            
+        //comparar si son iguales  
+        if ((usuarioRecuperado.equals(nombre)) && (ClaveRecuperada.equals(ClaveProcesada))) {
             autorizar = true;
-        }        
+        }
         return autorizar;
     }
 
