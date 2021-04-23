@@ -10,6 +10,7 @@ import java.awt.Toolkit;
 import SEGURIDAD.seguridad;
 import javax.swing.JOptionPane;
 import javax.swing.SpringLayout;
+import modelo.UsuariosDAO;
 
 /**
  *
@@ -21,6 +22,7 @@ public class LoginForm extends javax.swing.JFrame {
      * Creates new form Login
      */
     seguridad seg = new seguridad();
+    UsuariosDAO usu = new UsuariosDAO();
     public LoginForm() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -61,7 +63,7 @@ public class LoginForm extends javax.swing.JFrame {
                 JbuttonConectarActionPerformed(evt);
             }
         });
-        getContentPane().add(JbuttonConectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, -1, -1));
+        getContentPane().add(JbuttonConectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 110, -1));
 
         jButtonSalir.setBackground(new java.awt.Color(204, 204, 255));
         jButtonSalir.setFont(new java.awt.Font("Arial Black", 1, 11)); // NOI18N
@@ -80,7 +82,7 @@ public class LoginForm extends javax.swing.JFrame {
 
         jLabelUsuario.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabelUsuario.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelUsuario.setText("Usuario");
+        jLabelUsuario.setText("Rut");
         getContentPane().add(jLabelUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, -1, -1));
 
         jLabelPassword.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -108,11 +110,18 @@ public class LoginForm extends javax.swing.JFrame {
         }
         if(seg.iniciarSesion(jTextFieldUser.getText(), ingresoClave)==true){
             JOptionPane.showMessageDialog(null, "Bienvenido!", "Exito!", JOptionPane.DEFAULT_OPTION);
-            ProductoForm prod = new ProductoForm();
-            prod.setVisible(true);
-            this.setVisible(false);
+            if(usu.VerificarSuperUsuario(jTextFieldUser.getText())){
+                AdminHome Ahome = new AdminHome();
+                Ahome.setVisible(true);
+                this.setVisible(false);
+            }else{
+                ProductoForm prod = new ProductoForm();
+                prod.setVisible(true);
+                this.setVisible(false);
+            }
+            
         }else{
-            JOptionPane.showMessageDialog(null, "ERROR usuario o contraseña invalidos", "error!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "ERROR de inicio de sesión", "error!", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_JbuttonConectarActionPerformed

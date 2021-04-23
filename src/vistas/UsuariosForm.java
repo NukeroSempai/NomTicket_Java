@@ -7,25 +7,29 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import modelo.UsuariosDAO;
 import SEGURIDAD.seguridad;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class UsuariosForm extends javax.swing.JFrame {
 
     UsuariosDAO dao = new UsuariosDAO();
     Usuarios u = new Usuarios();
-    List<String> comedor = dao.listarComedor();
-    List<String> comuna = dao.listarComuna();
-    int identificador =0;
+    List<String> sucursal = dao.listarSucursal();
     seguridad seg = new seguridad();
 
     DefaultTableModel modelo = new DefaultTableModel();
-    int id_emp_casino;
+    DefaultTableCellRenderer centrarTabla = new DefaultTableCellRenderer();
+
+    String id_rut;
 
     public UsuariosForm() {
         initComponents();
         listar();
-        this.setLocationRelativeTo(null);
-        this.setExtendedState(MAXIMIZED_BOTH);
+        this.setLocationRelativeTo(this);
+        this.setResizable(false);
         cargarComboBox();
+        txtClave.setEnabled(false);
+
     }
 
     void listar() {
@@ -34,21 +38,26 @@ public class UsuariosForm extends javax.swing.JFrame {
         modelo = (DefaultTableModel) TablaUsuarios.getModel();
         Object[] ob = new Object[11];
         for (int i = 0; i < lista.size(); i++) {
-            ob[0] = lista.get(i).getId();
+            ob[0] = lista.get(i).getRut_cajero();
             ob[1] = lista.get(i).getNombre();
-            ob[2] = lista.get(i).getPaterno();
-            ob[3] = lista.get(i).getMaterno();
-            ob[4] = lista.get(i).getRut();
-            ob[5] = lista.get(i).getDv();
-            ob[6] = lista.get(i).getTelefono();
-            ob[7] = lista.get(i).getNomUsuario();
-            ob[8] = lista.get(i).getPassword();
-            ob[9] = comedor.get(lista.get(i).getComedor() - 1);
-            ob[10] = comuna.get(lista.get(i).getComuna() - 1);
+            ob[2] = sucursal.get(lista.get(i).getId_sucursal() - 1);
+            if (lista.get(i).getAdministrador() == 0) {
+                ob[3] = "NO";
+            } else {
+                ob[3] = "SI";
+            }
+            if (lista.get(i).getEstado() == 0) {
+                ob[4] = "NO";
+            } else {
+                ob[4] = "SI";
+            }
             modelo.addRow(ob);
         }
-        identificador = lista.get(lista.size()-1).getId()+1;
-        TablaUsuarios.setModel(modelo);        
+        centrarTabla.setHorizontalAlignment(JLabel.LEFT);
+        TablaUsuarios.getColumnModel().getColumn(0).setCellRenderer(centrarTabla);
+        TablaUsuarios.getColumnModel().getColumn(3).setCellRenderer(centrarTabla);
+        TablaUsuarios.setModel(modelo);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -60,27 +69,21 @@ public class UsuariosForm extends javax.swing.JFrame {
         jLabelNombre = new javax.swing.JLabel();
         jLabelApPaterno = new javax.swing.JLabel();
         jLabelApMaterno = new javax.swing.JLabel();
-        jLabelTelefono = new javax.swing.JLabel();
-        jLabelRut = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        txtTel = new javax.swing.JTextField();
-        txtApPaterno = new javax.swing.JTextField();
         txtRut = new javax.swing.JTextField();
-        txtApMaterno = new javax.swing.JTextField();
-        txtDv = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         jLabelUserTitle = new javax.swing.JLabel();
-        jLabelId = new javax.swing.JLabel();
-        jLabelPassword = new javax.swing.JLabel();
         jLabelComedor = new javax.swing.JLabel();
-        jLabelComuna = new javax.swing.JLabel();
-        txtNomUsuario = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JTextField();
-        CbComedor = new javax.swing.JComboBox<>();
-        CbComuna = new javax.swing.JComboBox<>();
+        CbSucursal = new javax.swing.JComboBox<>();
+        txtClave = new javax.swing.JPasswordField();
+        jLabelAdministrador = new javax.swing.JLabel();
+        jLabelCajeroActivo = new javax.swing.JLabel();
+        jCheckAdministrador = new javax.swing.JCheckBox();
+        jCheckActivo = new javax.swing.JCheckBox();
+        jCheckClave = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaUsuarios = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -101,29 +104,15 @@ public class UsuariosForm extends javax.swing.JFrame {
 
         jLabelNombre.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelNombre.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelNombre.setText("Nombre");
+        jLabelNombre.setText("Rut");
 
         jLabelApPaterno.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelApPaterno.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelApPaterno.setText("Apellido Paterno");
+        jLabelApPaterno.setText("Nombre");
 
         jLabelApMaterno.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelApMaterno.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelApMaterno.setText("Apellido Materno");
-
-        jLabelTelefono.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabelTelefono.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelTelefono.setText("Teléfono");
-
-        jLabelRut.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabelRut.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelRut.setText("Rut");
-
-        txtApMaterno.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtApMaternoActionPerformed(evt);
-            }
-        });
+        jLabelApMaterno.setText("Clave");
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -157,21 +146,25 @@ public class UsuariosForm extends javax.swing.JFrame {
         jLabelUserTitle.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUserTitle.setText("USUARIOS");
 
-        jLabelId.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabelId.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelId.setText("Usuario");
-
-        jLabelPassword.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabelPassword.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelPassword.setText("Password");
-
         jLabelComedor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelComedor.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelComedor.setText("Comedor");
+        jLabelComedor.setText("Sucursal");
 
-        jLabelComuna.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabelComuna.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelComuna.setText("Comuna");
+        jLabelAdministrador.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelAdministrador.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelAdministrador.setText("Administrador");
+
+        jLabelCajeroActivo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelCajeroActivo.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelCajeroActivo.setText("Cajero Activo");
+
+        jCheckActivo.setSelected(true);
+
+        jCheckClave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckClaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -181,50 +174,45 @@ public class UsuariosForm extends javax.swing.JFrame {
                 .addComponent(Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelTelefono)
+                    .addComponent(jLabelUserTitle)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelNombre)
                                     .addComponent(jLabelApPaterno)
-                                    .addComponent(jLabelRut)
-                                    .addComponent(jLabelApMaterno))
-                                .addGap(24, 24, 24)
+                                    .addComponent(jLabelComedor))
+                                .addGap(60, 60, 60))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(btnAgregar)
-                                            .addGap(26, 26, 26)
-                                            .addComponent(btnActualizar))
-                                        .addComponent(txtApMaterno)
-                                        .addComponent(txtTel)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtDv, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(txtApPaterno)))
-                                .addGap(23, 23, 23)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabelId)
-                                    .addComponent(jLabelPassword)
-                                    .addComponent(jLabelComedor)
-                                    .addComponent(jLabelComuna)))
-                            .addComponent(jLabelUserTitle))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabelApMaterno)
+                                        .addGap(42, 42, 42)
+                                        .addComponent(jCheckClave))
+                                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtClave, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(CbSucursal, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtRut))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(CbComedor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                                    .addComponent(txtNomUsuario)
-                                    .addComponent(CbComuna, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                .addContainerGap(85, Short.MAX_VALUE))
+                            .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabelCajeroActivo)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jCheckActivo))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabelAdministrador)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jCheckAdministrador))))))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,68 +220,77 @@ public class UsuariosForm extends javax.swing.JFrame {
                 .addComponent(Logo)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(43, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelUserTitle)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelNombre)
-                    .addComponent(jLabelId)
-                    .addComponent(txtNomUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelAdministrador)
+                    .addComponent(jCheckAdministrador))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelApPaterno)
-                    .addComponent(txtApPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelPassword)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelCajeroActivo)
+                    .addComponent(jCheckActivo))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelApMaterno, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtApMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelComedor)
-                        .addComponent(CbComedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelRut)
-                    .addComponent(txtDv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelComuna)
-                    .addComponent(CbComuna, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTelefono)
-                    .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelApMaterno))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabelComedor)
+                            .addComponent(CbSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jCheckClave)))
+                .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
-                    .addComponent(btnActualizar)
                     .addComponent(btnEliminar)
-                    .addComponent(btnNuevo))
-                .addGap(28, 28, 28))
+                    .addComponent(btnNuevo)
+                    .addComponent(btnActualizar))
+                .addGap(69, 69, 69))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 340));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 870, 270));
 
         TablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Id", "Nombre", "Apellido Paterno", "Apellido Materno", "Rut", "Dv", "Teléfono", "Nombre Usuario", "Password", "Comedor", "Comuna"
+                "Rut Cajero", "Nombre", "Sucursal", "Administrador", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaUsuariosMouseClicked(evt);
+            }
         });
         jScrollPane1.setViewportView(TablaUsuarios);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 870, 330));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 870, 380));
 
         jMenuBar1.setBackground(new java.awt.Color(255, 153, 0));
         jMenuBar1.setBorder(null);
@@ -346,13 +343,8 @@ public class UsuariosForm extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuSalirActionPerformed
 
-    private void txtApMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApMaternoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtApMaternoActionPerformed
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.setVisible(false);
-
         ProductoForm admP = new ProductoForm();
         admP.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -382,32 +374,71 @@ public class UsuariosForm extends javax.swing.JFrame {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         limpiarCampos();
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void TablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaUsuariosMouseClicked
+        int fila = TablaUsuarios.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe Seleccionar una Fila");
+        } else {
+            //txtNomUsuario.setEnabled(false);
+            String rut = TablaUsuarios.getValueAt(fila, 0).toString();
+            String nombre = TablaUsuarios.getValueAt(fila, 1).toString();
+            String sucursal = TablaUsuarios.getValueAt(fila, 2).toString();
+            String administrador = TablaUsuarios.getValueAt(fila, 3).toString();
+            String estado = TablaUsuarios.getValueAt(fila, 4).toString();
+            txtRut.setText(rut);
+            txtNombre.setText(nombre);
+            txtClave.setText("");
+            CbSucursal.setSelectedIndex(sucursal.indexOf(sucursal));
+            if (administrador.equals("NO")) {
+                jCheckAdministrador.setSelected(false);
+            } else {
+                jCheckAdministrador.setSelected(true);
+            }
+            if (estado.equals("NO")) {
+                jCheckActivo.setSelected(false);
+            } else {
+                jCheckActivo.setSelected(true);
+            }
+            id_rut = rut;
+        }
+    }//GEN-LAST:event_TablaUsuariosMouseClicked
+
+    private void jCheckClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckClaveActionPerformed
+        if (txtClave.isEnabled()) {
+            txtClave.setEnabled(false);
+        } else {
+            txtClave.setEnabled(true);
+        }
+    }//GEN-LAST:event_jCheckClaveActionPerformed
     void agregar() {
-        int id_emp_casino = identificador;
-        String nom_emp_casino = txtNombre.getText();
-        String appat_emp_casino = txtApPaterno.getText();
-        String apmat_emp_casino = txtApMaterno.getText();
-        String rut_emp_casino = txtRut.getText();
-        String dv_rut_emp_casino = txtDv.getText();
-        String tel_emp_casino = txtTel.getText();
-        String nomUsu = txtNomUsuario.getText();
-        String password_emp_casino = seg.encriptar(txtPassword.getText());
-        int tipo = CbComedor.getSelectedIndex() + 1;
-        int comuna = CbComuna.getSelectedIndex() + 1;
-        //String fk_comuna_id = txtComuna.getText();
-        Object[] ob = new Object[11];
+        //falta validar
+        //campos no vacios
+        //contraseña ingresada
+        String rut = txtRut.getText();
+        String nombre = txtNombre.getText();
+        String clave_cajero = "";
+        for (int i = 0; i < txtClave.getPassword().length; i++) {
+            clave_cajero += txtClave.getPassword()[i];
+        }
+        String password_emp_casino = seg.encriptar(clave_cajero);
+        int id_sucursal = CbSucursal.getSelectedIndex() + 1;
+        int admin = 0;
+        int est = 0;
+        if (jCheckAdministrador.isSelected()) {
+            admin = 1;
+        }
+        if (jCheckActivo.isSelected()) {
+            est = 1;
+        }
+        Object[] ob = new Object[6];
         //Revisar
-        ob[0] = id_emp_casino;
-        ob[1] = nom_emp_casino;
-        ob[2] = appat_emp_casino;
-        ob[3] = apmat_emp_casino;
-        ob[4] = rut_emp_casino;
-        ob[5] = dv_rut_emp_casino;
-        ob[6] = tel_emp_casino;
-        ob[7] = nomUsu;
-        ob[8] = password_emp_casino;
-        ob[9] = comuna;
-        ob[10] = tipo;
+        ob[0] = rut;
+        ob[1] = nombre;
+        ob[2] = password_emp_casino;
+        ob[3] = id_sucursal;
+        ob[4] = admin;
+        ob[5] = est;
         if (dao.add(ob) > 0) {
             JOptionPane.showMessageDialog(null, "Usuario Agregado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
         } else {
@@ -416,57 +447,69 @@ public class UsuariosForm extends javax.swing.JFrame {
     }
 
     void actualizar() {
+
         int fila = TablaUsuarios.getSelectedRow();
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
         } else {
-            
-            String nom_emp_casino = txtNombre.getText();
-            String appat_emp_casino = txtApPaterno.getText();
-            String apmat_emp_casino = txtApMaterno.getText();
-            String rut_emp_casino = txtRut.getText();
-            String dv_rut_emp_casino = txtDv.getText();
-            String tel_emp_casino = txtTel.getText();
-            String nomUsuario = txtNomUsuario.getText();
-            String password_emp_casino = txtPassword.getText();
-            int tipo = CbComedor.getSelectedIndex() + 1;
-            int comuna = CbComuna.getSelectedIndex() + 1;
-            //String fk_comuna_id = txtComuna.getText();
-            Object[] ob = new Object[10];            
-            ob[0] = nom_emp_casino;
-            ob[1] = appat_emp_casino;
-            ob[2] = apmat_emp_casino;
-            ob[3] = rut_emp_casino;
-            ob[4] = dv_rut_emp_casino;
-            ob[5] = tel_emp_casino;
-            ob[6] = password_emp_casino;
-            ob[7] = comuna;
-            ob[8] = comedor;
-            if (dao.actualizar(ob) > 0) {
+
+            String rut = txtRut.getText();
+            String nombre = txtNombre.getText();
+            String clave_cajero = "";
+            for (int i = 0; i < txtClave.getPassword().length; i++) {
+                clave_cajero += txtClave.getPassword()[i];
+            }
+            int admin = 0;
+            int est = 0;
+            if (jCheckAdministrador.isSelected()) {
+                admin = 1;
+            }
+            if (jCheckActivo.isSelected()) {
+                est = 1;
+            }
+            String password_emp_casino = seg.encriptar(clave_cajero);            
+            int sucursal = CbSucursal.getSelectedIndex() + 1;            
+            Object[] ob = new Object[6];
+            ob[0] = rut;
+            ob[1] = nombre;
+            ob[2] = sucursal;
+            ob[3] = admin;
+            ob[4] = est;
+            ob[5] = id_rut;
+            int r =0;
+            if(txtClave.getPassword().length==0||!jCheckClave.isSelected()){
+                System.out.println("actualizar sin clave");
+                r=dao.actualizar(ob);
+            }else{
+                System.out.println("actualizar CON clave");
+                r=dao.actualizar(ob, password_emp_casino);
+            }            
+            if (r > 0) {
                 JOptionPane.showMessageDialog(null, "Usuario Actualizado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
             } else {
                 JOptionPane.showMessageDialog(null, "error al Actualizar usuario", "error!", JOptionPane.ERROR_MESSAGE);
             }
         }
+
     }
 
     void eliminar() {
+
         int fila = TablaUsuarios.getSelectedRow();
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
         } else {
-            int respuesta = JOptionPane.showConfirmDialog(null, "Eliminar producto?");
+            int respuesta = JOptionPane.showConfirmDialog(null, "Eliminar usuario?");
             if (respuesta == 0) {
-                if (dao.eliminar(id_emp_casino) > 0) {
+                if (dao.eliminar(id_rut) > 0) {
                     JOptionPane.showMessageDialog(null, "Usuario eliminado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "error al eliminar usuario", "error!", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
-    }
 
-  
+    }
 
     void limpiarTabla() {
         for (int i = 0; i < modelo.getRowCount(); i++) {
@@ -476,56 +519,22 @@ public class UsuariosForm extends javax.swing.JFrame {
     }
 
     void cargarComboBox() {
-        for (int i = 0; i < comedor.size(); i++) {
-            CbComedor.addItem(comedor.get(i));
-        }
-        for (int i = 0; i < comuna.size(); i++) {
-            CbComuna.addItem(comuna.get(i));
+        for (int i = 0; i < sucursal.size(); i++) {
+            CbSucursal.addItem(sucursal.get(i));
         }
     }
 
     void limpiarCampos() {
-        txtNomUsuario.setText("");
-        txtNombre.setText("");
-        txtApPaterno.setText("");
-        txtApMaterno.setText("");
+
         txtRut.setText("");
-        txtDv.setText("");
-        txtTel.setText("");
-        txtPassword.setText("");
-        CbComedor.setSelectedIndex(0);
-        CbComuna.setSelectedIndex(0);
-
-    }
-
-    private void TablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {
-        int fila = TablaUsuarios.getSelectedRow();
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(this, "Debe Seleccionar una Fila");
-        } else {
-            txtNomUsuario.setEnabled(false);
-            String id = TablaUsuarios.getValueAt(fila, 0).toString();
-            String nombre = TablaUsuarios.getValueAt(fila, 1).toString();
-            String paterno = TablaUsuarios.getValueAt(fila, 2).toString();
-            String materno = TablaUsuarios.getValueAt(fila, 3).toString();
-            String rut = TablaUsuarios.getValueAt(fila, 4).toString();
-            String dv = TablaUsuarios.getValueAt(fila, 5).toString();
-            String telefono = TablaUsuarios.getValueAt(fila, 6).toString();
-            String password = TablaUsuarios.getValueAt(fila, 7).toString();
-            String comedor = TablaUsuarios.getValueAt(fila, 8).toString();
-            String comuna = TablaUsuarios.getValueAt(fila, 9).toString();
-            txtNomUsuario.setText(id);
-            txtNombre.setText(nombre);
-            txtApPaterno.setText(paterno);
-            txtApMaterno.setText(materno);
-            txtRut.setText(rut);
-            txtDv.setText(dv);
-            txtTel.setText(telefono);
-            txtPassword.setText(password);
-            CbComedor.setSelectedIndex(comedor.indexOf(comedor));
-            CbComuna.setSelectedIndex(comuna.indexOf(comuna));
-            System.out.println(comedor);
-        }
+        txtNombre.setText("");
+        txtClave.setText("");
+        txtClave.setEnabled(false);
+        jCheckActivo.setSelected(false);
+        jCheckAdministrador.setSelected(false);
+        jCheckClave.setSelected(false);
+        CbSucursal.setSelectedIndex(0);
+        id_rut = "";
     }
 
     /**
@@ -579,23 +588,22 @@ public class UsuariosForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> CbComedor;
-    private javax.swing.JComboBox<String> CbComuna;
+    private javax.swing.JComboBox<String> CbSucursal;
     private javax.swing.JLabel Logo;
     private javax.swing.JTable TablaUsuarios;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JCheckBox jCheckActivo;
+    private javax.swing.JCheckBox jCheckAdministrador;
+    private javax.swing.JCheckBox jCheckClave;
+    private javax.swing.JLabel jLabelAdministrador;
     private javax.swing.JLabel jLabelApMaterno;
     private javax.swing.JLabel jLabelApPaterno;
+    private javax.swing.JLabel jLabelCajeroActivo;
     private javax.swing.JLabel jLabelComedor;
-    private javax.swing.JLabel jLabelComuna;
-    private javax.swing.JLabel jLabelId;
     private javax.swing.JLabel jLabelNombre;
-    private javax.swing.JLabel jLabelPassword;
-    private javax.swing.JLabel jLabelRut;
-    private javax.swing.JLabel jLabelTelefono;
     private javax.swing.JLabel jLabelUserTitle;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -606,15 +614,9 @@ public class UsuariosForm extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuSalir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField txtApMaterno;
-    private javax.swing.JTextField txtApPaterno;
-    private javax.swing.JTextField txtDv;
-    private javax.swing.JTextField txtNomUsuario;
+    private javax.swing.JPasswordField txtClave;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtRut;
-    private javax.swing.JTextField txtTel;
     // End of variables declaration//GEN-END:variables
 
-    
 }

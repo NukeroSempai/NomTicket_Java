@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
+import javax.swing.JOptionPane;
 
 public class seguridad {
 
@@ -36,29 +37,34 @@ public class seguridad {
         return generarHash(clave);
     }
 
-    public boolean iniciarSesion(String nombre, String clave) {
+    public boolean iniciarSesion(String rut, String clave) {
         boolean autorizar = false;
         String usuarioRecuperado = "";
         String ClaveRecuperada = "";
         String ClaveProcesada = generarHash(clave);
-        String sql = "select nombreusuario,password_emp_casino from EMP_CASINO where nombreusuario=?";
+        int activo =0;
+        String sql = "select rut_cajero,clave,estado from CAJERO where rut_cajero=?";
         //buscar y recuperar usuario y contraseña
         try {
             con = cn.Conectar();
             ps = con.prepareStatement(sql);
-            ps.setString(1, nombre);
+            ps.setString(1, rut);
             rs = ps.executeQuery();
             while (rs.next()) {
                 usuarioRecuperado = (rs.getString(1));
                 ClaveRecuperada = (rs.getString(2));
+                activo = rs.getInt("estado");
             }
             con.close();
         } catch (Exception e) {
             System.out.println("error en Seguridad =" + e.getMessage());
         }
         //comparar si son iguales  
-        if ((usuarioRecuperado.equals(nombre)) && (ClaveRecuperada.equals(ClaveProcesada))) {
+        if ((usuarioRecuperado.equals(rut)) && (ClaveRecuperada.equals(ClaveProcesada)) && activo ==1) {
             autorizar = true;
+        }
+        if(activo ==0){
+            JOptionPane.showMessageDialog(null, "Usuario Deshabilitado", "error!", JOptionPane.ERROR_MESSAGE);
         }
         return autorizar;
     }
