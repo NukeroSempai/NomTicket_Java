@@ -4,6 +4,11 @@
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
     </Component>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="jButton1"/>
+      </Properties>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -27,12 +32,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
+          <Component id="jPanel1" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jPanel3" max="32767" attributes="0"/>
+              <Component id="jPanel2" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -74,17 +79,17 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                          <Component id="jLabelInformeTitle" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="11" max="32767" attributes="0"/>
-                          <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
                           <Component id="Logo" min="-2" pref="179" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="jLabelInformeTitle" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jPanel4" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -128,20 +133,21 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jRadioFecha" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="75" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jBBuscar" max="32767" attributes="0"/>
-                                  <Component id="jDateFechaBuscar" pref="170" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jRadioCodigo" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabelInformeTitle2" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="65" max="32767" attributes="0"/>
                               <Component id="jTextCodigo" min="-2" pref="170" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jRadioFecha" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="75" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jBMostrarTodo" pref="170" max="32767" attributes="0"/>
+                                  <Component id="jBBuscar" max="32767" attributes="0"/>
+                                  <Component id="jDateFechaBuscar" pref="170" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -151,7 +157,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace pref="15" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabelInformeTitle2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -166,6 +172,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jBBuscar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jBMostrarTodo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -197,6 +205,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBBuscarActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelInformeTitle2">
               <Properties>
@@ -212,6 +223,14 @@
             <Component class="javax.swing.JTextField" name="jTextCodigo">
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="jDateFechaBuscar">
+            </Component>
+            <Component class="javax.swing.JButton" name="jBMostrarTodo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Mostrar Todo"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBMostrarTodoActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -231,10 +250,10 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <Component id="jLabelInformeTitle1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                          <Component id="jButton2" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jButton2" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -357,29 +376,34 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabelInformeTitle3" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelDesde1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelDesde3" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelDesde4" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelDesde2" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jDfecha" alignment="0" pref="312" max="32767" attributes="0"/>
-                      <Component id="jLabelDesde" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelHasta" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jDDesde" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jDHasta" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jTexCantidadBoletas" alignment="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jTextTotalVenta" max="32767" attributes="0"/>
                       <Component id="jTextCantidadTickets" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jTextTotalVenta" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jTexCantidadBoletas" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jDHasta" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jDDesde" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jDfecha" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabelInformeTitle3" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelDesde1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelDesde3" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelDesde4" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelDesde2" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelDesde" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelHasta" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jBGenerar" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="jBGenerar" pref="152" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jBGuardar" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -435,6 +459,9 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="jDDesde">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelDesde">
           <Properties>
@@ -459,6 +486,9 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="jDHasta">
+          <Properties>
+            <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelDesde1">
           <Properties>

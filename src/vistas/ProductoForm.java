@@ -1,5 +1,6 @@
 package vistas;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -34,19 +35,19 @@ public class ProductoForm extends javax.swing.JFrame {
             ob[1] = lista.get(i).getNombre();
             ob[2] = lista.get(i).getDescripcion();
             //ob[3] = lista.get(i).getTipo();
-            ob[3] = tipoProd.get(lista.get(i).getTipo()-1);
+            ob[3] = tipoProd.get(lista.get(i).getTipo() - 1);
             ob[4] = lista.get(i).getPrecio();
             modelo.addRow(ob);
         }
         tabla.setModel(modelo);
     }
 
-    void agregar() {        
+    void agregar() {
         String nom_prod = txtNomProd.getText();
         String desc_prod = txtDesc.getText();
         int tipo = CbCategoria.getSelectedIndex() + 1;
         String precio_prod = txtPrecio.getText();
-        Object[] ob = new Object[4];        
+        Object[] ob = new Object[4];
         ob[0] = nom_prod;
         ob[1] = desc_prod;
         ob[2] = tipo;
@@ -90,9 +91,9 @@ public class ProductoForm extends javax.swing.JFrame {
         } else {
             int respuesta = JOptionPane.showConfirmDialog(null, "Eliminar producto?");
             if (respuesta == 0) {
-                if (dao.eliminar(""+cod_prod) > 0) {
+                if (dao.eliminar("" + cod_prod) > 0) {
                     System.out.println(cod_prod);
-                    JOptionPane.showMessageDialog(null, "Producto eliminado exitosamente","Exito!",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Producto eliminado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "error al eliminar producto", "error!", JOptionPane.ERROR_MESSAGE);
                 }
@@ -113,13 +114,16 @@ public class ProductoForm extends javax.swing.JFrame {
         }
     }
 
-    void limpiarCampos() {        
+    void limpiarCampos() {
         txtNomProd.setText("");
         txtDesc.setText("");
         txtPrecio.setText("");
-        CbCategoria.setSelectedIndex(0);        
+        CbCategoria.setSelectedIndex(0);
+        txtNomProd.setBackground(Color.white);
+        txtDesc.setBackground(Color.white);
+        txtPrecio.setBackground(Color.white);
         //esto evita eliminar la ultima celda seleccionada despues de limpiar
-        cod_prod =-1;
+        cod_prod = -1;
     }
 
     @SuppressWarnings("unchecked")
@@ -174,6 +178,24 @@ public class ProductoForm extends javax.swing.JFrame {
         jLabelPrecio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelPrecio.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPrecio.setText("Precio");
+
+        txtNomProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNomProdKeyPressed(evt);
+            }
+        });
+
+        txtDesc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDescKeyPressed(evt);
+            }
+        });
+
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyPressed(evt);
+            }
+        });
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -403,21 +425,22 @@ public class ProductoForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuSalirActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        limpiarCampos();
         int fila = tabla.getSelectedRow();
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe Seleccionar una Fila");
-        } else {            
-            String codigo = tabla.getValueAt(fila, 0).toString(); 
+        } else {
+            String codigo = tabla.getValueAt(fila, 0).toString();
             String nombre = tabla.getValueAt(fila, 1).toString();
-            String descripcion = tabla.getValueAt(fila, 2).toString(); 
+            String descripcion = tabla.getValueAt(fila, 2).toString();
             String tipoProducto = tabla.getValueAt(fila, 3).toString();
-            String precio = tabla.getValueAt(fila, 4).toString();            
+            String precio = tabla.getValueAt(fila, 4).toString();
             txtNomProd.setText(nombre);
             txtDesc.setText(descripcion);
             CbCategoria.setSelectedIndex(tipoProd.indexOf(tipoProducto));
             txtPrecio.setText(precio);
             //rescatar codigo de la seleccion en el formulario
-            cod_prod = Integer.parseInt(codigo);            
+            cod_prod = Integer.parseInt(codigo);
         }
     }//GEN-LAST:event_tablaMouseClicked
 
@@ -429,22 +452,76 @@ public class ProductoForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        actualizar();
-        limpiarTabla();
-        listar();
-        limpiarCampos();
+        if (Validador.validador.verificarVacio(txtNomProd.getText()) && Validador.validador.verificarVacio(txtDesc.getText()) && Validador.validador.verificarVacio(txtPrecio.getText())) {
+            if (Validador.validador.verificarNumero(txtPrecio.getText())) {
+                actualizar();
+                limpiarTabla();
+                listar();
+                limpiarCampos();
+            }else{
+                JOptionPane.showMessageDialog(null, "error el campo " + "PRECIO" + " debe ser un numero", "error!", JOptionPane.ERROR_MESSAGE);
+                txtPrecio.setBackground(Color.red);
+            }
+
+        } else {
+            if (!Validador.validador.verificarVacio(txtNomProd.getText())) {
+                JOptionPane.showMessageDialog(null, "error el campo " + "NOMBRE PRODUCTO" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
+                txtNomProd.setBackground(Color.red);
+            }
+            if (!Validador.validador.verificarVacio(txtDesc.getText())) {
+                JOptionPane.showMessageDialog(null, "error el campo " + "DESCRIPCION" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
+                txtDesc.setBackground(Color.red);
+            }
+            if (!Validador.validador.verificarVacio(txtPrecio.getText())) {
+                JOptionPane.showMessageDialog(null, "error el campo " + "PRECIO" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
+                txtPrecio.setBackground(Color.red);
+            }
+        }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        agregar();
-        limpiarTabla();
-        listar();
-        limpiarCampos();
+        if (Validador.validador.verificarVacio(txtNomProd.getText()) && Validador.validador.verificarVacio(txtDesc.getText()) && Validador.validador.verificarVacio(txtPrecio.getText())) {
+            if (Validador.validador.verificarNumero(txtPrecio.getText())) {
+                agregar();
+                limpiarTabla();
+                listar();
+                limpiarCampos();
+            }else{
+                JOptionPane.showMessageDialog(null, "error el campo " + "PRECIO" + " debe ser un numero", "error!", JOptionPane.ERROR_MESSAGE);
+                txtPrecio.setBackground(Color.red);
+            }
+
+        } else {
+            if (!Validador.validador.verificarVacio(txtNomProd.getText())) {
+                JOptionPane.showMessageDialog(null, "error el campo " + "NOMBRE PRODUCTO" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
+                txtNomProd.setBackground(Color.red);
+            }
+            if (!Validador.validador.verificarVacio(txtDesc.getText())) {
+                JOptionPane.showMessageDialog(null, "error el campo " + "DESCRIPCION" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
+                txtDesc.setBackground(Color.red);
+            }
+            if (!Validador.validador.verificarVacio(txtPrecio.getText())) {
+                JOptionPane.showMessageDialog(null, "error el campo " + "PRECIO" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
+                txtPrecio.setBackground(Color.red);
+            }
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        limpiarCampos();        
+        limpiarCampos();
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void txtNomProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomProdKeyPressed
+        txtNomProd.setBackground(Color.white);
+    }//GEN-LAST:event_txtNomProdKeyPressed
+
+    private void txtDescKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescKeyPressed
+        txtDesc.setBackground(Color.white);
+    }//GEN-LAST:event_txtDescKeyPressed
+
+    private void txtPrecioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyPressed
+        txtPrecio.setBackground(Color.white);
+    }//GEN-LAST:event_txtPrecioKeyPressed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
