@@ -62,7 +62,7 @@ public class ProductoDAO implements CRUD{
     @Override
     public int add(Object[] o) {
         int r=0;
-        String sql="insert into producto(codigo_producto,nom_producto,descripcion,fk_tipo_producto_id,precio)values(ISEQ$$_77132.nextval,?,?,?,?)";
+        String sql="insert into producto(codigo_producto,nom_producto,descripcion,fk_tipo_producto_id,precio)values(ISEQ$$_77817.nextval,?,?,?,?)";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
@@ -113,6 +113,5 @@ public class ProductoDAO implements CRUD{
             System.out.println(e.getMessage());
         }
         return r;
-    }
-       
+    }       
 }

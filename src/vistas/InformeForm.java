@@ -1,21 +1,106 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vistas;
 
 /**
  *
  * @author Jiss
  */
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import modelo.Informe;
+import modelo.InformesDAO;
+
 public class InformeForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form InformeForm
-     */
+    InformesDAO dao = new InformesDAO();
+    Informe p = new Informe();
+    DefaultTableModel modelo = new DefaultTableModel();
+    DefaultTableCellRenderer centrarTabla = new DefaultTableCellRenderer();
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+    Calendar clndr;
+
     public InformeForm() {
         initComponents();
+        FormatoDeFechas();
+        limpiarFormulario();
+        listar();
+    }
+    
+    private void limpiarFormulario(){
+        jTextCodigo.setEnabled(false);
+        jTexCantidadBoletas.setEnabled(false);
+        jTexCantidadBoletas.setText("");
+        jTextCantidadTickets.setEnabled(false);
+        jTextCantidadTickets.setText("");
+        jTextTotalVenta.setEnabled(false);
+        jTextTotalVenta.setText("");
+        jBGenerar.setEnabled(false);
+        jBGuardar.setEnabled(false);
+        jDDesde.setEnabled(false);
+        jDHasta.setEnabled(false);
+        jDDesde.setCalendar(null);
+        jDHasta.setCalendar(null);
+    }
+    private void FormatoDeFechas(){        
+        jDateFechaBuscar.setEnabled(false);
+        jDateFechaBuscar.setDateFormatString("dd/MM/yyyy");
+        jDfecha.setEnabled(false);
+        jDfecha.setDateFormatString("dd/MM/yyyy");
+        jDDesde.setEnabled(false);
+        jDDesde.setDateFormatString("dd/MM/yyyy");
+        jDHasta.setEnabled(false);
+        jDHasta.setDateFormatString("dd/MM/yyyy");        
+    }
+
+    private void listar() {
+        List<Informe> lista = dao.listar();
+
+        modelo = (DefaultTableModel) tabla.getModel();
+        Object[] ob = new Object[7];
+        for (int i = 0; i < lista.size(); i++) {
+            ob[0] = lista.get(i).getCorrelativo();
+            ob[1] = lista.get(i).getFechaInforme();
+            ob[2] = lista.get(i).getCantidadBoletas();
+            ob[3] = lista.get(i).getCantidadTicket();
+            ob[4] = lista.get(i).getTotalVenta();
+            ob[5] = lista.get(i).getFechaInicio();
+            ob[6] = lista.get(i).getFechaTermino();
+            modelo.addRow(ob);
+        }
+        centrarTabla.setHorizontalAlignment(JLabel.LEFT);
+        tabla.getColumnModel().getColumn(0).setCellRenderer(centrarTabla);
+        tabla.setModel(modelo);
+        //ocultando filas (las filas son necesarias para cargar los detalles de los informes NO BORRAR)
+        tabla.getColumn("Cantidad Boletas").setMinWidth(0);
+        tabla.getColumn("Cantidad Boletas").setMaxWidth(0);
+        tabla.getColumn("Cantidad Boletas").setWidth(0);
+        
+        tabla.getColumn("Cantidad Tickets").setMinWidth(0);
+        tabla.getColumn("Cantidad Tickets").setMaxWidth(0);
+        tabla.getColumn("Cantidad Tickets").setWidth(0);
+        
+        tabla.getColumn("Total Ventas").setMinWidth(0);
+        tabla.getColumn("Total Ventas").setMaxWidth(0);
+        tabla.getColumn("Total Ventas").setWidth(0);
+        
+        tabla.getColumn("Fecha Inicio").setMinWidth(0);
+        tabla.getColumn("Fecha Inicio").setMaxWidth(0);
+        tabla.getColumn("Fecha Inicio").setWidth(0);
+        
+        tabla.getColumn("Fecha Termino").setMinWidth(0);
+        tabla.getColumn("Fecha Termino").setMaxWidth(0);
+        tabla.getColumn("Fecha Termino").setWidth(0);
+
     }
 
     /**
@@ -27,24 +112,38 @@ public class InformeForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
-        jLabelFecha = new javax.swing.JLabel();
+        jLabelInformeTitle = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jRadioCodigo = new javax.swing.JRadioButton();
+        jRadioFecha = new javax.swing.JRadioButton();
+        jBBuscar = new javax.swing.JButton();
+        jLabelInformeTitle2 = new javax.swing.JLabel();
+        jTextCodigo = new javax.swing.JTextField();
+        jDateFechaBuscar = new com.toedter.calendar.JDateChooser();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla = new javax.swing.JTable();
+        jLabelInformeTitle1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabelInformeTitle3 = new javax.swing.JLabel();
+        jDDesde = new com.toedter.calendar.JDateChooser();
         jLabelDesde = new javax.swing.JLabel();
         jLabelHasta = new javax.swing.JLabel();
-        txtDesde = new javax.swing.JTextField();
-        txtHasta = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
-        jLabelInformeTitle = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuProductos = new javax.swing.JMenu();
-        jMenuItemInventario = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuInforme = new javax.swing.JMenu();
-        jMenuSalir = new javax.swing.JMenu();
+        jDHasta = new com.toedter.calendar.JDateChooser();
+        jLabelDesde1 = new javax.swing.JLabel();
+        jDfecha = new com.toedter.calendar.JDateChooser();
+        jLabelDesde2 = new javax.swing.JLabel();
+        jLabelDesde3 = new javax.swing.JLabel();
+        jLabelDesde4 = new javax.swing.JLabel();
+        jTexCantidadBoletas = new javax.swing.JTextField();
+        jTextCantidadTickets = new javax.swing.JTextField();
+        jTextTotalVenta = new javax.swing.JTextField();
+        jBGenerar = new javax.swing.JButton();
+        jBGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,9 +152,175 @@ public class InformeForm extends javax.swing.JFrame {
         Logo.setBackground(new java.awt.Color(225, 139, 34));
         Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/logoSmall.png"))); // NOI18N
 
-        jLabelFecha.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabelFecha.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelFecha.setText("FECHA");
+        jLabelInformeTitle.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelInformeTitle.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelInformeTitle.setText("INFORME VENTAS");
+
+        jPanel4.setBackground(new java.awt.Color(184, 115, 30));
+
+        buttonGroup1.add(jRadioCodigo);
+        jRadioCodigo.setText("Codigo");
+        jRadioCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioCodigoActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioFecha);
+        jRadioFecha.setText("Fecha");
+        jRadioFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioFechaActionPerformed(evt);
+            }
+        });
+
+        jBBuscar.setText("Buscar");
+
+        jLabelInformeTitle2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelInformeTitle2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelInformeTitle2.setText("Buscador");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jRadioFecha)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jBBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jDateFechaBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioCodigo)
+                            .addComponent(jLabelInformeTitle2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jLabelInformeTitle2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioCodigo)
+                    .addComponent(jTextCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioFecha)
+                    .addComponent(jDateFechaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBBuscar)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelInformeTitle))
+                .addGap(18, 18, 18)
+                .addComponent(Logo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabelInformeTitle)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+
+        jPanel2.setBackground(new java.awt.Color(225, 139, 34));
+
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Correlativo", "Fecha Informe", "Cantidad Boletas", "Cantidad Tickets", "Total Ventas", "Fecha Inicio", "Fecha Termino"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabla);
+
+        jLabelInformeTitle1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelInformeTitle1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelInformeTitle1.setText("INFORMES");
+
+        jButton2.setText("Nuevo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabelInformeTitle1)
+                        .addGap(53, 53, 53)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelInformeTitle1)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+
+        jPanel3.setBackground(new java.awt.Color(225, 139, 34));
+
+        jLabelInformeTitle3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabelInformeTitle3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelInformeTitle3.setText("DETALLE INFORME");
 
         jLabelDesde.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelDesde.setForeground(new java.awt.Color(255, 255, 255));
@@ -65,137 +330,186 @@ public class InformeForm extends javax.swing.JFrame {
         jLabelHasta.setForeground(new java.awt.Color(255, 255, 255));
         jLabelHasta.setText("Hasta");
 
-        btnBuscar.setText("Buscar");
+        jLabelDesde1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelDesde1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelDesde1.setText("Fecha");
 
-        jLabelInformeTitle.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabelInformeTitle.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelInformeTitle.setText("INFORME VENTAS");
+        jLabelDesde2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelDesde2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelDesde2.setText("Cantidad de Boletas");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jLabelDesde3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelDesde3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelDesde3.setText("Cantidad de Tickets");
+
+        jLabelDesde4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelDesde4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelDesde4.setText("Total de Ventas");
+
+        jBGenerar.setText("Generar Informe");
+        jBGenerar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGenerarActionPerformed(evt);
+            }
+        });
+
+        jBGuardar.setText("Guardar");
+        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGuardarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Logo)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelInformeTitle))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabelDesde)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabelHasta)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(btnBuscar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabelFecha)))
-                .addContainerGap(184, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabelInformeTitle)
-                .addGap(28, 28, 28)
-                .addComponent(jLabelFecha)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelInformeTitle3)
+                    .addComponent(jLabelDesde1)
+                    .addComponent(jLabelDesde3)
+                    .addComponent(jLabelDesde4)
+                    .addComponent(jLabelDesde2)
+                    .addComponent(jDfecha, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
                     .addComponent(jLabelDesde)
-                    .addComponent(txtDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelHasta)
-                    .addComponent(txtHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
+                    .addComponent(jDDesde, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTexCantidadBoletas)
+                    .addComponent(jTextCantidadTickets)
+                    .addComponent(jTextTotalVenta)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jBGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3, Short.MAX_VALUE))
         );
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Fecha", "Boleta", "Id Empleado", "Nombre", "Departamento", "Sucursal", "Valor compra", "Valor Ticket", "Saldo"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
-
-        jMenuBar1.setBackground(new java.awt.Color(255, 153, 0));
-        jMenuBar1.setBorder(null);
-
-        jMenu1.setText("Catálogo");
-        jMenuBar1.add(jMenu1);
-
-        jMenuProductos.setText("Productos");
-
-        jMenuItemInventario.setText("Inventario");
-        jMenuItemInventario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInventarioActionPerformed(evt);
-            }
-        });
-        jMenuProductos.add(jMenuItemInventario);
-
-        jMenuItem1.setText("Modificar");
-        jMenuProductos.add(jMenuItem1);
-
-        jMenuBar1.add(jMenuProductos);
-
-        jMenuInforme.setText("Informe");
-        jMenuBar1.add(jMenuInforme);
-
-        jMenuSalir.setText("Salir");
-        jMenuSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuSalirActionPerformed(evt);
-            }
-        });
-        jMenuBar1.add(jMenuSalir);
-
-        setJMenuBar(jMenuBar1);
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelInformeTitle3)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelDesde1)
+                .addGap(18, 18, 18)
+                .addComponent(jDfecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelDesde)
+                .addGap(13, 13, 13)
+                .addComponent(jDDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelHasta)
+                .addGap(18, 18, 18)
+                .addComponent(jDHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelDesde2)
+                .addGap(18, 18, 18)
+                .addComponent(jTexCantidadBoletas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelDesde3)
+                .addGap(18, 18, 18)
+                .addComponent(jTextCantidadTickets, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelDesde4)
+                .addGap(18, 18, 18)
+                .addComponent(jTextTotalVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBGenerar)
+                    .addComponent(jBGuardar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItemInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInventarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItemInventarioActionPerformed
+    private void jRadioCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioCodigoActionPerformed
+        jTextCodigo.setEnabled(true);
+        jDateFechaBuscar.setEnabled(false);
+        jDateFechaBuscar.setCalendar(null);
 
-    private void jMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalirActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_jMenuSalirActionPerformed
+    }//GEN-LAST:event_jRadioCodigoActionPerformed
+
+    private void jRadioFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioFechaActionPerformed
+        jTextCodigo.setEnabled(false);
+        jDateFechaBuscar.setEnabled(true);
+        jTextCodigo.setText("");
+    }//GEN-LAST:event_jRadioFechaActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        int fila = tabla.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe Seleccionar una Fila");
+        } else {
+            limpiarFormulario();
+            int TBoleta =  (int) tabla.getValueAt(fila, 2);
+            int TTicket =  (int) tabla.getValueAt(fila, 3);
+            int TVenta =  (int) tabla.getValueAt(fila, 4);
+            jTexCantidadBoletas.setText(""+TBoleta);
+            jTextCantidadTickets.setText(""+TTicket);
+            jTextTotalVenta.setText(""+TVenta);
+            String fechahoy = (String)LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            try {
+                java.util.Date fechaHoy = new SimpleDateFormat("dd/MM/yyyy").parse(fechahoy);
+                jDfecha.setDate(fechaHoy);
+                java.util.Date fechaDesde = new SimpleDateFormat("dd/MM/yyyy").parse(tabla.getValueAt(fila, 5).toString());
+                jDDesde.setDate(fechaDesde);
+                java.util.Date fechaHasta = new SimpleDateFormat("dd/MM/yyyy").parse(tabla.getValueAt(fila, 6).toString());
+                jDHasta.setDate(fechaHasta);
+            } catch (ParseException ex) {
+                Logger.getLogger(InformeForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println(fechahoy);
+            
+        }
+    }//GEN-LAST:event_tablaMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //limpiar formulario
+        limpiarFormulario();
+        jDHasta.setEnabled(true);
+        jDDesde.setEnabled(true);
+        jBGenerar.setEnabled(true);
+        //esperar ingreso de fechas
+        //hacer consulta con valores
+        //guardar consultas por dao
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jBGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGenerarActionPerformed
+        jBGenerar.setEnabled(false);
+        jBGuardar.setEnabled(true);
+        jDDesde.setEnabled(false);
+        jDHasta.setEnabled(false);
+    }//GEN-LAST:event_jBGenerarActionPerformed
+
+    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
+        //ejecutar guardado
+        limpiarFormulario();
+    }//GEN-LAST:event_jBGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,24 +546,39 @@ public class InformeForm extends javax.swing.JFrame {
         });
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Logo;
-    private javax.swing.JButton btnBuscar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jBBuscar;
+    private javax.swing.JButton jBGenerar;
+    private javax.swing.JButton jBGuardar;
+    private javax.swing.JButton jButton2;
+    private com.toedter.calendar.JDateChooser jDDesde;
+    private com.toedter.calendar.JDateChooser jDHasta;
+    private com.toedter.calendar.JDateChooser jDateFechaBuscar;
+    private com.toedter.calendar.JDateChooser jDfecha;
     private javax.swing.JLabel jLabelDesde;
-    private javax.swing.JLabel jLabelFecha;
+    private javax.swing.JLabel jLabelDesde1;
+    private javax.swing.JLabel jLabelDesde2;
+    private javax.swing.JLabel jLabelDesde3;
+    private javax.swing.JLabel jLabelDesde4;
     private javax.swing.JLabel jLabelHasta;
     private javax.swing.JLabel jLabelInformeTitle;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenu jMenuInforme;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItemInventario;
-    private javax.swing.JMenu jMenuProductos;
-    private javax.swing.JMenu jMenuSalir;
+    private javax.swing.JLabel jLabelInformeTitle1;
+    private javax.swing.JLabel jLabelInformeTitle2;
+    private javax.swing.JLabel jLabelInformeTitle3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JRadioButton jRadioCodigo;
+    private javax.swing.JRadioButton jRadioFecha;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtDesde;
-    private javax.swing.JTextField txtHasta;
+    private javax.swing.JTextField jTexCantidadBoletas;
+    private javax.swing.JTextField jTextCantidadTickets;
+    private javax.swing.JTextField jTextCodigo;
+    private javax.swing.JTextField jTextTotalVenta;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 }
