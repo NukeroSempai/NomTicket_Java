@@ -84,10 +84,10 @@ public class UsuariosForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaUsuarios = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuProductos = new javax.swing.JMenu();
-        jMenuItemInventario = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu1Venta = new javax.swing.JMenu();
+        jMenuEdicion = new javax.swing.JMenu();
+        jMenuItemProductos = new javax.swing.JMenuItem();
+        jMenuUsuarios = new javax.swing.JMenuItem();
         jMenuInforme = new javax.swing.JMenu();
         jMenuSalir = new javax.swing.JMenu();
 
@@ -298,30 +298,45 @@ public class UsuariosForm extends javax.swing.JFrame {
         jMenuBar1.setBackground(new java.awt.Color(255, 153, 0));
         jMenuBar1.setBorder(null);
 
-        jMenu1.setText("Catálogo");
-        jMenuBar1.add(jMenu1);
-
-        jMenuProductos.setText("Productos");
-
-        jMenuItemInventario.setText("Inventario");
-        jMenuItemInventario.addActionListener(new java.awt.event.ActionListener() {
+        jMenu1Venta.setText("Venta");
+        jMenu1Venta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInventarioActionPerformed(evt);
+                jMenu1VentaActionPerformed(evt);
             }
         });
-        jMenuProductos.add(jMenuItemInventario);
+        jMenuBar1.add(jMenu1Venta);
 
-        jMenuItem1.setText("Modificar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuEdicion.setText("Edición");
+        jMenuEdicion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuEdicionActionPerformed(evt);
             }
         });
-        jMenuProductos.add(jMenuItem1);
 
-        jMenuBar1.add(jMenuProductos);
+        jMenuItemProductos.setText("Productos");
+        jMenuItemProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemProductosActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItemProductos);
+
+        jMenuUsuarios.setText("Usuarios");
+        jMenuUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuUsuariosActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuUsuarios);
+
+        jMenuBar1.add(jMenuEdicion);
 
         jMenuInforme.setText("Informe");
+        jMenuInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuInformeActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenuInforme);
 
         jMenuSalir.setForeground(new java.awt.Color(255, 255, 255));
@@ -338,9 +353,12 @@ public class UsuariosForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItemInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInventarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItemInventarioActionPerformed
+    private void jMenuItemProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProductosActionPerformed
+        this.setVisible(false);
+
+        ProductoForm admP = new ProductoForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemProductosActionPerformed
 
     private void jMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalirActionPerformed
         System.exit(0);
@@ -350,12 +368,12 @@ public class UsuariosForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtApMaternoActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUsuariosActionPerformed
         this.setVisible(false);
 
-        ProductoForm admP = new ProductoForm();
+        UsuariosForm admP = new UsuariosForm();
         admP.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMenuUsuariosActionPerformed
 
     //botones
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -382,6 +400,27 @@ public class UsuariosForm extends javax.swing.JFrame {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         limpiarCampos();
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void jMenuInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInformeActionPerformed
+        this.setVisible(false);
+
+        InformeForm admP = new InformeForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuInformeActionPerformed
+
+    private void jMenuEdicionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuEdicionActionPerformed
+        this.setVisible(false);
+
+        ProductoForm admP = new ProductoForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuEdicionActionPerformed
+
+    private void jMenu1VentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1VentaActionPerformed
+        this.setVisible(false);
+
+        VentaForm admP = new VentaForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenu1VentaActionPerformed
     void agregar() {
         int id_emp_casino = identificador;
         String nom_emp_casino = txtNombre.getText();
@@ -409,7 +448,7 @@ public class UsuariosForm extends javax.swing.JFrame {
         ob[9] = comuna;
         ob[10] = tipo;
         if (dao.add(ob) > 0) {
-            JOptionPane.showMessageDialog(null, "Usuario Agregado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
+            JOptionPane.showMessageDialog(null, "Usuario agregado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
         } else {
             JOptionPane.showMessageDialog(null, "error al agregar usuario", "error!", JOptionPane.ERROR_MESSAGE);
         }
@@ -443,9 +482,9 @@ public class UsuariosForm extends javax.swing.JFrame {
             ob[7] = comuna;
             ob[8] = comedor;
             if (dao.actualizar(ob) > 0) {
-                JOptionPane.showMessageDialog(null, "Usuario Actualizado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
+                JOptionPane.showMessageDialog(null, "Usuario actualizado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
             } else {
-                JOptionPane.showMessageDialog(null, "error al Actualizar usuario", "error!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "error al actualizar usuario", "error!", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -455,7 +494,7 @@ public class UsuariosForm extends javax.swing.JFrame {
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
         } else {
-            int respuesta = JOptionPane.showConfirmDialog(null, "Eliminar producto?");
+            int respuesta = JOptionPane.showConfirmDialog(null, "Eliminar usuario?");
             if (respuesta == 0) {
                 if (dao.eliminar(id_emp_casino) > 0) {
                     JOptionPane.showMessageDialog(null, "Usuario eliminado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
@@ -597,13 +636,13 @@ public class UsuariosForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelRut;
     private javax.swing.JLabel jLabelTelefono;
     private javax.swing.JLabel jLabelUserTitle;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu1Venta;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuEdicion;
     private javax.swing.JMenu jMenuInforme;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItemInventario;
-    private javax.swing.JMenu jMenuProductos;
+    private javax.swing.JMenuItem jMenuItemProductos;
     private javax.swing.JMenu jMenuSalir;
+    private javax.swing.JMenuItem jMenuUsuarios;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtApMaterno;

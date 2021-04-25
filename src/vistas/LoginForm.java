@@ -108,8 +108,8 @@ public class LoginForm extends javax.swing.JFrame {
         }
         if(seg.iniciarSesion(jTextFieldUser.getText(), ingresoClave)==true){
             JOptionPane.showMessageDialog(null, "Bienvenido!", "Exito!", JOptionPane.DEFAULT_OPTION);
-            ProductoForm prod = new ProductoForm();
-            prod.setVisible(true);
+            VentaForm vta = new VentaForm();//ProductoForm
+            vta.setVisible(true);//prod.setVisible(true);
             this.setVisible(false);
         }else{
             JOptionPane.showMessageDialog(null, "ERROR usuario o contraseña invalidos", "error!", JOptionPane.ERROR_MESSAGE);

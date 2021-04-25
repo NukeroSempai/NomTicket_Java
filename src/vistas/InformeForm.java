@@ -39,10 +39,10 @@ public class InformeForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuProductos = new javax.swing.JMenu();
-        jMenuItemInventario = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuVenta = new javax.swing.JMenu();
+        jMenuEdicion = new javax.swing.JMenu();
+        jMenuItemProductos = new javax.swing.JMenuItem();
+        jMenuItemUsuarios = new javax.swing.JMenuItem();
         jMenuInforme = new javax.swing.JMenu();
         jMenuSalir = new javax.swing.JMenu();
 
@@ -139,25 +139,40 @@ public class InformeForm extends javax.swing.JFrame {
         jMenuBar1.setBackground(new java.awt.Color(255, 153, 0));
         jMenuBar1.setBorder(null);
 
-        jMenu1.setText("Catálogo");
-        jMenuBar1.add(jMenu1);
-
-        jMenuProductos.setText("Productos");
-
-        jMenuItemInventario.setText("Inventario");
-        jMenuItemInventario.addActionListener(new java.awt.event.ActionListener() {
+        jMenuVenta.setText("Venta");
+        jMenuVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInventarioActionPerformed(evt);
+                jMenuVentaActionPerformed(evt);
             }
         });
-        jMenuProductos.add(jMenuItemInventario);
+        jMenuBar1.add(jMenuVenta);
 
-        jMenuItem1.setText("Modificar");
-        jMenuProductos.add(jMenuItem1);
+        jMenuEdicion.setText("Edición");
 
-        jMenuBar1.add(jMenuProductos);
+        jMenuItemProductos.setText("Productos");
+        jMenuItemProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemProductosActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItemProductos);
+
+        jMenuItemUsuarios.setText("Usuarios");
+        jMenuItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUsuariosActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItemUsuarios);
+
+        jMenuBar1.add(jMenuEdicion);
 
         jMenuInforme.setText("Informe");
+        jMenuInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuInformeActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenuInforme);
 
         jMenuSalir.setText("Salir");
@@ -189,13 +204,37 @@ public class InformeForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItemInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInventarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItemInventarioActionPerformed
+    private void jMenuItemProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProductosActionPerformed
+        this.setVisible(false);
+
+        ProductoForm admP = new ProductoForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemProductosActionPerformed
 
     private void jMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuSalirActionPerformed
+
+    private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
+        this.setVisible(false);
+
+        UsuariosForm admP = new UsuariosForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemUsuariosActionPerformed
+
+    private void jMenuVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVentaActionPerformed
+        this.setVisible(false);
+
+        VentaForm admP = new VentaForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuVentaActionPerformed
+
+    private void jMenuInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInformeActionPerformed
+        this.setVisible(false);
+
+        InformeForm admP = new InformeForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuInformeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,13 +278,13 @@ public class InformeForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelFecha;
     private javax.swing.JLabel jLabelHasta;
     private javax.swing.JLabel jLabelInformeTitle;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuEdicion;
     private javax.swing.JMenu jMenuInforme;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItemInventario;
-    private javax.swing.JMenu jMenuProductos;
+    private javax.swing.JMenuItem jMenuItemProductos;
+    private javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JMenu jMenuSalir;
+    private javax.swing.JMenu jMenuVenta;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

@@ -13,7 +13,29 @@ public class ProductoDAO implements CRUD{
     Conexion cn=new Conexion();
     PreparedStatement ps;
     ResultSet rs;
-
+//Listar producto en la ventana VentaForm
+    public Producto listarCodigo(int codigo){
+        Producto p=new Producto();
+        String sql="select * from PRODUCTO where codigo_producto=?";
+        try {
+         con=cn.Conectar();   
+         ps=con.prepareStatement(sql);
+         ps.setInt(1, codigo);
+         rs=ps.executeQuery();
+         while (rs.next()) {
+             p.setCodigo(rs.getInt(1));
+             p.setNombre(rs.getString(2));
+             p.setDescripcion(rs.getString(3));
+             p.setPrecio(rs.getInt(4));
+             p.setTipo(rs.getInt(5));
+         }
+        } catch (Exception e) {
+            
+        }
+        return p;
+    }
+    
+//Metodos mantenimiento CRUD
     @Override
     public List listar() {
        List<Producto> lista =new ArrayList<>();
@@ -24,11 +46,11 @@ public class ProductoDAO implements CRUD{
            rs=ps.executeQuery();           
            while (rs.next()) {
                Producto p=new Producto();
-               p.setCodigo(rs.getInt("cod_prod"));
-               p.setNombre(rs.getString("nom_prod"));
-               p.setDescripcion(rs.getString("des_prod"));
+               p.setCodigo(rs.getInt("codigo_producto"));
+               p.setNombre(rs.getString("nom_producto"));
+               p.setDescripcion(rs.getString("descripcion"));
                p.setTipo(rs.getInt("fk_tipo_producto_id"));
-               p.setPrecio(rs.getInt("precio_prod"));               
+               p.setPrecio(rs.getInt("precio"));               
                lista.add(p);               
            }
            con.close();
@@ -62,7 +84,7 @@ public class ProductoDAO implements CRUD{
     @Override
     public int add(Object[] o) {
         int r=0;
-        String sql="insert into producto(cod_prod, nom_prod,des_prod,fk_tipo_producto_id,precio_prod)values(?,?,?,?,?)";
+        String sql="insert into producto(codigo_producto, nom_producto,descripcion,fk_tipo_producto_id,precio)values(?,?,?,?,?)";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
@@ -82,7 +104,7 @@ public class ProductoDAO implements CRUD{
     @Override
     public int actualizar(Object[] o) {
         int r=0;
-       String sql="update producto set cod_prod=?, nom_prod=?,des_prod=?,fk_tipo_producto_id=?, precio_prod=? where cod_prod=?";
+       String sql="update producto set codigo_producto=?, nom_producto=?,descripcion=?,fk_tipo_producto_id=?, precio=? where codigo_producto=?";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
@@ -103,7 +125,7 @@ public class ProductoDAO implements CRUD{
     @Override
     public int eliminar(int id) {
         int r = 0;
-        String sql="delete from producto where cod_prod=?";
+        String sql="delete from producto where codigo_producto=?";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);

@@ -14,7 +14,7 @@ public class ProductoForm extends javax.swing.JFrame {
     List<String> tipoProd = dao.listarTipo();
 
     DefaultTableModel modelo = new DefaultTableModel();
-    int cod_prod;
+    int codigo_producto;//cod_prod
 
     public ProductoForm() {
         initComponents();
@@ -42,19 +42,19 @@ public class ProductoForm extends javax.swing.JFrame {
     }
 
     void agregar() {
-        String cod_prod = txtCodigo.getText();
-        String nom_prod = txtNomProd.getText();
-        String desc_prod = txtDesc.getText();
+        String codigo_producto = txtCodigo.getText();//cod_prod
+        String nom_producto = txtNomProd.getText();//nom_prod
+        String descripcion = txtDesc.getText();//desc_prod
         int tipo = CbCategoria.getSelectedIndex() + 1;
-        String precio_prod = txtPrecio.getText();
+        String precio = txtPrecio.getText();//precio_prod
         Object[] ob = new Object[5];
-        ob[0] = cod_prod;
-        ob[1] = nom_prod;
-        ob[2] = desc_prod;
+        ob[0] = codigo_producto;//cod_prod
+        ob[1] = nom_producto;//nom_prod
+        ob[2] = descripcion;//desc_prod
         ob[3] = tipo;
-        ob[4] = precio_prod;
+        ob[4] = precio;//precio_prod
         if (dao.add(ob) > 0) {
-            JOptionPane.showMessageDialog(null, "Producto Agregado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
+            JOptionPane.showMessageDialog(null, "Producto agregado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
         } else {
             JOptionPane.showMessageDialog(null, "error al agregar producto", "error!", JOptionPane.ERROR_MESSAGE);
         }
@@ -65,22 +65,22 @@ public class ProductoForm extends javax.swing.JFrame {
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
         } else {            
-            String cod_prod = txtCodigo.getText();
-            String nom_prod = txtNomProd.getText();
-            String desc_prod = txtDesc.getText();
+            String codigo_producto = txtCodigo.getText();// cod_prod
+            String nom_producto = txtNomProd.getText();//nom_prod
+            String descripcion = txtDesc.getText();//desc_prod
             int tipo = CbCategoria.getSelectedIndex() + 1;
-            int precio_prod = Integer.parseInt(txtPrecio.getText());
+            int precio = Integer.parseInt(txtPrecio.getText());//precio_prod
             Object[] obj = new Object[6];
-            obj[0] = cod_prod;
-            obj[1] = nom_prod;
-            obj[2] = desc_prod;
+            obj[0] = codigo_producto;//cod_prod
+            obj[1] = nom_producto;//nom_prod
+            obj[2] = descripcion;//desc_prod
             obj[3] = tipo;
-            obj[4] = precio_prod;
-            obj[5] = cod_prod;
+            obj[4] = precio;//precio_prod
+            obj[5] = codigo_producto;//cod_prod
             if (dao.actualizar(obj) > 0) {
-                JOptionPane.showMessageDialog(null, "Producto Actualizado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
+                JOptionPane.showMessageDialog(null, "Producto actualizado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
             } else {
-                JOptionPane.showMessageDialog(null, "error al Actualizar producto", "error!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "error al actualizar producto", "error!", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -93,7 +93,7 @@ public class ProductoForm extends javax.swing.JFrame {
         } else {
             int respuesta = JOptionPane.showConfirmDialog(null, "Eliminar producto?");
             if (respuesta == 0) {
-                if (dao.eliminar(cod_prod) > 0) {
+                if (dao.eliminar(codigo_producto) > 0) {
                     JOptionPane.showMessageDialog(null, "Producto eliminado exitosamente","Exito!",JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "error al eliminar producto", "error!", JOptionPane.ERROR_MESSAGE);
@@ -150,10 +150,10 @@ public class ProductoForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuProductos = new javax.swing.JMenu();
-        jMenuItemInventario = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuVenta = new javax.swing.JMenu();
+        jMenuEdicion = new javax.swing.JMenu();
+        jMenuItemProductos = new javax.swing.JMenuItem();
+        jMenuItemUsuarios = new javax.swing.JMenuItem();
         jMenuInforme = new javax.swing.JMenu();
         jMenuSalir = new javax.swing.JMenu();
 
@@ -363,25 +363,40 @@ public class ProductoForm extends javax.swing.JFrame {
         jMenuBar1.setBackground(new java.awt.Color(255, 153, 0));
         jMenuBar1.setBorder(null);
 
-        jMenu1.setText("Catálogo");
-        jMenuBar1.add(jMenu1);
-
-        jMenuProductos.setText("Productos");
-
-        jMenuItemInventario.setText("Inventario");
-        jMenuItemInventario.addActionListener(new java.awt.event.ActionListener() {
+        jMenuVenta.setText("Venta");
+        jMenuVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInventarioActionPerformed(evt);
+                jMenuVentaActionPerformed(evt);
             }
         });
-        jMenuProductos.add(jMenuItemInventario);
+        jMenuBar1.add(jMenuVenta);
 
-        jMenuItem1.setText("Modificar");
-        jMenuProductos.add(jMenuItem1);
+        jMenuEdicion.setText("Edición");
 
-        jMenuBar1.add(jMenuProductos);
+        jMenuItemProductos.setText("Productos");
+        jMenuItemProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemProductosActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItemProductos);
+
+        jMenuItemUsuarios.setText("Usuarios");
+        jMenuItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUsuariosActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItemUsuarios);
+
+        jMenuBar1.add(jMenuEdicion);
 
         jMenuInforme.setText("Informe");
+        jMenuInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuInformeActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenuInforme);
 
         jMenuSalir.setText("Salir");
@@ -410,9 +425,12 @@ public class ProductoForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItemInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInventarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItemInventarioActionPerformed
+    private void jMenuItemProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProductosActionPerformed
+        this.setVisible(false);
+
+        ProductoForm admP = new ProductoForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemProductosActionPerformed
 
     private void jMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalirActionPerformed
         System.exit(0);
@@ -463,6 +481,27 @@ public class ProductoForm extends javax.swing.JFrame {
         limpiarCampos();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
+    private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
+        this.setVisible(false);
+
+        UsuariosForm admP = new UsuariosForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemUsuariosActionPerformed
+
+    private void jMenuInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInformeActionPerformed
+        this.setVisible(false);
+
+        InformeForm admP = new InformeForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuInformeActionPerformed
+
+    private void jMenuVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuVentaActionPerformed
+        this.setVisible(false);
+
+        VentaForm admP = new VentaForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuVentaActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -512,13 +551,13 @@ public class ProductoForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelNomProd;
     private javax.swing.JLabel jLabelPrecio;
     private javax.swing.JLabel jLabelProdTitle;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuEdicion;
     private javax.swing.JMenu jMenuInforme;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItemInventario;
-    private javax.swing.JMenu jMenuProductos;
+    private javax.swing.JMenuItem jMenuItemProductos;
+    private javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JMenu jMenuSalir;
+    private javax.swing.JMenu jMenuVenta;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelFondo;
     private javax.swing.JScrollPane jScrollPane1;
