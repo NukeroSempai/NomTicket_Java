@@ -7,6 +7,8 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import modelo.UsuariosDAO;
 import SEGURIDAD.seguridad;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -30,6 +32,10 @@ public class UsuariosForm extends javax.swing.JFrame {
         cargarComboBox();
         txtClave.setEnabled(false);
 
+    }
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
+        return retValue;
     }
 
     void listar() {
@@ -87,14 +93,18 @@ public class UsuariosForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaUsuarios = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuVentas = new javax.swing.JMenu();
         jMenuProductos = new javax.swing.JMenu();
-        jMenuItemInventario = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemProductos = new javax.swing.JMenuItem();
+        jMenuItemUsuarios = new javax.swing.JMenuItem();
         jMenuInforme = new javax.swing.JMenu();
+        jMenuItemDiario = new javax.swing.JMenuItem();
+        jMenuItemMensual = new javax.swing.JMenuItem();
         jMenuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
+        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(225, 139, 34));
@@ -292,37 +302,62 @@ public class UsuariosForm extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 870, 380));
 
-        jMenuBar1.setBackground(new java.awt.Color(255, 153, 0));
+        jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
         jMenuBar1.setBorder(null);
 
-        jMenu1.setText("Catálogo");
-        jMenuBar1.add(jMenu1);
-
-        jMenuProductos.setText("Productos");
-
-        jMenuItemInventario.setText("Inventario");
-        jMenuItemInventario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInventarioActionPerformed(evt);
+        jMenuVentas.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuVentas.setText("Ventas");
+        jMenuVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuVentasMouseClicked(evt);
             }
         });
-        jMenuProductos.add(jMenuItemInventario);
+        jMenuBar1.add(jMenuVentas);
 
-        jMenuItem1.setText("Modificar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuProductos.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuProductos.setText("Edición");
+
+        jMenuItemProductos.setText("Productos");
+        jMenuItemProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItemProductosActionPerformed(evt);
             }
         });
-        jMenuProductos.add(jMenuItem1);
+        jMenuProductos.add(jMenuItemProductos);
+
+        jMenuItemUsuarios.setText("Usuarios");
+        jMenuItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUsuariosActionPerformed(evt);
+            }
+        });
+        jMenuProductos.add(jMenuItemUsuarios);
 
         jMenuBar1.add(jMenuProductos);
 
-        jMenuInforme.setText("Informe");
+        jMenuInforme.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuInforme.setText("Informes");
+
+        jMenuItemDiario.setText("Diario");
+        jMenuInforme.add(jMenuItemDiario);
+
+        jMenuItemMensual.setText("Mensual");
+        jMenuItemMensual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemMensualActionPerformed(evt);
+            }
+        });
+        jMenuInforme.add(jMenuItemMensual);
+
         jMenuBar1.add(jMenuInforme);
 
         jMenuSalir.setForeground(new java.awt.Color(255, 255, 255));
         jMenuSalir.setText("Salir");
+        jMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuSalirMouseClicked(evt);
+            }
+        });
         jMenuSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuSalirActionPerformed(evt);
@@ -335,19 +370,22 @@ public class UsuariosForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItemInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInventarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItemInventarioActionPerformed
+    private void jMenuItemProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProductosActionPerformed
+        this.setVisible(false);
+
+        ProductoForm admP = new ProductoForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemProductosActionPerformed
 
     private void jMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuSalirActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
         this.setVisible(false);
-        ProductoForm admP = new ProductoForm();
+        UsuariosForm admP = new UsuariosForm();
         admP.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMenuItemUsuariosActionPerformed
 
     //botones
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -411,6 +449,23 @@ public class UsuariosForm extends javax.swing.JFrame {
             txtClave.setEnabled(true);
         }
     }//GEN-LAST:event_jCheckClaveActionPerformed
+
+    private void jMenuVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuVentasMouseClicked
+        this.setVisible(false);
+
+        VentaForm admP = new VentaForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuVentasMouseClicked
+
+    private void jMenuItemMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMensualActionPerformed
+        this.setVisible(false);
+        InformeForm admP = new InformeForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemMensualActionPerformed
+
+    private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jMenuSalirMouseClicked
     void agregar() {
         //falta validar
         //campos no vacios
@@ -605,13 +660,15 @@ public class UsuariosForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelComedor;
     private javax.swing.JLabel jLabelNombre;
     private javax.swing.JLabel jLabelUserTitle;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuInforme;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItemInventario;
+    private javax.swing.JMenuItem jMenuItemDiario;
+    private javax.swing.JMenuItem jMenuItemMensual;
+    private javax.swing.JMenuItem jMenuItemProductos;
+    private javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JMenu jMenuProductos;
     private javax.swing.JMenu jMenuSalir;
+    private javax.swing.JMenu jMenuVentas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPasswordField txtClave;

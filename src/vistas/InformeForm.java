@@ -4,6 +4,8 @@ package vistas;
  *
  * @author Jiss
  */
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -31,9 +33,15 @@ public class InformeForm extends javax.swing.JFrame {
 
     public InformeForm() {
         initComponents();
+        this.setLocationRelativeTo(null);
         FormatoDeFechas();
         limpiarFormulario();
         listar();
+    }
+    
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
+        return retValue;
     }
     
     private void limpiarFormulario(){
@@ -113,6 +121,11 @@ public class InformeForm extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jScrollBar1 = new javax.swing.JScrollBar();
         jPanel1 = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
         jLabelInformeTitle = new javax.swing.JLabel();
@@ -144,8 +157,27 @@ public class InformeForm extends javax.swing.JFrame {
         jTextTotalVenta = new javax.swing.JTextField();
         jBGenerar = new javax.swing.JButton();
         jBGuardar = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenuVentas = new javax.swing.JMenu();
+        jMenuEdicion = new javax.swing.JMenu();
+        jMenuItemProductos = new javax.swing.JMenuItem();
+        jMenuItemUsuarios = new javax.swing.JMenuItem();
+        jMenuInformes = new javax.swing.JMenu();
+        jMenuItemInfDiario = new javax.swing.JMenuItem();
+        jMenuItemInfMensual = new javax.swing.JMenuItem();
+        jMenuSalir = new javax.swing.JMenu();
+
+        jMenu4.setText("jMenu4");
+
+        jMenu5.setText("jMenu5");
+
+        jMenu6.setText("jMenu6");
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(225, 139, 34));
 
@@ -422,6 +454,65 @@ public class InformeForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
+
+        jMenuVentas.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuVentas.setText("Ventas");
+        jMenuVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuVentasMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuVentas);
+
+        jMenuEdicion.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuEdicion.setText("Edición");
+
+        jMenuItemProductos.setText("Productos");
+        jMenuItemProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemProductosActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItemProductos);
+
+        jMenuItemUsuarios.setText("Usuarios");
+        jMenuItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUsuariosActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItemUsuarios);
+
+        jMenuBar1.add(jMenuEdicion);
+
+        jMenuInformes.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuInformes.setText("Informes");
+
+        jMenuItemInfDiario.setText("Diario");
+        jMenuInformes.add(jMenuItemInfDiario);
+
+        jMenuItemInfMensual.setText("Mensual");
+        jMenuItemInfMensual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemInfMensualActionPerformed(evt);
+            }
+        });
+        jMenuInformes.add(jMenuItemInfMensual);
+
+        jMenuBar1.add(jMenuInformes);
+
+        jMenuSalir.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuSalir.setText("Salir");
+        jMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuSalirMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuSalir);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -511,6 +602,36 @@ public class InformeForm extends javax.swing.JFrame {
         limpiarFormulario();
     }//GEN-LAST:event_jBGuardarActionPerformed
 
+    private void jMenuVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuVentasMouseClicked
+         this.setVisible(false);
+
+        VentaForm admP = new VentaForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuVentasMouseClicked
+
+    private void jMenuItemProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProductosActionPerformed
+       this.setVisible(false);
+
+        ProductoForm admP = new ProductoForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemProductosActionPerformed
+
+    private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
+        this.setVisible(false);
+        UsuariosForm admP = new UsuariosForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemUsuariosActionPerformed
+
+    private void jMenuItemInfMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInfMensualActionPerformed
+        this.setVisible(false);
+        InformeForm admP = new InformeForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemInfMensualActionPerformed
+
+    private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jMenuSalirMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -568,12 +689,26 @@ public class InformeForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelInformeTitle1;
     private javax.swing.JLabel jLabelInformeTitle2;
     private javax.swing.JLabel jLabelInformeTitle3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuEdicion;
+    private javax.swing.JMenu jMenuInformes;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItemInfDiario;
+    private javax.swing.JMenuItem jMenuItemInfMensual;
+    private javax.swing.JMenuItem jMenuItemProductos;
+    private javax.swing.JMenuItem jMenuItemUsuarios;
+    private javax.swing.JMenu jMenuSalir;
+    private javax.swing.JMenu jMenuVentas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JRadioButton jRadioCodigo;
     private javax.swing.JRadioButton jRadioFecha;
+    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTexCantidadBoletas;
     private javax.swing.JTextField jTextCantidadTickets;

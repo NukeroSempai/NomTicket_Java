@@ -30,7 +30,7 @@ public class LoginForm extends javax.swing.JFrame {
   
     
     public Image getIconImage() {
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
         return retValue;
     }
 
@@ -115,7 +115,7 @@ public class LoginForm extends javax.swing.JFrame {
                 Ahome.setVisible(true);
                 this.setVisible(false);
             }else{
-                ProductoForm prod = new ProductoForm();
+                VentaForm prod = new VentaForm();
                 prod.setVisible(true);
                 this.setVisible(false);
             }
