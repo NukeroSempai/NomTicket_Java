@@ -5,8 +5,10 @@
  */
 package vistas;
 
+
 import java.awt.Image;
 import java.awt.Toolkit;
+
 
 public class AdminHome extends javax.swing.JFrame {
 
@@ -16,11 +18,13 @@ public class AdminHome extends javax.swing.JFrame {
     public AdminHome() {
         initComponents();
     }
+
     
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
         return retValue;
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,11 +35,14 @@ public class AdminHome extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+
         jMenuItem1 = new javax.swing.JMenuItem();
+
         jPanel1 = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuVentas = new javax.swing.JMenu();
         jMenuEdición = new javax.swing.JMenu();
@@ -50,6 +57,7 @@ public class AdminHome extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
+
 
         jPanel1.setBackground(new java.awt.Color(225, 139, 34));
 
@@ -75,6 +83,7 @@ public class AdminHome extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+
                 .addContainerGap()
                 .addComponent(Logo)
                 .addGap(50, 50, 50)
@@ -82,12 +91,14 @@ public class AdminHome extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(jButton2)
                 .addContainerGap(263, Short.MAX_VALUE))
+
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+
                         .addGap(62, 62, 62)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
@@ -151,17 +162,22 @@ public class AdminHome extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 333, Short.MAX_VALUE))
+
         );
 
         pack();
@@ -178,6 +194,7 @@ public class AdminHome extends javax.swing.JFrame {
         usu.setVisible(true);
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
 
     private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
         this.setVisible(false);
@@ -210,6 +227,7 @@ public class AdminHome extends javax.swing.JFrame {
     private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
         System.exit(0);
     }//GEN-LAST:event_jMenuSalirMouseClicked
+
 
     /**
      * @param args the command line arguments
@@ -250,6 +268,7 @@ public class AdminHome extends javax.swing.JFrame {
     private javax.swing.JLabel Logo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuEdición;
     private javax.swing.JMenu jMenuInformes;
@@ -260,6 +279,7 @@ public class AdminHome extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JMenu jMenuSalir;
     private javax.swing.JMenu jMenuVentas;
+
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

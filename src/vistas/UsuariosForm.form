@@ -292,8 +292,16 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtRut">
+
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtRutKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNombre">
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNombreKeyPressed"/>
+          </Events>
+
         </Component>
         <Component class="javax.swing.JButton" name="btnAgregar">
           <Properties>
@@ -360,6 +368,11 @@
           </AuxValues>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtClave">
+
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtClaveKeyPressed"/>
+          </Events>
+
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelAdministrador">
           <Properties>
