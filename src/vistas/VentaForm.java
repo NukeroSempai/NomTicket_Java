@@ -1,5 +1,7 @@
 package vistas;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -7,6 +9,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.DetalleTicket;
+import modelo.Eventos;
 import modelo.Producto;
 import modelo.ProductoDAO;
 import modelo.Ticket;
@@ -14,13 +17,13 @@ import modelo.TicketDAO;
 import modelo.Ventas;
 import modelo.VentasDAO;
 
-
 public class VentaForm extends javax.swing.JFrame {
 
     VentasDAO vdao = new VentasDAO();
     TicketDAO tdao = new TicketDAO();
-    ProductoDAO pdao = new ProductoDAO();
+    ProductoDAO dao = new ProductoDAO();
     List<String> formPago = vdao.listarFormpago();
+    Eventos event =new Eventos();
 
     Producto p = new Producto();
     Ventas v = new Ventas();
@@ -31,19 +34,29 @@ public class VentaForm extends javax.swing.JFrame {
     int cant;
     int precio;
     int tpagar;
+    int cod_prod;
+    int tsaldo;
 
     public VentaForm() {
         initComponents();
         generarSerie();
         fecha();
         cargarComboBox();
+       
 
+    }
+    //Logo
+     public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
+        return retValue;
     }
 
     //Fecha 
     void fecha() {
+
         Calendar calendar = new GregorianCalendar();
-        txtFecha.setText("" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR));
+        //txtFecha.setText("" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR));
+        txtFecha.setText("" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.YEAR));
     }
 
     //Generar Numero Pedido
@@ -58,13 +71,55 @@ public class VentaForm extends javax.swing.JFrame {
         }
 
     }
-     void cargarComboBox() {
+
+    void cargarComboBox() {
         for (int i = 0; i < formPago.size(); i++) {
             CbFormpago.addItem(formPago.get(i));
         }
     }
-    
-  
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {
+        int fila = TablaVenta.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe Seleccionar una Fila");
+        } else {
+            String codigo = TablaVenta.getValueAt(fila, 0).toString();
+            String nombre = TablaVenta.getValueAt(fila, 1).toString();
+            String cantidad = TablaVenta.getValueAt(fila, 2).toString();
+            String precio = TablaVenta.getValueAt(fila, 3).toString();
+            txtProducto.setText(nombre);
+            //txtCantidad.setText
+            txtPrecio.setText("" + p.getPrecio());
+
+            //rescatar codigo de la seleccion en el formulario
+            cod_prod = Integer.parseInt(codigo);
+        }
+    }
+
+    /*void actualizar() {
+        int fila = TablaVenta.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+        } else {
+            String nom_prod = txtNomProd.getText();
+            String desc_prod = txtDesc.getText();
+            int tipo = CbCategoria.getSelectedIndex() + 1;
+            int precio_prod = Integer.parseInt(txtPrecio.getText());
+            Object[] obj = new Object[6];
+            obj[0] = cod_prod;
+            obj[1] = nom_prod;
+            obj[2] = desc_prod;
+            obj[3] = tipo;
+            obj[4] = precio_prod;
+            obj[5] = cod_prod;
+            if (vdao.actualizar(obj) > 0) {
+                JOptionPane.showMessageDialog(null, "Producto Actualizado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
+            } else {
+                JOptionPane.showMessageDialog(null, "error al Actualizar producto", "error!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,16 +170,21 @@ public class VentaForm extends javax.swing.JFrame {
         jLabelSaldoAPagar = new javax.swing.JLabel();
         btnVenta = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        btnSubTotal = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuVenta = new javax.swing.JMenu();
         jMenuEdicion = new javax.swing.JMenu();
         jMenuItemProductos = new javax.swing.JMenuItem();
         jMenuItemUsuarios = new javax.swing.JMenuItem();
         jMenuInforme = new javax.swing.JMenu();
+        jMenuItemInfDiario = new javax.swing.JMenuItem();
+        jMenuItemInfMensual = new javax.swing.JMenuItem();
         jMenuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(225, 139, 34));
+        setIconImage(getIconImage());
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(225, 139, 34));
 
@@ -203,7 +263,24 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabelCodTicket.setText("COD. TICKET");
 
+        txtCodTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodTicketActionPerformed(evt);
+            }
+        });
+        txtCodTicket.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodTicketKeyTyped(evt);
+            }
+        });
+
         jLabelEmpleado.setText("VALOR TICKET");
+
+        txtValor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtValorKeyTyped(evt);
+            }
+        });
 
         btnBuscarTicket.setText("Buscar");
         btnBuscarTicket.addActionListener(new java.awt.event.ActionListener() {
@@ -214,6 +291,12 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabelCodProducto.setText("COD. PRODUCTO");
 
+        txtCodProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodProductoKeyTyped(evt);
+            }
+        });
+
         btnBuscarProducto.setText("Buscar");
         btnBuscarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,9 +306,23 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabelCantidad.setText("CANTIDAD");
 
+        txtCantidad.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
         jLabelProducto.setText("PRODUCTO");
 
+        txtProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtProductoKeyTyped(evt);
+            }
+        });
+
         jLabelPrecio.setText("PRECIO");
+
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
 
         btnAgregar.setBackground(new java.awt.Color(0, 0, 0));
         btnAgregar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -241,6 +338,11 @@ public class VentaForm extends javax.swing.JFrame {
         btnActualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setBackground(new java.awt.Color(255, 0, 0));
         btnEliminar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -254,7 +356,6 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabelFormPago.setText("FORMA DE PAGO");
 
-        CbFormpago.setSelectedIndex(-1);
         CbFormpago.setToolTipText("");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -386,12 +487,21 @@ public class VentaForm extends javax.swing.JFrame {
         btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelar.setText("CANCELAR");
 
+        btnSubTotal.setText("SUB-TOTAL");
+        btnSubTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubTotalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(506, Short.MAX_VALUE)
+                .addContainerGap(367, Short.MAX_VALUE)
+                .addComponent(btnSubTotal)
+                .addGap(66, 66, 66)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -415,7 +525,9 @@ public class VentaForm extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtTotalPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabelTotalAPagar))
-                    .addComponent(btnVenta))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnVenta)
+                        .addComponent(btnSubTotal)))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -439,7 +551,7 @@ public class VentaForm extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(67, 67, 67)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addContainerGap(175, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 949, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -455,10 +567,16 @@ public class VentaForm extends javax.swing.JFrame {
                 .addGap(190, 190, 190))
         );
 
-        jMenuBar1.setBackground(new java.awt.Color(255, 153, 0));
+        jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
         jMenuBar1.setBorder(null);
 
-        jMenuVenta.setText("Venta");
+        jMenuVenta.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuVenta.setText("Ventas");
+        jMenuVenta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuVentaMouseClicked(evt);
+            }
+        });
         jMenuVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuVentaActionPerformed(evt);
@@ -466,6 +584,7 @@ public class VentaForm extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuVenta);
 
+        jMenuEdicion.setForeground(new java.awt.Color(255, 255, 255));
         jMenuEdicion.setText("Edición");
 
         jMenuItemProductos.setText("Productos");
@@ -486,15 +605,34 @@ public class VentaForm extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuEdicion);
 
-        jMenuInforme.setText("Informe");
+        jMenuInforme.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuInforme.setText("Informes");
         jMenuInforme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuInformeActionPerformed(evt);
             }
         });
+
+        jMenuItemInfDiario.setText("Diario");
+        jMenuInforme.add(jMenuItemInfDiario);
+
+        jMenuItemInfMensual.setText("Mensual");
+        jMenuItemInfMensual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemInfMensualActionPerformed(evt);
+            }
+        });
+        jMenuInforme.add(jMenuItemInfMensual);
+
         jMenuBar1.add(jMenuInforme);
 
+        jMenuSalir.setForeground(new java.awt.Color(255, 255, 255));
         jMenuSalir.setText("Salir");
+        jMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuSalirMouseClicked(evt);
+            }
+        });
         jMenuSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuSalirActionPerformed(evt);
@@ -579,7 +717,8 @@ public class VentaForm extends javax.swing.JFrame {
             Ticket ticket = tdao.listarCodigo(codigo);
             if (ticket.getCodigo() != 0) {
                 //txtEmpleado.setText(ticket.getRut());
-                txtValor.setText(""+ ticket.getValor() );
+                txtValor.setText("" + ticket.getValor());
+                txtValorTicket.setText("" + ticket.getValor());
                 txtCodProducto.requestFocus();
             } else {
                 r = JOptionPane.showConfirmDialog(this, "Ticket no registrado");
@@ -596,7 +735,7 @@ public class VentaForm extends javax.swing.JFrame {
         if (txtCodProducto.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Debe ingresar el codigo del producto");
         } else {
-            Producto p = pdao.listarCodigo(codigo);
+            Producto p = dao.listarCodigo(codigo);
             if (p.getCodigo() != 0) {
                 txtProducto.setText(p.getNombre());
                 txtPrecio.setText("" + p.getPrecio());
@@ -613,6 +752,8 @@ public class VentaForm extends javax.swing.JFrame {
 //AGREGAR PRODUCTO A LA TABLA
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         agregarProducto();
+        
+       
     }//GEN-LAST:event_btnAgregarActionPerformed
     void agregarProducto() {
         int total;
@@ -667,6 +808,67 @@ public class VentaForm extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnVentaActionPerformed
+//ACTUALIZAR TABLA VENTA
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+
+
+    }//GEN-LAST:event_btnActualizarActionPerformed
+//Botón salir
+    private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
+       System.exit(0);
+    }//GEN-LAST:event_jMenuSalirMouseClicked
+
+    private void txtCodTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodTicketActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodTicketActionPerformed
+
+    private void txtCodTicketKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodTicketKeyTyped
+        event.numberKeyPress(evt);
+    }//GEN-LAST:event_txtCodTicketKeyTyped
+
+    private void txtCodProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodProductoKeyTyped
+        event.numberKeyPress(evt);
+    }//GEN-LAST:event_txtCodProductoKeyTyped
+
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        event.numberKeyPress(evt);
+    }//GEN-LAST:event_txtPrecioKeyTyped
+
+    private void txtProductoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductoKeyTyped
+        event.textKeyPress(evt);
+    }//GEN-LAST:event_txtProductoKeyTyped
+
+    private void txtValorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValorKeyTyped
+        event.numberKeyPress(evt);
+    }//GEN-LAST:event_txtValorKeyTyped
+
+    private void jMenuVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuVentaMouseClicked
+        this.setVisible(false);
+
+        VentaForm admP = new VentaForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuVentaMouseClicked
+
+    private void jMenuItemInfMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInfMensualActionPerformed
+        this.setVisible(false);
+        InformeForm admP = new InformeForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemInfMensualActionPerformed
+
+    private void btnSubTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubTotalActionPerformed
+        tsaldo = 0;
+
+        String n1 = txtTotalPago.getText();
+        String n2 = txtValorTicket.getText();
+
+        int a = Integer.parseInt(n1);
+        int b = Integer.parseInt(n2);
+
+        tsaldo = a - b;
+        txtSaldoPago.setText(String.valueOf(tsaldo));
+    }//GEN-LAST:event_btnSubTotalActionPerformed
+
+    //NUEVO
     void nuevo() {
         limpiarTabla();
         txtCodTicket.setText("");
@@ -750,6 +952,7 @@ public class VentaForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(VentaForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -769,6 +972,7 @@ public class VentaForm extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarTicket;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnSubTotal;
     private javax.swing.JButton btnVenta;
     private javax.swing.JLabel jLabelCajero;
     private javax.swing.JLabel jLabelCantidad;
@@ -786,6 +990,8 @@ public class VentaForm extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuEdicion;
     private javax.swing.JMenu jMenuInforme;
+    private javax.swing.JMenuItem jMenuItemInfDiario;
+    private javax.swing.JMenuItem jMenuItemInfMensual;
     private javax.swing.JMenuItem jMenuItemProductos;
     private javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JMenu jMenuSalir;
@@ -809,4 +1015,8 @@ public class VentaForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtValor;
     private javax.swing.JTextField txtValorTicket;
     // End of variables declaration//GEN-END:variables
+
+    private void setText(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

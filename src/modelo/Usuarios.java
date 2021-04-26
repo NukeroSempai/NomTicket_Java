@@ -3,43 +3,31 @@ package modelo;
 
 
 public class Usuarios {
-    private int id;
+    private String rut_cajero;
     private String nombre;
-    private String paterno;
-    private String materno;
-    private int rut;
-    private String dv;
-    private int telefono;
-    private String nomUsuario;
-    private String password;
-    private int comedor;
-    private int comuna;
-    
-    
+    private String clave;    
+    private int id_sucursal;
+    private int administrador;
+    private int estado;
+
     public Usuarios() {
-  
     }
 
-    public Usuarios(int id, String nombre, String paterno, String materno, int rut, String dv, int telefono,String nomUsuario, String password,int comedor, int comuna) {
-        this.id = id;
+    public Usuarios(String rut_cajero, String nombre, String clave, int id_sucursal, int administrador, int estado) {
+        this.rut_cajero = rut_cajero;
         this.nombre = nombre;
-        this.paterno = paterno;
-        this.materno = materno;
-        this.rut = rut;
-        this.dv = dv;
-        this.telefono = telefono;
-        this.nomUsuario = nomUsuario;
-        this.password = password;
-        this.comedor = comedor;
-        this.comuna = comuna;
+        this.clave = clave;
+        this.id_sucursal = id_sucursal;
+        this.administrador = administrador;
+        this.estado = estado;
     }
 
-    public int getId() {
-        return id;
+    public String getRut_cajero() {
+        return rut_cajero;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRut_cajero(String rut_cajero) {
+        this.rut_cajero = rut_cajero;
     }
 
     public String getNombre() {
@@ -50,79 +38,37 @@ public class Usuarios {
         this.nombre = nombre;
     }
 
-    public String getPaterno() {
-        return paterno;
+    public String getClave() {
+        return clave;
     }
 
-    public void setPaterno(String paterno) {
-        this.paterno = paterno;
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
-    public String getMaterno() {
-        return materno;
+    public int getId_sucursal() {
+        return id_sucursal;
     }
 
-    public void setMaterno(String materno) {
-        this.materno = materno;
+    public void setId_sucursal(int id_sucursal) {
+        this.id_sucursal = id_sucursal;
     }
 
-    public int getRut() {
-        return rut;
+    public int getAdministrador() {
+        return administrador;
     }
 
-    public void setRut(int rut) {
-        this.rut = rut;
+    public void setAdministrador(int administrador) {
+        this.administrador = administrador;
     }
 
-    public String getDv() {
-        return dv;
+    public int getEstado() {
+        return estado;
     }
 
-    public void setDv(String dv) {
-        this.dv = dv;
-    }
-
-    public int getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(int telefono) {
-        this.telefono = telefono;
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
     
-    public String getNomUsuario() {
-        return nomUsuario;
-    }
-
-    public void setNomUsuario(String nomUsuario) {
-        this.nomUsuario = nomUsuario;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getComedor() {
-        return comedor;
-    }
-
-    public void setComedor(int comedor) {
-        this.comedor = comedor;
-    }
-
-    public int getComuna() {
-        return comuna;
-    }
-
-    public void setComuna(int comuna) {
-        this.comuna = comuna;
-    }
-
-   
     
 }
-

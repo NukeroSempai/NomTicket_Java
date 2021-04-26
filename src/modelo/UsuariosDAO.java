@@ -17,24 +17,18 @@ public class UsuariosDAO implements CRUD {
     @Override
     public List listar() {
         List<Usuarios> lista = new ArrayList<>();
-        String sql = "select * from EMP_CASINO";
+        String sql = "select rut_cajero,nombre,fk_sucursal_id,administrador,estado from CAJERO order by fk_sucursal_id";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while (rs.next()) {
                 Usuarios p=new Usuarios();
-                p.setId(rs.getInt("id_emp_casino"));
-                p.setNombre(rs.getString("nom_emp_casino"));
-                p.setPaterno(rs.getString("appat_emp_casino"));
-                p.setMaterno(rs.getString("apmat_emp_casino"));
-                p.setRut(rs.getInt("rut_emp_casino"));
-                p.setDv(rs.getString("dv_rut_emp_casino"));
-                p.setTelefono(rs.getInt("tel_emp_casino"));
-                p.setNomUsuario(rs.getString("nombreusuario"));
-                p.setPassword(rs.getString("password_emp_casino"));
-                p.setComedor(rs.getInt("fk_comedor_id")); 
-                p.setComuna(rs.getInt("fk_comuna_id"));
+                p.setRut_cajero(rs.getString("rut_cajero"));
+                p.setNombre(rs.getString("nombre"));                               
+                p.setId_sucursal(rs.getInt("fk_sucursal_id"));
+                p.setAdministrador(rs.getInt("administrador")); 
+                p.setEstado(rs.getInt("estado"));
                 lista.add(p);
             }
             con.close();
@@ -44,65 +38,64 @@ public class UsuariosDAO implements CRUD {
         }
         return lista;
     }
+    
+        public boolean VerificarSuperUsuario(String rut) {
+        boolean admin = false;
+        String sql = "select administrador from CAJERO where rut_cajero =?";
+        try {
+            con=cn.Conectar();
+            ps=con.prepareStatement(sql);
+            ps.setString(1, rut);
+            rs=ps.executeQuery();
+            while (rs.next()) {
+                Usuarios p=new Usuarios();                
+                p.setAdministrador(rs.getInt("administrador"));                 
+                if(p.getAdministrador()==1){
+                    admin = true;
+                }
+            }
+            con.close();
+        } catch (Exception e) {
+            System.out.println("error al listar usuarios " + e.getMessage());
+        }
+        return admin;
+    }
 
-    public List listarComuna() {
+    public List listarSucursal() {
         List<String> lista = new ArrayList<>();
-        String sql = "select * from COMUNA order by id_comuna";
+        String sql = "select * from SUCURSAL order by id_sucursal";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while (rs.next()) {
                 String p=new String();
-                p=(rs.getString("nombre"));
+                p=(rs.getString("nombre_sucursal"));
                 lista.add(p);
             }
             con.close();
 
         } catch (Exception e) {
-            System.out.println("error al listar comunas " + e.getMessage());
+            System.out.println("error al listar sucursales " + e.getMessage());
         }
         return lista;
     }
-
-    public List listarComedor() {
-        List<String> lista = new ArrayList<>();
-        String sql = "select * from COMEDOR order by id_comedor";
-        try {
-            con=cn.Conectar();
-            ps=con.prepareStatement(sql);
-            rs=ps.executeQuery();
-            while (rs.next()) {
-                String p=new String();
-                p=(rs.getString("nom_comedor"));
-                lista.add(p);
-            }
-            con.close();
-
-        } catch (Exception e) {
-            System.out.println("error al listar comedor " + e.getMessage());
-        }
-        return lista;
-    }
+    
+    
 
     @Override
     public int add(Object[] o) {
         int r=0;
-        String sql = "insert into emp_casino(id_emp_casino,nom_emp_casino,appat_emp_casino,apmat_emp_casino,rut_emp_casino,dv_rut_emp_casino,tel_emp_casino,nombreUsuario,password_emp_casino, fk_comedor_id, fk_comuna_id)values(?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into CAJERO(rut_cajero,nombre,clave,fk_sucursal_id,administrador,estado)values(?,?,?,?,?,?)";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
-            ps.setObject(1, o[0]);
-            ps.setObject(2, o[1]);
-            ps.setObject(3, o[2]);
-            ps.setObject(4, o[3]);
-            ps.setObject(5, o[4]);
-            ps.setObject(6, o[5]);
-            ps.setObject(7, o[6]);
-            ps.setObject(8, o[7]);
-            ps.setObject(9, o[8]);
-            ps.setObject(10, o[9]);
-            ps.setObject(11,o[10]);
+            ps.setObject(1, o[0]);//rut
+            ps.setObject(2, o[1]);//nombre
+            ps.setObject(3, o[2]);//clave
+            ps.setObject(4, o[3]);//sucursal
+            ps.setObject(5, o[4]);//administrador
+            ps.setObject(6, o[5]);//estado            
             r=ps.executeUpdate();
             con.close();
         } catch (Exception e) {
@@ -114,40 +107,58 @@ public class UsuariosDAO implements CRUD {
     @Override
     public int actualizar(Object[] o) {
         int r=0;
-        String sql = "update emp_casino set nom_emp_casino=?,appat_emp_casino=?,apmat_emp_casino=?, rut_emp_casino=?, dv_rut_emp_casino=?, tel_emp_casino=?,fk_comedor_id,fk_comuna_id,password_emp_casino=?  where id_emp_casino=?";
+        String sql = "update CAJERO set rut_cajero=?,nombre=?,fk_sucursal_id=?,administrador=?,estado=?where rut_cajero=?";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
-            ps.setObject(1, o[0]);
-            ps.setObject(2, o[1]);
-            ps.setObject(3, o[2]);
-            ps.setObject(4, o[3]);
-            ps.setObject(5, o[4]);
-            ps.setObject(6, o[5]);
-            ps.setObject(7, o[6]);
-            ps.setObject(8, o[7]);
-            ps.setObject(9, o[8]);
-            ps.setObject(10, o[9]);            
+            ps.setObject(1, o[0]);//rut
+            ps.setObject(2, o[1]);//nombre            
+            ps.setObject(3, o[2]);//sucursal
+            ps.setObject(4, o[3]);//administrador
+            ps.setObject(5, o[4]);//estado 
+            ps.setObject(6,o[5]);// rut cajero a actualizar
             r=ps.executeUpdate();
             con.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("error al actualizar usuario "+e.getMessage());
+        }
+        return r;
+    }
+    
+    public int actualizar(Object[] o,String clave) {
+        int r=0;
+        String sql = "update CAJERO set rut_cajero=?,nombre=?,clave=?,fk_sucursal_id=?,administrador=?,estado=?where rut_cajero=?";
+        try {
+            con=cn.Conectar();
+            ps=con.prepareStatement(sql);
+            ps.setObject(1, o[0]);//rut
+            ps.setObject(2, o[1]);//nombre
+            ps.setObject(3, clave);//clave
+            ps.setObject(4, o[2]);//sucursal
+            ps.setObject(5, o[3]);//administrador
+            ps.setObject(6, o[4]);//estado 
+            ps.setObject(7,o[5]);// rut cajero a actualizar
+            r=ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            System.out.println("error al actualizar usuario "+e.getMessage());
         }
         return r;
     }
 
-    @Override
-    public int eliminar(int id) {
+    
+    public int eliminar(String rut) {
+        
         int r = 0;
-        String sql = "delete from emp_casino where id_emp_casino=?";
+        String sql = "delete from CAJERO where rut_cajero=?";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setString(1, rut);
             r=ps.executeUpdate();
             con.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("error al eliminar cajero "+e.getMessage());
         }
         return r;
     } 

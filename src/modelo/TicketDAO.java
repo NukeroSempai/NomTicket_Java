@@ -1,4 +1,4 @@
-package modelo;
+    package modelo;
 
 import CONEXION_BD.Conexion;
 import java.sql.Connection;
@@ -40,6 +40,8 @@ public class TicketDAO implements CRUD{
         return t;
     }
 //Metodos mantenimiento CRUD
+  
+
     @Override
     public List listar() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -56,7 +58,7 @@ public class TicketDAO implements CRUD{
     }
 
     @Override
-    public int eliminar(int id) {
+    public int eliminar(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

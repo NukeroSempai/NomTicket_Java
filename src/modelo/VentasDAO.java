@@ -103,5 +103,41 @@ public class VentasDAO {
        } 
        return lista;
      }
+     /*
+     public int actualizar(Object[] o) {
+        int r=0;
+       String sql="update producto set codigo_producto=?, nom_producto=?,descripcion=?,fk_tipo_producto_id=?, precio=? where codigo_producto=?";
+        try {
+            con=cn.Conectar();
+            ps=con.prepareStatement(sql);
+            ps.setObject(1, o[0]);
+            ps.setObject(2, o[1]);
+            ps.setObject(3, o[2]);
+            ps.setObject(4, o[3]);
+            ps.setObject(5, o[4]);
+            ps.setObject(6, o[5]);
+            r=ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return r;
+    }
+
+    @Override
+    public int eliminar(String id) {
+        int r = 0;
+        String sql="delete from producto where codigo_producto=?";
+        try {
+            con=cn.Conectar();
+            ps=con.prepareStatement(sql);
+            ps.setInt(1, Integer.parseInt(id));
+            r=ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return r;
+    }       */
 }
 

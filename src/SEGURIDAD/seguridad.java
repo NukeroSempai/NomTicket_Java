@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Types;
+import javax.swing.JOptionPane;
 
 public class seguridad {
 
@@ -31,36 +32,40 @@ public class seguridad {
         }
         return encriptado;
     }
-    
-    public String encriptar(String clave){
-        return generarHash(clave);        
+
+    public String encriptar(String clave) {
+        return generarHash(clave);
     }
 
-    public boolean iniciarSesion(String nombre, String clave) {
+    public boolean iniciarSesion(String rut, String clave) {
         boolean autorizar = false;
         String usuarioRecuperado = "";
         String ClaveRecuperada = "";
         String ClaveProcesada = generarHash(clave);
-        String sql = "select nombreusuario,password_emp_casino from empleado where nombreusuario=?";
+        int activo =0;
+        String sql = "select rut_cajero,clave,estado from CAJERO where rut_cajero=?";
         //buscar y recuperar usuario y contraseña
         try {
-            con = cn.Conectar();            
+            con = cn.Conectar();
             ps = con.prepareStatement(sql);
-            ps.setString(1, nombre);
+            ps.setString(1, rut);
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 usuarioRecuperado = (rs.getString(1));
                 ClaveRecuperada = (rs.getString(2));
-            }      
+                activo = rs.getInt("estado");
+            }
             con.close();
         } catch (Exception e) {
-            System.out.println("error en Seguridad ="+e.getMessage());
+            System.out.println("error en Seguridad =" + e.getMessage());
         }
-        //comparar si son iguales
-            System.out.println(nombre+"   "+ClaveProcesada);
-        if ((nombre == usuarioRecuperado) == (ClaveRecuperada == ClaveProcesada)){            
+        //comparar si son iguales  
+        if ((usuarioRecuperado.equals(rut)) && (ClaveRecuperada.equals(ClaveProcesada)) && activo ==1) {
             autorizar = true;
-        }        
+        }
+        if(activo ==0){
+            JOptionPane.showMessageDialog(null, "Usuario Deshabilitado", "error!", JOptionPane.ERROR_MESSAGE);
+        }
         return autorizar;
     }
 
