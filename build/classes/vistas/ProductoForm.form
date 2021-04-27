@@ -302,14 +302,8 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNomProd">
-              <Events>
-                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNomProdKeyPressed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDesc">
-              <Events>
-                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDescKeyPressed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="CbCategoria">
               <AuxValues>
@@ -317,9 +311,6 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JTextField" name="txtPrecio">
-              <Events>
-                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPrecioKeyPressed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAgregar">
               <Properties>

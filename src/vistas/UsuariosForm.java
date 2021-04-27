@@ -7,10 +7,8 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Usuarios;
 import modelo.UsuariosDAO;
 import SEGURIDAD.seguridad;
-
 import java.awt.Image;
 import java.awt.Toolkit;
-
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -34,12 +32,10 @@ public class UsuariosForm extends javax.swing.JFrame {
         cargarComboBox();
         txtClave.setEnabled(false);
 
-
     }
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
         return retValue;
-
     }
 
     void listar() {
@@ -128,20 +124,6 @@ public class UsuariosForm extends javax.swing.JFrame {
         jLabelApMaterno.setForeground(new java.awt.Color(255, 255, 255));
         jLabelApMaterno.setText("Clave");
 
-
-        txtRut.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtRutKeyPressed(evt);
-            }
-        });
-
-        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNombreKeyPressed(evt);
-            }
-        });
-
-
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,13 +159,6 @@ public class UsuariosForm extends javax.swing.JFrame {
         jLabelComedor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelComedor.setForeground(new java.awt.Color(255, 255, 255));
         jLabelComedor.setText("Sucursal");
-
-
-        txtClave.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtClaveKeyPressed(evt);
-            }
-        });
 
         jLabelAdministrador.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelAdministrador.setForeground(new java.awt.Color(255, 255, 255));
@@ -406,58 +381,25 @@ public class UsuariosForm extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuSalirActionPerformed
 
-
     private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
         this.setVisible(false);
         UsuariosForm admP = new UsuariosForm();
-
         admP.setVisible(true);
     }//GEN-LAST:event_jMenuItemUsuariosActionPerformed
 
     //botones
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if(Validador.validador.verificarVacio(txtRut.getText()) && Validador.validador.verificarVacio(txtNombre.getText()) && txtClave.getPassword().length>0){
-            agregar();
-            limpiarTabla();
-            listar();
-            limpiarCampos();
-        }else{
-            if(!Validador.validador.verificarVacio(txtRut.getText())){
-                JOptionPane.showMessageDialog(null, "error el campo " + "RUT" + " debe ser un numero", "error!", JOptionPane.ERROR_MESSAGE);
-                txtRut.setBackground(Color.red);
-            }
-            if(!Validador.validador.verificarVacio(txtNombre.getText())){
-                JOptionPane.showMessageDialog(null, "error el campo " + "NOMBRE" + " debe ser un numero", "error!", JOptionPane.ERROR_MESSAGE);
-                txtNombre.setBackground(Color.red);
-            }
-            if(txtClave.getPassword().length==0){
-                JOptionPane.showMessageDialog(null, "error el campo " + "CONTRASEÑA" + " debe ser un numero", "error!", JOptionPane.ERROR_MESSAGE);
-                txtClave.setBackground(Color.red);
-                if(!jCheckClave.isSelected()){
-                    jCheckClave.setSelected(true);
-                    txtClave.setEnabled(true);
-                }
-            }
-        }
-        
+        agregar();
+        limpiarTabla();
+        listar();
+        limpiarCampos();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        if(Validador.validador.verificarVacio(txtRut.getText()) && Validador.validador.verificarVacio(txtNombre.getText())){
-            actualizar();
-            limpiarTabla();
-            listar();
-            limpiarCampos();
-        }else{
-            if(!Validador.validador.verificarVacio(txtRut.getText())){
-                JOptionPane.showMessageDialog(null, "error el campo " + "RUT" + " debe ser un numero", "error!", JOptionPane.ERROR_MESSAGE);
-                txtRut.setBackground(Color.red);
-            }
-            if(!Validador.validador.verificarVacio(txtNombre.getText())){
-                JOptionPane.showMessageDialog(null, "error el campo " + "NOMBRE" + " debe ser un numero", "error!", JOptionPane.ERROR_MESSAGE);
-                txtNombre.setBackground(Color.red);
-            }            
-        }
+        actualizar();
+        limpiarTabla();
+        listar();
+        limpiarCampos();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -501,16 +443,12 @@ public class UsuariosForm extends javax.swing.JFrame {
     }//GEN-LAST:event_TablaUsuariosMouseClicked
 
     private void jCheckClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckClaveActionPerformed
-
-        txtClave.setText("");
-
         if (txtClave.isEnabled()) {
             txtClave.setEnabled(false);
         } else {
             txtClave.setEnabled(true);
         }
     }//GEN-LAST:event_jCheckClaveActionPerformed
-
 
     private void jMenuVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuVentasMouseClicked
         this.setVisible(false);
@@ -528,7 +466,6 @@ public class UsuariosForm extends javax.swing.JFrame {
     private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
         System.exit(0);
     }//GEN-LAST:event_jMenuSalirMouseClicked
-
     void agregar() {
         //falta validar
         //campos no vacios

@@ -16,29 +16,27 @@ public class ProductoDAO implements CRUD {
 
     @Override
     public List listar() {
+        List<Producto> lista = new ArrayList<>();
+        String sql = "select * from PRODUCTO order by codigo_producto desc";
+        try {
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Producto p = new Producto();
+                p.setCodigo(rs.getInt("codigo_producto"));
+                p.setNombre(rs.getString("nom_producto"));
+                p.setDescripcion(rs.getString("descripcion"));
+                p.setTipo(rs.getInt("fk_tipo_producto_id"));
+                p.setPrecio(rs.getInt("precio"));
+                lista.add(p);
+            }
+            con.close();
 
-       List<Producto> lista =new ArrayList<>();
-       String sql="select * from PRODUCTO order by codigo_producto desc";
-       try {
-           con=cn.Conectar();
-           ps=con.prepareStatement(sql);
-           rs=ps.executeQuery();           
-           while (rs.next()) {
-               Producto p=new Producto();
-               p.setCodigo(rs.getInt("codigo_producto"));
-               p.setNombre(rs.getString("nom_producto"));
-               p.setDescripcion(rs.getString("descripcion"));
-               p.setTipo(rs.getInt("fk_tipo_producto_id"));
-               p.setPrecio(rs.getInt("precio"));               
-               lista.add(p);               
-           }
-           con.close();
-           
-       } catch (Exception e) {
-           System.out.println("error al listar productos "+e.getMessage());
-       } 
-       return lista;
-
+        } catch (Exception e) {
+            System.out.println("error al listar productos " + e.getMessage());
+        }
+        return lista;
     }
 
     public List listarTipo() {
@@ -85,20 +83,16 @@ public class ProductoDAO implements CRUD {
 
     @Override
     public int add(Object[] o) {
-
-        int r=0;
-        String sql="insert into producto(codigo_producto,nom_producto,descripcion,fk_tipo_producto_id,precio)values(ISEQ$$_77817.nextval,?,?,?,?)";
+        int r = 0;
+        String sql = "insert into producto(codigo_producto,nom_producto,descripcion,fk_tipo_producto_id,precio)values(ISEQ$$_77817.nextval,?,?,?,?)";
         try {
-            con=cn.Conectar();
-            ps=con.prepareStatement(sql);
-
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
             ps.setObject(1, o[0]);//nombre
             ps.setObject(2, o[1]);//descripcion
             ps.setObject(3, o[2]);//tipo producto
             ps.setObject(4, o[3]);//precio
-
-            r=ps.executeUpdate();
-
+            r = ps.executeUpdate();
             con.close();
         } catch (Exception e) {
             System.out.println("error al agregar productos " + e.getMessage());
@@ -108,10 +102,8 @@ public class ProductoDAO implements CRUD {
 
     @Override
     public int actualizar(Object[] o) {
-
-        int r=0;
-       String sql="update producto set codigo_producto=?, nom_producto=?,descripcion=?,fk_tipo_producto_id=?, precio=? where codigo_producto=?";
-
+        int r = 0;
+        String sql = "update producto set codigo_producto=?, nom_producto=?,descripcion=?,fk_tipo_producto_id=?, precio=? where codigo_producto=?";
         try {
             con = cn.Conectar();
             ps = con.prepareStatement(sql);
@@ -132,20 +124,16 @@ public class ProductoDAO implements CRUD {
     @Override
     public int eliminar(String id) {
         int r = 0;
-
-        String sql="delete from producto where codigo_producto=?";
+        String sql = "delete from producto where codigo_producto=?";
         try {
-            con=cn.Conectar();
-            ps=con.prepareStatement(sql);
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
             ps.setInt(1, Integer.parseInt(id));
-            r=ps.executeUpdate();
-
+            r = ps.executeUpdate();
             con.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return r;
-
-    }       
+    }
 }
-
