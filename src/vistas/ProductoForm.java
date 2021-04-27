@@ -1,6 +1,7 @@
 package vistas;
 
-import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -24,6 +25,11 @@ public class ProductoForm extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
         this.setResizable(false);
     }
+    
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
+        return retValue;
+    }
 
     void listar() {
         List<Producto> lista = dao.listar();
@@ -35,19 +41,19 @@ public class ProductoForm extends javax.swing.JFrame {
             ob[1] = lista.get(i).getNombre();
             ob[2] = lista.get(i).getDescripcion();
             //ob[3] = lista.get(i).getTipo();
-            ob[3] = tipoProd.get(lista.get(i).getTipo() - 1);
+            ob[3] = tipoProd.get(lista.get(i).getTipo()-1);
             ob[4] = lista.get(i).getPrecio();
             modelo.addRow(ob);
         }
         tabla.setModel(modelo);
     }
 
-    void agregar() {
+    void agregar() {        
         String nom_prod = txtNomProd.getText();
         String desc_prod = txtDesc.getText();
         int tipo = CbCategoria.getSelectedIndex() + 1;
         String precio_prod = txtPrecio.getText();
-        Object[] ob = new Object[4];
+        Object[] ob = new Object[4];        
         ob[0] = nom_prod;
         ob[1] = desc_prod;
         ob[2] = tipo;
@@ -91,9 +97,9 @@ public class ProductoForm extends javax.swing.JFrame {
         } else {
             int respuesta = JOptionPane.showConfirmDialog(null, "Eliminar producto?");
             if (respuesta == 0) {
-                if (dao.eliminar("" + cod_prod) > 0) {
+                if (dao.eliminar(""+cod_prod) > 0) {
                     System.out.println(cod_prod);
-                    JOptionPane.showMessageDialog(null, "Producto eliminado exitosamente", "Exito!", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Producto eliminado exitosamente","Exito!",JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "error al eliminar producto", "error!", JOptionPane.ERROR_MESSAGE);
                 }
@@ -114,16 +120,13 @@ public class ProductoForm extends javax.swing.JFrame {
         }
     }
 
-    void limpiarCampos() {
+    void limpiarCampos() {        
         txtNomProd.setText("");
         txtDesc.setText("");
         txtPrecio.setText("");
-        CbCategoria.setSelectedIndex(0);
-        txtNomProd.setBackground(Color.white);
-        txtDesc.setBackground(Color.white);
-        txtPrecio.setBackground(Color.white);
+        CbCategoria.setSelectedIndex(0);        
         //esto evita eliminar la ultima celda seleccionada despues de limpiar
-        cod_prod = -1;
+        cod_prod =-1;
     }
 
     @SuppressWarnings("unchecked")
@@ -150,14 +153,18 @@ public class ProductoForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuProductos = new javax.swing.JMenu();
-        jMenuItemInventario = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuVentas = new javax.swing.JMenu();
+        jMenuEdición = new javax.swing.JMenu();
+        jMenuItemProductos = new javax.swing.JMenuItem();
+        jMenuItemUsuarios = new javax.swing.JMenuItem();
         jMenuInforme = new javax.swing.JMenu();
+        jMenuItemDiario = new javax.swing.JMenuItem();
+        jMenuItemMensual = new javax.swing.JMenuItem();
         jMenuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
+        setUndecorated(true);
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -178,24 +185,6 @@ public class ProductoForm extends javax.swing.JFrame {
         jLabelPrecio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelPrecio.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPrecio.setText("Precio");
-
-        txtNomProd.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNomProdKeyPressed(evt);
-            }
-        });
-
-        txtDesc.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtDescKeyPressed(evt);
-            }
-        });
-
-        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtPrecioKeyPressed(evt);
-            }
-        });
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -368,31 +357,62 @@ public class ProductoForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jMenuBar1.setBackground(new java.awt.Color(255, 153, 0));
+        jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
         jMenuBar1.setBorder(null);
 
-        jMenu1.setText("Catálogo");
-        jMenuBar1.add(jMenu1);
-
-        jMenuProductos.setText("Productos");
-
-        jMenuItemInventario.setText("Inventario");
-        jMenuItemInventario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInventarioActionPerformed(evt);
+        jMenuVentas.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuVentas.setText("Ventas");
+        jMenuVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuVentasMouseClicked(evt);
             }
         });
-        jMenuProductos.add(jMenuItemInventario);
+        jMenuBar1.add(jMenuVentas);
 
-        jMenuItem1.setText("Modificar");
-        jMenuProductos.add(jMenuItem1);
+        jMenuEdición.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuEdición.setText("Edición");
 
-        jMenuBar1.add(jMenuProductos);
+        jMenuItemProductos.setText("Productos");
+        jMenuItemProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemProductosActionPerformed(evt);
+            }
+        });
+        jMenuEdición.add(jMenuItemProductos);
 
-        jMenuInforme.setText("Informe");
+        jMenuItemUsuarios.setText("Usuarios");
+        jMenuItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUsuariosActionPerformed(evt);
+            }
+        });
+        jMenuEdición.add(jMenuItemUsuarios);
+
+        jMenuBar1.add(jMenuEdición);
+
+        jMenuInforme.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuInforme.setText("Informes");
+
+        jMenuItemDiario.setText("Diario");
+        jMenuInforme.add(jMenuItemDiario);
+
+        jMenuItemMensual.setText("Mensual");
+        jMenuItemMensual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemMensualActionPerformed(evt);
+            }
+        });
+        jMenuInforme.add(jMenuItemMensual);
+
         jMenuBar1.add(jMenuInforme);
 
+        jMenuSalir.setForeground(new java.awt.Color(255, 255, 255));
         jMenuSalir.setText("Salir");
+        jMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuSalirMouseClicked(evt);
+            }
+        });
         jMenuSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuSalirActionPerformed(evt);
@@ -416,31 +436,33 @@ public class ProductoForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItemInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInventarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItemInventarioActionPerformed
+    private void jMenuItemProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProductosActionPerformed
+        this.setVisible(false);
+
+        ProductoForm admP = new ProductoForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemProductosActionPerformed
 
     private void jMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuSalirActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
-        limpiarCampos();
         int fila = tabla.getSelectedRow();
         if (fila == -1) {
             JOptionPane.showMessageDialog(this, "Debe Seleccionar una Fila");
-        } else {
-            String codigo = tabla.getValueAt(fila, 0).toString();
+        } else {            
+            String codigo = tabla.getValueAt(fila, 0).toString(); 
             String nombre = tabla.getValueAt(fila, 1).toString();
-            String descripcion = tabla.getValueAt(fila, 2).toString();
+            String descripcion = tabla.getValueAt(fila, 2).toString(); 
             String tipoProducto = tabla.getValueAt(fila, 3).toString();
-            String precio = tabla.getValueAt(fila, 4).toString();
+            String precio = tabla.getValueAt(fila, 4).toString();            
             txtNomProd.setText(nombre);
             txtDesc.setText(descripcion);
             CbCategoria.setSelectedIndex(tipoProd.indexOf(tipoProducto));
             txtPrecio.setText(precio);
             //rescatar codigo de la seleccion en el formulario
-            cod_prod = Integer.parseInt(codigo);
+            cod_prod = Integer.parseInt(codigo);            
         }
     }//GEN-LAST:event_tablaMouseClicked
 
@@ -452,76 +474,45 @@ public class ProductoForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        if (Validador.validador.verificarVacio(txtNomProd.getText()) && Validador.validador.verificarVacio(txtDesc.getText()) && Validador.validador.verificarVacio(txtPrecio.getText())) {
-            if (Validador.validador.verificarNumero(txtPrecio.getText())) {
-                actualizar();
-                limpiarTabla();
-                listar();
-                limpiarCampos();
-            }else{
-                JOptionPane.showMessageDialog(null, "error el campo " + "PRECIO" + " debe ser un numero", "error!", JOptionPane.ERROR_MESSAGE);
-                txtPrecio.setBackground(Color.red);
-            }
-
-        } else {
-            if (!Validador.validador.verificarVacio(txtNomProd.getText())) {
-                JOptionPane.showMessageDialog(null, "error el campo " + "NOMBRE PRODUCTO" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
-                txtNomProd.setBackground(Color.red);
-            }
-            if (!Validador.validador.verificarVacio(txtDesc.getText())) {
-                JOptionPane.showMessageDialog(null, "error el campo " + "DESCRIPCION" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
-                txtDesc.setBackground(Color.red);
-            }
-            if (!Validador.validador.verificarVacio(txtPrecio.getText())) {
-                JOptionPane.showMessageDialog(null, "error el campo " + "PRECIO" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
-                txtPrecio.setBackground(Color.red);
-            }
-        }
+        actualizar();
+        limpiarTabla();
+        listar();
+        limpiarCampos();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        if (Validador.validador.verificarVacio(txtNomProd.getText()) && Validador.validador.verificarVacio(txtDesc.getText()) && Validador.validador.verificarVacio(txtPrecio.getText())) {
-            if (Validador.validador.verificarNumero(txtPrecio.getText())) {
-                agregar();
-                limpiarTabla();
-                listar();
-                limpiarCampos();
-            }else{
-                JOptionPane.showMessageDialog(null, "error el campo " + "PRECIO" + " debe ser un numero", "error!", JOptionPane.ERROR_MESSAGE);
-                txtPrecio.setBackground(Color.red);
-            }
-
-        } else {
-            if (!Validador.validador.verificarVacio(txtNomProd.getText())) {
-                JOptionPane.showMessageDialog(null, "error el campo " + "NOMBRE PRODUCTO" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
-                txtNomProd.setBackground(Color.red);
-            }
-            if (!Validador.validador.verificarVacio(txtDesc.getText())) {
-                JOptionPane.showMessageDialog(null, "error el campo " + "DESCRIPCION" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
-                txtDesc.setBackground(Color.red);
-            }
-            if (!Validador.validador.verificarVacio(txtPrecio.getText())) {
-                JOptionPane.showMessageDialog(null, "error el campo " + "PRECIO" + " No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
-                txtPrecio.setBackground(Color.red);
-            }
-        }
+        agregar();
+        limpiarTabla();
+        listar();
+        limpiarCampos();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        limpiarCampos();
+        limpiarCampos();        
     }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void txtNomProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomProdKeyPressed
-        txtNomProd.setBackground(Color.white);
-    }//GEN-LAST:event_txtNomProdKeyPressed
+    private void jMenuVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuVentasMouseClicked
+        this.setVisible(false);
 
-    private void txtDescKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescKeyPressed
-        txtDesc.setBackground(Color.white);
-    }//GEN-LAST:event_txtDescKeyPressed
+        VentaForm admP = new VentaForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuVentasMouseClicked
 
-    private void txtPrecioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyPressed
-        txtPrecio.setBackground(Color.white);
-    }//GEN-LAST:event_txtPrecioKeyPressed
+    private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
+        this.setVisible(false);
+        UsuariosForm admP = new UsuariosForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemUsuariosActionPerformed
+
+    private void jMenuItemMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemMensualActionPerformed
+        this.setVisible(false);
+        InformeForm admP = new InformeForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemMensualActionPerformed
+
+    private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jMenuSalirMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -571,13 +562,15 @@ public class ProductoForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelNomProd;
     private javax.swing.JLabel jLabelPrecio;
     private javax.swing.JLabel jLabelProdTitle;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuEdición;
     private javax.swing.JMenu jMenuInforme;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItemInventario;
-    private javax.swing.JMenu jMenuProductos;
+    private javax.swing.JMenuItem jMenuItemDiario;
+    private javax.swing.JMenuItem jMenuItemMensual;
+    private javax.swing.JMenuItem jMenuItemProductos;
+    private javax.swing.JMenuItem jMenuItemUsuarios;
     private javax.swing.JMenu jMenuSalir;
+    private javax.swing.JMenu jMenuVentas;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelFondo;
     private javax.swing.JScrollPane jScrollPane1;

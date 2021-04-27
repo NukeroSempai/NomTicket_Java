@@ -4,6 +4,8 @@ package vistas;
  *
  * @author Jiss
  */
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -31,12 +33,18 @@ public class InformeForm extends javax.swing.JFrame {
 
     public InformeForm() {
         initComponents();
+        this.setLocationRelativeTo(null);
         FormatoDeFechas();
         limpiarFormulario();
         listar();
     }
-
-    private void limpiarFormulario() {
+    
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
+        return retValue;
+    }
+    
+    private void limpiarFormulario(){
         jTextCodigo.setEnabled(false);
         jTexCantidadBoletas.setEnabled(false);
         jTexCantidadBoletas.setText("");
@@ -44,20 +52,14 @@ public class InformeForm extends javax.swing.JFrame {
         jTextCantidadTickets.setText("");
         jTextTotalVenta.setEnabled(false);
         jTextTotalVenta.setText("");
-        jTextCodigo.setText("");
         jBGenerar.setEnabled(false);
         jBGuardar.setEnabled(false);
         jDDesde.setEnabled(false);
         jDHasta.setEnabled(false);
         jDDesde.setCalendar(null);
         jDHasta.setCalendar(null);
-        jDateFechaBuscar.setCalendar(null);
-        jDateFechaBuscar.setEnabled(false);
-        jRadioFecha.setSelected(false);
-        jRadioCodigo.setSelected(false);
     }
-
-    private void FormatoDeFechas() {
+    private void FormatoDeFechas(){        
         jDateFechaBuscar.setEnabled(false);
         jDateFechaBuscar.setDateFormatString("dd/MM/yyyy");
         jDfecha.setEnabled(false);
@@ -65,7 +67,7 @@ public class InformeForm extends javax.swing.JFrame {
         jDDesde.setEnabled(false);
         jDDesde.setDateFormatString("dd/MM/yyyy");
         jDHasta.setEnabled(false);
-        jDHasta.setDateFormatString("dd/MM/yyyy");
+        jDHasta.setDateFormatString("dd/MM/yyyy");        
     }
 
     private void listar() {
@@ -90,112 +92,23 @@ public class InformeForm extends javax.swing.JFrame {
         tabla.getColumn("Cantidad Boletas").setMinWidth(0);
         tabla.getColumn("Cantidad Boletas").setMaxWidth(0);
         tabla.getColumn("Cantidad Boletas").setWidth(0);
-
+        
         tabla.getColumn("Cantidad Tickets").setMinWidth(0);
         tabla.getColumn("Cantidad Tickets").setMaxWidth(0);
         tabla.getColumn("Cantidad Tickets").setWidth(0);
-
+        
         tabla.getColumn("Total Ventas").setMinWidth(0);
         tabla.getColumn("Total Ventas").setMaxWidth(0);
         tabla.getColumn("Total Ventas").setWidth(0);
-
+        
         tabla.getColumn("Fecha Inicio").setMinWidth(0);
         tabla.getColumn("Fecha Inicio").setMaxWidth(0);
         tabla.getColumn("Fecha Inicio").setWidth(0);
-
+        
         tabla.getColumn("Fecha Termino").setMinWidth(0);
         tabla.getColumn("Fecha Termino").setMaxWidth(0);
         tabla.getColumn("Fecha Termino").setWidth(0);
 
-    }
-
-    private void listar(String fecha) {
-        List<Informe> lista = dao.listar(fecha);
-
-        modelo = (DefaultTableModel) tabla.getModel();
-        Object[] ob = new Object[7];
-        for (int i = 0; i < lista.size(); i++) {
-            ob[0] = lista.get(i).getCorrelativo();
-            ob[1] = lista.get(i).getFechaInforme();
-            ob[2] = lista.get(i).getCantidadBoletas();
-            ob[3] = lista.get(i).getCantidadTicket();
-            ob[4] = lista.get(i).getTotalVenta();
-            ob[5] = lista.get(i).getFechaInicio();
-            ob[6] = lista.get(i).getFechaTermino();
-            modelo.addRow(ob);
-        }
-        centrarTabla.setHorizontalAlignment(JLabel.LEFT);
-        tabla.getColumnModel().getColumn(0).setCellRenderer(centrarTabla);
-        tabla.setModel(modelo);
-        //ocultando filas (las filas son necesarias para cargar los detalles de los informes NO BORRAR)
-        tabla.getColumn("Cantidad Boletas").setMinWidth(0);
-        tabla.getColumn("Cantidad Boletas").setMaxWidth(0);
-        tabla.getColumn("Cantidad Boletas").setWidth(0);
-
-        tabla.getColumn("Cantidad Tickets").setMinWidth(0);
-        tabla.getColumn("Cantidad Tickets").setMaxWidth(0);
-        tabla.getColumn("Cantidad Tickets").setWidth(0);
-
-        tabla.getColumn("Total Ventas").setMinWidth(0);
-        tabla.getColumn("Total Ventas").setMaxWidth(0);
-        tabla.getColumn("Total Ventas").setWidth(0);
-
-        tabla.getColumn("Fecha Inicio").setMinWidth(0);
-        tabla.getColumn("Fecha Inicio").setMaxWidth(0);
-        tabla.getColumn("Fecha Inicio").setWidth(0);
-
-        tabla.getColumn("Fecha Termino").setMinWidth(0);
-        tabla.getColumn("Fecha Termino").setMaxWidth(0);
-        tabla.getColumn("Fecha Termino").setWidth(0);
-
-    }
-
-    private void listar(int codigo) {
-        List<Informe> lista = dao.listar(codigo);
-
-        modelo = (DefaultTableModel) tabla.getModel();
-        Object[] ob = new Object[7];
-        for (int i = 0; i < lista.size(); i++) {
-            ob[0] = lista.get(i).getCorrelativo();
-            ob[1] = lista.get(i).getFechaInforme();
-            ob[2] = lista.get(i).getCantidadBoletas();
-            ob[3] = lista.get(i).getCantidadTicket();
-            ob[4] = lista.get(i).getTotalVenta();
-            ob[5] = lista.get(i).getFechaInicio();
-            ob[6] = lista.get(i).getFechaTermino();
-            modelo.addRow(ob);
-        }
-        centrarTabla.setHorizontalAlignment(JLabel.LEFT);
-        tabla.getColumnModel().getColumn(0).setCellRenderer(centrarTabla);
-        tabla.setModel(modelo);
-        //ocultando filas (las filas son necesarias para cargar los detalles de los informes NO BORRAR)
-        tabla.getColumn("Cantidad Boletas").setMinWidth(0);
-        tabla.getColumn("Cantidad Boletas").setMaxWidth(0);
-        tabla.getColumn("Cantidad Boletas").setWidth(0);
-
-        tabla.getColumn("Cantidad Tickets").setMinWidth(0);
-        tabla.getColumn("Cantidad Tickets").setMaxWidth(0);
-        tabla.getColumn("Cantidad Tickets").setWidth(0);
-
-        tabla.getColumn("Total Ventas").setMinWidth(0);
-        tabla.getColumn("Total Ventas").setMaxWidth(0);
-        tabla.getColumn("Total Ventas").setWidth(0);
-
-        tabla.getColumn("Fecha Inicio").setMinWidth(0);
-        tabla.getColumn("Fecha Inicio").setMaxWidth(0);
-        tabla.getColumn("Fecha Inicio").setWidth(0);
-
-        tabla.getColumn("Fecha Termino").setMinWidth(0);
-        tabla.getColumn("Fecha Termino").setMaxWidth(0);
-        tabla.getColumn("Fecha Termino").setWidth(0);
-
-    }
-    
-    void limpiarTabla() {
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            modelo.removeRow(i);
-            i = i - 1;
-        }
     }
 
     /**
@@ -208,7 +121,11 @@ public class InformeForm extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        jButton1 = new javax.swing.JButton();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jScrollBar1 = new javax.swing.JScrollBar();
         jPanel1 = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
         jLabelInformeTitle = new javax.swing.JLabel();
@@ -219,7 +136,6 @@ public class InformeForm extends javax.swing.JFrame {
         jLabelInformeTitle2 = new javax.swing.JLabel();
         jTextCodigo = new javax.swing.JTextField();
         jDateFechaBuscar = new com.toedter.calendar.JDateChooser();
-        jBMostrarTodo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -241,10 +157,27 @@ public class InformeForm extends javax.swing.JFrame {
         jTextTotalVenta = new javax.swing.JTextField();
         jBGenerar = new javax.swing.JButton();
         jBGuardar = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenuVentas = new javax.swing.JMenu();
+        jMenuEdicion = new javax.swing.JMenu();
+        jMenuItemProductos = new javax.swing.JMenuItem();
+        jMenuItemUsuarios = new javax.swing.JMenuItem();
+        jMenuInformes = new javax.swing.JMenu();
+        jMenuItemInfDiario = new javax.swing.JMenuItem();
+        jMenuItemInfMensual = new javax.swing.JMenuItem();
+        jMenuSalir = new javax.swing.JMenu();
 
-        jButton1.setText("jButton1");
+        jMenu4.setText("jMenu4");
+
+        jMenu5.setText("jMenu5");
+
+        jMenu6.setText("jMenu6");
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(225, 139, 34));
 
@@ -274,22 +207,10 @@ public class InformeForm extends javax.swing.JFrame {
         });
 
         jBBuscar.setText("Buscar");
-        jBBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBBuscarActionPerformed(evt);
-            }
-        });
 
         jLabelInformeTitle2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelInformeTitle2.setForeground(new java.awt.Color(255, 255, 255));
         jLabelInformeTitle2.setText("Buscador");
-
-        jBMostrarTodo.setText("Mostrar Todo");
-        jBMostrarTodo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBMostrarTodoActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -299,24 +220,23 @@ public class InformeForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioCodigo)
-                            .addComponent(jLabelInformeTitle2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                        .addComponent(jTextCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jRadioFecha)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jBMostrarTodo, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                             .addComponent(jBBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDateFechaBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))))
+                            .addComponent(jDateFechaBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioCodigo)
+                            .addComponent(jLabelInformeTitle2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addComponent(jLabelInformeTitle2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -328,9 +248,7 @@ public class InformeForm extends javax.swing.JFrame {
                     .addComponent(jDateFechaBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBMostrarTodo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -349,15 +267,15 @@ public class InformeForm extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
                         .addComponent(jLabelInformeTitle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -414,8 +332,8 @@ public class InformeForm extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabelInformeTitle1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addGap(53, 53, 53)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -436,8 +354,6 @@ public class InformeForm extends javax.swing.JFrame {
         jLabelInformeTitle3.setForeground(new java.awt.Color(255, 255, 255));
         jLabelInformeTitle3.setText("DETALLE INFORME");
 
-        jDDesde.setDateFormatString("dd/MM/yyyy");
-
         jLabelDesde.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelDesde.setForeground(new java.awt.Color(255, 255, 255));
         jLabelDesde.setText("Desde");
@@ -445,8 +361,6 @@ public class InformeForm extends javax.swing.JFrame {
         jLabelHasta.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelHasta.setForeground(new java.awt.Color(255, 255, 255));
         jLabelHasta.setText("Hasta");
-
-        jDHasta.setDateFormatString("dd/MM/yyyy");
 
         jLabelDesde1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelDesde1.setForeground(new java.awt.Color(255, 255, 255));
@@ -484,28 +398,25 @@ public class InformeForm extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextTotalVenta)
-                    .addComponent(jTextCantidadTickets)
-                    .addComponent(jTexCantidadBoletas)
-                    .addComponent(jDHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelInformeTitle3)
+                    .addComponent(jLabelDesde1)
+                    .addComponent(jLabelDesde3)
+                    .addComponent(jLabelDesde4)
+                    .addComponent(jLabelDesde2)
+                    .addComponent(jDfecha, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                    .addComponent(jLabelDesde)
+                    .addComponent(jLabelHasta)
                     .addComponent(jDDesde, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDfecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDHasta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTexCantidadBoletas)
+                    .addComponent(jTextCantidadTickets)
+                    .addComponent(jTextTotalVenta)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelInformeTitle3)
-                            .addComponent(jLabelDesde1)
-                            .addComponent(jLabelDesde3)
-                            .addComponent(jLabelDesde4)
-                            .addComponent(jLabelDesde2)
-                            .addComponent(jLabelDesde)
-                            .addComponent(jLabelHasta))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jBGenerar, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                        .addComponent(jBGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jBGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -543,6 +454,65 @@ public class InformeForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jMenuBar1.setBackground(new java.awt.Color(0, 0, 0));
+
+        jMenuVentas.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuVentas.setText("Ventas");
+        jMenuVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuVentasMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuVentas);
+
+        jMenuEdicion.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuEdicion.setText("Edición");
+
+        jMenuItemProductos.setText("Productos");
+        jMenuItemProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemProductosActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItemProductos);
+
+        jMenuItemUsuarios.setText("Usuarios");
+        jMenuItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemUsuariosActionPerformed(evt);
+            }
+        });
+        jMenuEdicion.add(jMenuItemUsuarios);
+
+        jMenuBar1.add(jMenuEdicion);
+
+        jMenuInformes.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuInformes.setText("Informes");
+
+        jMenuItemInfDiario.setText("Diario");
+        jMenuInformes.add(jMenuItemInfDiario);
+
+        jMenuItemInfMensual.setText("Mensual");
+        jMenuItemInfMensual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemInfMensualActionPerformed(evt);
+            }
+        });
+        jMenuInformes.add(jMenuItemInfMensual);
+
+        jMenuBar1.add(jMenuInformes);
+
+        jMenuSalir.setForeground(new java.awt.Color(255, 255, 255));
+        jMenuSalir.setText("Salir");
+        jMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuSalirMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenuSalir);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -550,9 +520,9 @@ public class InformeForm extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -586,13 +556,13 @@ public class InformeForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe Seleccionar una Fila");
         } else {
             limpiarFormulario();
-            int TBoleta = (int) tabla.getValueAt(fila, 2);
-            int TTicket = (int) tabla.getValueAt(fila, 3);
-            int TVenta = (int) tabla.getValueAt(fila, 4);
-            jTexCantidadBoletas.setText("" + TBoleta);
-            jTextCantidadTickets.setText("" + TTicket);
-            jTextTotalVenta.setText("" + TVenta);
-            String fechahoy = (String) LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            int TBoleta =  (int) tabla.getValueAt(fila, 2);
+            int TTicket =  (int) tabla.getValueAt(fila, 3);
+            int TVenta =  (int) tabla.getValueAt(fila, 4);
+            jTexCantidadBoletas.setText(""+TBoleta);
+            jTextCantidadTickets.setText(""+TTicket);
+            jTextTotalVenta.setText(""+TVenta);
+            String fechahoy = (String)LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             try {
                 java.util.Date fechaHoy = new SimpleDateFormat("dd/MM/yyyy").parse(fechahoy);
                 jDfecha.setDate(fechaHoy);
@@ -604,7 +574,7 @@ public class InformeForm extends javax.swing.JFrame {
                 Logger.getLogger(InformeForm.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.out.println(fechahoy);
-
+            
         }
     }//GEN-LAST:event_tablaMouseClicked
 
@@ -617,7 +587,7 @@ public class InformeForm extends javax.swing.JFrame {
         //esperar ingreso de fechas
         //hacer consulta con valores
         //guardar consultas por dao
-
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jBGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGenerarActionPerformed
@@ -625,50 +595,42 @@ public class InformeForm extends javax.swing.JFrame {
         jBGuardar.setEnabled(true);
         jDDesde.setEnabled(false);
         jDHasta.setEnabled(false);
-        Object[] objcompleto = new Object[6];
-        System.out.println(formatoFecha.format(jDDesde.getDate()));
-        System.out.println(formatoFecha.format(jDHasta.getDate()));
-        Object[] parcial = dao.generarInforme(new java.sql.Date(jDDesde.getDate().getTime()),new java.sql.Date(jDHasta.getDate().getTime()));
-        objcompleto[0] = formatoFecha.format(jDateFechaBuscar.getDate());
-        objcompleto[1] = parcial[0];
-        objcompleto[2] = parcial[1];
-        objcompleto[3] = parcial[2];
-        objcompleto[4] = formatoFecha.format(jDDesde.getDate());
-        objcompleto[5] = formatoFecha.format(jDHasta.getDate());
-        for (int i = 0; i < objcompleto.length; i++) {
-            System.out.println(objcompleto[i]);
-            
-        }
-        
-        
-        
     }//GEN-LAST:event_jBGenerarActionPerformed
 
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
         //ejecutar guardado
-        limpiarTabla();
         limpiarFormulario();
     }//GEN-LAST:event_jBGuardarActionPerformed
 
-    private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
-        limpiarTabla();        
-        if (jRadioCodigo.isSelected()) {
-            System.out.println("estamos en codigo");
-            listar(Integer.parseInt(jTextCodigo.getText()));
-        }
-        if(jRadioFecha.isSelected()){
-            System.out.println("estamos en fecha");
-            listar(formatoFecha.format(jDateFechaBuscar.getDate()));
-        }
-        limpiarFormulario();
-        jBMostrarTodo.setEnabled(true);
-    }//GEN-LAST:event_jBBuscarActionPerformed
+    private void jMenuVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuVentasMouseClicked
+         this.setVisible(false);
 
-    private void jBMostrarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBMostrarTodoActionPerformed
-        limpiarTabla();
-        limpiarFormulario();
-        listar();
-    }//GEN-LAST:event_jBMostrarTodoActionPerformed
+        VentaForm admP = new VentaForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuVentasMouseClicked
+
+    private void jMenuItemProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProductosActionPerformed
+       this.setVisible(false);
+
+        ProductoForm admP = new ProductoForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemProductosActionPerformed
+
+    private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
+        this.setVisible(false);
+        UsuariosForm admP = new UsuariosForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemUsuariosActionPerformed
+
+    private void jMenuItemInfMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInfMensualActionPerformed
+        this.setVisible(false);
+        InformeForm admP = new InformeForm();
+        admP.setVisible(true);
+    }//GEN-LAST:event_jMenuItemInfMensualActionPerformed
+
+    private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_jMenuSalirMouseClicked
 
     /**
      * @param args the command line arguments
@@ -712,8 +674,6 @@ public class InformeForm extends javax.swing.JFrame {
     private javax.swing.JButton jBBuscar;
     private javax.swing.JButton jBGenerar;
     private javax.swing.JButton jBGuardar;
-    private javax.swing.JButton jBMostrarTodo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jDDesde;
     private com.toedter.calendar.JDateChooser jDHasta;
@@ -729,12 +689,26 @@ public class InformeForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelInformeTitle1;
     private javax.swing.JLabel jLabelInformeTitle2;
     private javax.swing.JLabel jLabelInformeTitle3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuEdicion;
+    private javax.swing.JMenu jMenuInformes;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItemInfDiario;
+    private javax.swing.JMenuItem jMenuItemInfMensual;
+    private javax.swing.JMenuItem jMenuItemProductos;
+    private javax.swing.JMenuItem jMenuItemUsuarios;
+    private javax.swing.JMenu jMenuSalir;
+    private javax.swing.JMenu jMenuVentas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JRadioButton jRadioCodigo;
     private javax.swing.JRadioButton jRadioFecha;
+    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTexCantidadBoletas;
     private javax.swing.JTextField jTextCantidadTickets;

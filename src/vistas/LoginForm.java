@@ -8,7 +8,6 @@ package vistas;
 import java.awt.Image;
 import java.awt.Toolkit;
 import SEGURIDAD.seguridad;
-import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.SpringLayout;
 import modelo.UsuariosDAO;
@@ -24,14 +23,14 @@ public class LoginForm extends javax.swing.JFrame {
      */
     seguridad seg = new seguridad();
     UsuariosDAO usu = new UsuariosDAO();
-
     public LoginForm() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-
+  
+    
     public Image getIconImage() {
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon.png"));
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
         return retValue;
     }
 
@@ -90,19 +89,7 @@ public class LoginForm extends javax.swing.JFrame {
         jLabelPassword.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPassword.setText("Password");
         getContentPane().add(jLabelPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, -1, -1));
-
-        jTextFieldUser.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextFieldUserKeyPressed(evt);
-            }
-        });
         getContentPane().add(jTextFieldUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 260, 110, -1));
-
-        jPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jPasswordKeyPressed(evt);
-            }
-        });
         getContentPane().add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 110, -1));
 
         jLabelFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/fondo naranja.png"))); // NOI18N
@@ -117,49 +104,27 @@ public class LoginForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void JbuttonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JbuttonConectarActionPerformed
-        String ingresoClave = "";
+        String ingresoClave="";
         for (int i = 0; i < jPassword.getPassword().length; i++) {
-            ingresoClave += jPassword.getPassword()[i];
+            ingresoClave+=jPassword.getPassword()[i];
         }
-        //validar datos
-        if (Validador.validador.verificarVacio(jTextFieldUser.getText()) && Validador.validador.verificarVacio(ingresoClave)) {
-
-            if (seg.iniciarSesion(jTextFieldUser.getText(), ingresoClave) == true) {
-                JOptionPane.showMessageDialog(null, "Bienvenido!", "Exito!", JOptionPane.DEFAULT_OPTION);
-                if (usu.VerificarSuperUsuario(jTextFieldUser.getText())) {
-                    AdminHome Ahome = new AdminHome();
-                    Ahome.setVisible(true);
-                    this.setVisible(false);
-                } else {
-                    ProductoForm prod = new ProductoForm();
-                    prod.setVisible(true);
-                    this.setVisible(false);
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(null, "ERROR de inicio de sesión", "error!", JOptionPane.ERROR_MESSAGE);
+        if(seg.iniciarSesion(jTextFieldUser.getText(), ingresoClave)==true){
+            JOptionPane.showMessageDialog(null, "Bienvenido!", "Exito!", JOptionPane.DEFAULT_OPTION);
+            if(usu.VerificarSuperUsuario(jTextFieldUser.getText())){
+                AdminHome Ahome = new AdminHome();
+                Ahome.setVisible(true);
+                this.setVisible(false);
+            }else{
+                VentaForm prod = new VentaForm();
+                prod.setVisible(true);
+                this.setVisible(false);
             }
+            
         }else{
-            if(!Validador.validador.verificarVacio(jTextFieldUser.getText())){
-                JOptionPane.showMessageDialog(null, "error el campo "+ "RUT" +" No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
-                jTextFieldUser.setBackground(Color.RED);
-            }
-            if(!Validador.validador.verificarVacio(ingresoClave)){
-                JOptionPane.showMessageDialog(null, "error el campo "+ "CONTRASEÑA" +" No puede estar vacio", "error!", JOptionPane.ERROR_MESSAGE);
-                jPassword.setBackground(Color.RED);
-            }
+            JOptionPane.showMessageDialog(null, "ERROR de inicio de sesión", "error!", JOptionPane.ERROR_MESSAGE);
         }
-
-
+        
     }//GEN-LAST:event_JbuttonConectarActionPerformed
-
-    private void jTextFieldUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldUserKeyPressed
-        jTextFieldUser.setBackground(Color.white);
-    }//GEN-LAST:event_jTextFieldUserKeyPressed
-
-    private void jPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordKeyPressed
-        jPassword.setBackground(Color.white);
-    }//GEN-LAST:event_jPasswordKeyPressed
 
     /**
      * @param args the command line arguments
