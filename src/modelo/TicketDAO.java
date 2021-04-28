@@ -39,6 +39,28 @@ public class TicketDAO implements CRUD{
         }
         return t;
     }
+    
+    public List recuperarPedido(String codigo){
+       
+        List <DetalleTicket> lista = new ArrayList<>();
+        String sql ="select fk_codigo_producto_id,cantidad from pedido_ticket where fk_num_ticket_id = ?";
+        try {
+            con = cn.Conectar();
+            ps=con.prepareStatement(sql);
+            ps.setString(1, codigo);
+            rs=ps.executeQuery();
+            while (rs.next()) {
+                DetalleTicket dt = new DetalleTicket();
+                dt.setCodigoProd(rs.getInt(1));
+                dt.setCantidad(rs.getInt(2));
+                lista.add(dt);                
+            }
+        } catch (Exception e) {
+        }
+        return lista;
+    }
+    
+    
 //Metodos mantenimiento CRUD
   
 
