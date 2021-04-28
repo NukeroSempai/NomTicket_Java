@@ -115,8 +115,8 @@ public class LoginForm extends javax.swing.JFrame {
                 Ahome.setVisible(true);
                 this.setVisible(false);
             }else{
-                VentaForm prod = new VentaForm();
-                prod.setVisible(true);
+                VentaForm venta = new VentaForm(jTextFieldUser.getText());
+                venta.setVisible(true);
                 this.setVisible(false);
             }
             
