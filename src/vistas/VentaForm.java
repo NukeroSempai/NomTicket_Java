@@ -2,6 +2,7 @@ package vistas;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -36,6 +37,7 @@ public class VentaForm extends javax.swing.JFrame {
     int tpagar;
     int cod_prod;
     int tsaldo;
+    String hora ="";
 
     public VentaForm() {
         initComponents();
@@ -67,15 +69,13 @@ public class VentaForm extends javax.swing.JFrame {
 
     //Generar Numero Pedido
     void generarSerie() {
-        String serie = vdao.NroSerieVentas();
-        if (serie == null) {
-            txtSerie.setText("0000001");
+        int serie = vdao.NroSerieVentas();
+        if (serie == 0) {
+            txtSerie.setText("1");
         } else {
-            int increment = Integer.parseInt(serie);
-            increment = increment + 1;
-            txtSerie.setText("000000" + increment);
+            int increment = serie +1;            
+            txtSerie.setText(""+increment);
         }
-
     }
 
     void cargarComboBox() {
@@ -178,6 +178,7 @@ public class VentaForm extends javax.swing.JFrame {
         btnVenta = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnSubTotal = new javax.swing.JButton();
+        jBarraCargarGenerarVenta = new javax.swing.JProgressBar();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuVenta = new javax.swing.JMenu();
         jMenuEdicion = new javax.swing.JMenu();
@@ -220,6 +221,8 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabelPedido.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabelPedido.setText("PEDIDO N°");
+
+        txtSerie.setEditable(false);
 
         txtFecha.setEditable(false);
 
@@ -289,6 +292,7 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabelEmpleado.setText("VALOR TICKET");
 
+        txtValor.setEditable(false);
         txtValor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtValorKeyTyped(evt);
@@ -323,6 +327,7 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabelProducto.setText("PRODUCTO");
 
+        txtProducto.setEditable(false);
         txtProducto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtProductoKeyTyped(evt);
@@ -331,6 +336,7 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabelPrecio.setText("PRECIO");
 
+        txtPrecio.setEditable(false);
         txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPrecioKeyTyped(evt);
@@ -388,7 +394,7 @@ public class VentaForm extends javax.swing.JFrame {
                             .addComponent(txtCodTicket, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
                             .addComponent(txtCodProducto))
                         .addGap(22, 22, 22)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -399,7 +405,7 @@ public class VentaForm extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtProducto)))
+                                    .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(btnBuscarTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -528,10 +534,11 @@ public class VentaForm extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(367, Short.MAX_VALUE)
+                .addContainerGap(385, Short.MAX_VALUE)
                 .addComponent(btnSubTotal)
-                .addGap(66, 66, 66)
+                .addGap(48, 48, 48)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jBarraCargarGenerarVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnVenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(46, 46, 46)
@@ -557,9 +564,9 @@ public class VentaForm extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnVenta)
                         .addComponent(btnSubTotal)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtValorTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelValorPagadoTicket))
@@ -568,7 +575,8 @@ public class VentaForm extends javax.swing.JFrame {
                             .addComponent(txtSaldoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelSaldoAPagar)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
+                        .addComponent(jBarraCargarGenerarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCancelar)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
@@ -845,7 +853,8 @@ public class VentaForm extends javax.swing.JFrame {
 
         } else {
             guardarVenta();
-            //guardarDetalle();
+            JOptionPane.showMessageDialog(this, "procesando venta por favor espere");
+            guardarDetalle();
             JOptionPane.showMessageDialog(this, "Venta realizada");
             nuevo();
             generarSerie();
@@ -909,6 +918,9 @@ public class VentaForm extends javax.swing.JFrame {
         int b = Integer.parseInt(n2);
 
         tsaldo = a - b;
+        if(tsaldo <=0){
+            tsaldo=0;
+        }
         txtSaldoPago.setText(String.valueOf(tsaldo));
     }//GEN-LAST:event_btnSubTotalActionPerformed
 
@@ -938,38 +950,46 @@ public class VentaForm extends javax.swing.JFrame {
     }
 
     void guardarVenta() {
-        int idv = 0;
-        int precio = Integer.parseInt(txtPrecio.getText());
+        //int NrBoleta = Integer.parseInt(vdao.Num_Boleta());
+        int NrBoleta = Integer.parseInt(txtSerie.getText());
         String fecha = txtFecha.getText();
         int total = tpagar;
-        int ticket = Integer.parseInt(txtCodTicket.getText());
+        int Vticket = Integer.parseInt(txtValorTicket.getText());
         int saldo = Integer.parseInt(txtSaldoPago.getText());
-        String codticket = txtCodTicket.getText();
+        String ticket = txtCodTicket.getText();
         int formpago = CbFormpago.getSelectedIndex() + 1;
-        int cajero = Integer.parseInt(txtCajero.getText());
-
+        String cajero = txtCajero.getText();
+        hora = LocalDateTime.now().toString().substring(11, 16);
+        
+        v.setSerie(NrBoleta);
         v.setFecha(fecha);
         v.setTotal(total);
-        v.setTicket(ticket);
+        v.setV_Ticket(Vticket);
         v.setSaldo(saldo);
-        v.setCodticket(codticket);
+        v.setCodticket(ticket);
         v.setFormpago(formpago);
         v.setCajero(cajero);
-        vdao.GuardarVentas(v);
+        v.setHora_venta(hora);
+        if(vdao.GuardarVentas(v)>0){
+            System.out.println("venta procesada");
+        }
+        
     }
 
     void guardarDetalle() {
-        String idv = vdao.Num_Boleta();
-        int idve = Integer.parseInt(idv);
+        int idv = Integer.parseInt(txtSerie.getText());
+        int idve = idv;
+        jBarraCargarGenerarVenta.setMaximum(TablaVenta.getRowCount());
         for (int i = 0; i < TablaVenta.getRowCount(); i++) {
             int idp = Integer.parseInt(TablaVenta.getValueAt(i, 0).toString());//codigo producto
             int cant = Integer.parseInt(TablaVenta.getValueAt(i, 2).toString());// cantidad
-            int pre = Integer.parseInt(TablaVenta.getValueAt(i, 3).toString());//precio
-            dt.setId(idp);
+            int bol = idve;//id boleta
+            DetalleTicket dt = new DetalleTicket();            
             dt.setCantidad(cant);
-            dt.setCodigoProd(ICONIFIED);//revisar fk
-            dt.setNumTicket(cant);// revisar fk
-            vdao.GuardarDetalleTicket(dt);
+            dt.setCodigoProd(idp);//revisar fk
+            dt.setNumTicket(bol);                     
+            vdao.GuardarDetalleVenta(dt);
+            jBarraCargarGenerarVenta.setValue(i+1);
         }
     }
 
@@ -1018,6 +1038,7 @@ public class VentaForm extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnSubTotal;
     private javax.swing.JButton btnVenta;
+    private javax.swing.JProgressBar jBarraCargarGenerarVenta;
     private javax.swing.JProgressBar jBarraCargarTicket;
     private javax.swing.JLabel jLabelCajero;
     private javax.swing.JLabel jLabelCantidad;

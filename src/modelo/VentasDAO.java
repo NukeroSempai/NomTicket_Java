@@ -16,16 +16,17 @@ public class VentasDAO {
     int r=0;
     
     //Numero de pedido boleta
-    public String NroSerieVentas(){
-        String serie="";
+    public int NroSerieVentas(){
+        int serie=0;
         String sql="select max(Num_Boleta) from BOLETA";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             while (rs.next()){
-                serie=rs.getString(1);
+                serie=rs.getInt(1);
             }
+            con.close();
         }catch (Exception e){
             
         }
@@ -42,43 +43,46 @@ public class VentasDAO {
             while (rs.next()){
                 idv=rs.getString(1);//serie
             }
+            con.close();
         } catch (Exception e){
             
         }
         return idv; //serie
     }
-    public int GuardarVentas(Ventas v){
-        Ventas ventas=new Ventas();
-        String sql="insert into BOLETA(num_boleta,fecha_boleta,valor_total,valor_ticket,saldo_por_pagar,fk_codigo_ticket_id,fk_forma_pago_id,fk_rut_cajero_id) values(????????)";
+    public int GuardarVentas(Ventas v){        
+        int r =0;
+        String sql="insert into BOLETA(num_boleta,fecha_boleta,valor_total,valor_ticket,saldo_por_pagar,fk_codigo_ticket_id,fk_forma_pago_id,fk_rut_cajero_id,hora_venta) values(?,sysdate,?,?,?,?,?,?,?)";
         try {
             con=cn.Conectar();
             ps=con.prepareStatement(sql);
-            ps.setInt(1, v.getSerie());
-            ps.setString(2, v.getFecha());
-            ps.setInt(3, v.getTotal());
-            ps.setInt(4, v.getTicket());
-            ps.setInt(5, v.getSaldo());
-            ps.setString(6, v.getCodticket());
-            ps.setInt(7, v.getFormpago());
-            ps.setInt(8, v.getCajero());
+            ps.setInt(1, v.getSerie());            
+            ps.setInt(2, v.getTotal());
+            ps.setInt(3, v.getV_Ticket());
+            ps.setInt(4, v.getSaldo());
+            ps.setString(5, v.getCodticket());
+            ps.setInt(6, v.getFormpago());
+            ps.setString(7, v.getCajero());
+            ps.setString(8, v.getHora_venta());
             r=ps.executeUpdate();
+            con.close();
         } catch (Exception e) {
-            
+            System.out.println("error al guardar boleta"+e.getMessage());
         }
         return r;
     }
-    public int GuardarDetalleTicket(DetalleTicket dt){
-        String sql="insert into DETALLE_TICKET(id,cantidad,fk_codigo_producto_id,fk_num_ticket_id) values(????)";
+    public int GuardarDetalleVenta(DetalleTicket dt){
+        int r = 0;
+        String sql="insert into DETALLE_BOLETA(id,cantidad,fk_codigo_producto_id,fk_num_boleta_id) values(iseq$$_78573.nextval,?,?,?)";
         try {
             con=cn.Conectar();
-            ps=con.prepareStatement(sql);
-            ps.setInt(1, dt.getId());
-            ps.setInt(2, dt.getCantidad());
-            ps.setInt(3, dt.getCodigoProd());
-            ps.setInt(4, dt.getNumTicket());
+            ps=con.prepareStatement(sql);            
+            ps.setInt(1, dt.getCantidad());
+            ps.setInt(2, dt.getCodigoProd());
+            ps.setInt(3, dt.getNumTicket());
             ps.executeUpdate();
+            con.close();
         } catch (Exception e) {
-            
+            System.out.println("error al guardar detalle "+e.getMessage());
         }
         return r;
     }

@@ -6,25 +6,37 @@ public class Ventas {
     private int serie; //Número de boleta
     private String fecha; //Fecha boleta
     private int total; // Total compra
-    private int ticket; // Valor Ticket
+    private int v_ticket; // Valor Ticket
     private int saldo;// saldo por pagar
     private String codticket;//Número ticket
     private int formpago; // forma pago
-    private int cajero;// rut cajero
+    private String cajero;// rut cajero
+    private String hora_venta;
+
+    
     
     public Ventas() {
     
     }
 
-    public Ventas(int serie, String fecha, int total, int ticket, int saldo, String codticket, int formpago, int cajero) {
+    public Ventas(int serie, String fecha, int total, int v_ticket, int saldo, String codticket, int formpago, String cajero,String hora_venta) {
         this.serie = serie;
         this.fecha = fecha;
         this.total = total;
-        this.ticket = ticket;
+        this.v_ticket = v_ticket;
         this.saldo = saldo;
         this.codticket = codticket;
         this.formpago = formpago;
         this.cajero = cajero;
+        this.hora_venta = hora_venta;
+    }
+    
+    public String getHora_venta() {
+        return hora_venta;
+    }
+
+    public void setHora_venta(String hora_venta) {
+        this.hora_venta = hora_venta;
     }
 
     public int getSerie() {
@@ -51,12 +63,12 @@ public class Ventas {
         this.total = total;
     }
 
-    public int getTicket() {
-        return ticket;
+    public int getV_Ticket() {
+        return v_ticket;
     }
 
-    public void setTicket(int ticket) {
-        this.ticket = ticket;
+    public void setV_Ticket(int ticket) {
+        this.v_ticket = ticket;
     }
 
     public int getSaldo() {
@@ -83,11 +95,11 @@ public class Ventas {
         this.formpago = formpago;
     }
 
-    public int getCajero() {
+    public String getCajero() {
         return cajero;
     }
 
-    public void setCajero(int cajero) {
+    public void setCajero(String cajero) {
         this.cajero = cajero;
     }
 
