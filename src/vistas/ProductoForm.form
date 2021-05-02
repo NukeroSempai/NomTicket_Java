@@ -302,8 +302,14 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtNomProd">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNomProdKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtDesc">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDescKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="CbCategoria">
               <AuxValues>
@@ -311,6 +317,9 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JTextField" name="txtPrecio">
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPrecioKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnAgregar">
               <Properties>
@@ -322,7 +331,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnActualizar">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Actualizar"/>
+                <Property name="text" type="java.lang.String" value="Modificar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActualizarActionPerformed"/>

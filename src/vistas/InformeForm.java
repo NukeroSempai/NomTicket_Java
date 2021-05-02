@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelo.Informe;
 import modelo.InformesDAO;
+import modelo.Eventos;
 
 public class InformeForm extends javax.swing.JFrame {
 
@@ -30,6 +31,7 @@ public class InformeForm extends javax.swing.JFrame {
     DefaultTableCellRenderer centrarTabla = new DefaultTableCellRenderer();
     SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     Calendar clndr;
+    Eventos event =new Eventos();
 
     public InformeForm() {
         initComponents();
@@ -211,6 +213,12 @@ public class InformeForm extends javax.swing.JFrame {
         jLabelInformeTitle2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelInformeTitle2.setForeground(new java.awt.Color(255, 255, 255));
         jLabelInformeTitle2.setText("Buscador");
+
+        jTextCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextCodigoKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -629,8 +637,19 @@ public class InformeForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemInfMensualActionPerformed
 
     private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
-        System.exit(0);
+         String botones[] = {"Cerrar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(this, "Desea cerrar la aplicación?", "Aviso",
+                0, 0, null, botones, this);
+        if (eleccion == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else if (eleccion == JOptionPane.NO_OPTION) {
+            System.out.println("Se cancelo el cierre");
+        }
     }//GEN-LAST:event_jMenuSalirMouseClicked
+
+    private void jTextCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextCodigoKeyTyped
+        event.numberKeyPress(evt);
+    }//GEN-LAST:event_jTextCodigoKeyTyped
 
     /**
      * @param args the command line arguments

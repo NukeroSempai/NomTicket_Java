@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.DetalleTicket;
+import modelo.Empleado;
+import modelo.EmpleadoDAO;
 import modelo.Eventos;
 import modelo.Producto;
 import modelo.ProductoDAO;
@@ -22,8 +24,9 @@ public class VentaForm extends javax.swing.JFrame {
     VentasDAO vdao = new VentasDAO();
     TicketDAO tdao = new TicketDAO();
     ProductoDAO dao = new ProductoDAO();
+    EmpleadoDAO edao = new EmpleadoDAO();
     List<String> formPago = vdao.listarFormpago();
-    Eventos event =new Eventos();
+    Eventos event = new Eventos();
 
     Producto p = new Producto();
     Ventas v = new Ventas();
@@ -36,17 +39,19 @@ public class VentaForm extends javax.swing.JFrame {
     int tpagar;
     int cod_prod;
     int tsaldo;
+    int sticket;
+    int r;
 
     public VentaForm() {
         initComponents();
         generarSerie();
         fecha();
         cargarComboBox();
-       
 
     }
+
     //Logo
-     public Image getIconImage() {
+    public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
         return retValue;
     }
@@ -56,7 +61,7 @@ public class VentaForm extends javax.swing.JFrame {
 
         Calendar calendar = new GregorianCalendar();
         //txtFecha.setText("" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR));
-        txtFecha.setText("" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH)+1) + "-" + calendar.get(Calendar.YEAR));
+        txtFecha.setText("" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR));
     }
 
     //Generar Numero Pedido
@@ -158,6 +163,7 @@ public class VentaForm extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         jLabelFormPago = new javax.swing.JLabel();
         CbFormpago = new javax.swing.JComboBox<>();
+        txtEmp = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaVenta = new javax.swing.JTable();
@@ -318,6 +324,11 @@ public class VentaForm extends javax.swing.JFrame {
 
         jLabelPrecio.setText("PRECIO");
 
+        txtPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrecioActionPerformed(evt);
+            }
+        });
         txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPrecioKeyTyped(evt);
@@ -337,7 +348,7 @@ public class VentaForm extends javax.swing.JFrame {
         btnActualizar.setBackground(new java.awt.Color(0, 0, 0));
         btnActualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
-        btnActualizar.setText("Actualizar");
+        btnActualizar.setText("Modificar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -397,9 +408,11 @@ public class VentaForm extends javax.swing.JFrame {
                             .addComponent(jLabelCantidad))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtEmp, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -434,9 +447,11 @@ public class VentaForm extends javax.swing.JFrame {
                     .addComponent(jLabelPrecio)
                     .addComponent(btnEliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CbFormpago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelFormPago))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(CbFormpago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelFormPago))
+                    .addComponent(txtEmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -681,7 +696,14 @@ public class VentaForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemProductosActionPerformed
 
     private void jMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalirActionPerformed
-        System.exit(0);
+        String botones[] = {"Cerrar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(this, "Desea cerrar la aplicación?", "Aviso",
+                0, 0, null, botones, this);
+        if (eleccion == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else if (eleccion == JOptionPane.NO_OPTION) {
+            System.out.println("Se cancelo el cierre");
+        }
     }//GEN-LAST:event_jMenuSalirActionPerformed
 
     private void jMenuInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInformeActionPerformed
@@ -719,9 +741,10 @@ public class VentaForm extends javax.swing.JFrame {
                 //txtEmpleado.setText(ticket.getRut());
                 txtValor.setText("" + ticket.getValor());
                 txtValorTicket.setText("" + ticket.getValor());
+                txtEmp.setText("" + ticket.getCodigo());
                 txtCodProducto.requestFocus();
             } else {
-                r = JOptionPane.showConfirmDialog(this, "Ticket no registrado");
+                 JOptionPane.showMessageDialog(this, "Ticket no registrado");
             }
         }
     }
@@ -752,8 +775,8 @@ public class VentaForm extends javax.swing.JFrame {
 //AGREGAR PRODUCTO A LA TABLA
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         agregarProducto();
-        
-       
+
+
     }//GEN-LAST:event_btnAgregarActionPerformed
     void agregarProducto() {
         int total;
@@ -801,13 +824,34 @@ public class VentaForm extends javax.swing.JFrame {
 
         } else {
             guardarVenta();
-            //guardarDetalle();
+            guardarDetalle();
+            //actualizarSaldo();
             JOptionPane.showMessageDialog(this, "Venta realizada");
             nuevo();
             generarSerie();
         }
 
     }//GEN-LAST:event_btnVentaActionPerformed
+
+    
+    // ACTUALIZAR SALDO
+    public void actualizarSaldo() {
+        sticket = 0;
+        int codigo_emp;
+        Empleado e = new Empleado();
+        Ticket t = new Ticket();
+        String n1 = txtValorTicket.getText();
+        int a = Integer.parseInt(n1);
+        //txtEmp.setText(String.valueOf(codigo_emp));
+        txtEmp.setText("" + t.getCodigo());
+        e=edao.listarCodigo(codigo_emp);
+        int sticket = e.getSaldo()- a;
+        edao.actualizarSaldo(tsaldo, codigo_emp);
+       /* tsaldo = a - b;
+        txtSaldoPago.setText(String.valueOf(tsaldo));*/
+    }
+    
+   
 //ACTUALIZAR TABLA VENTA
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
 
@@ -815,7 +859,14 @@ public class VentaForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 //Botón salir
     private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
-       System.exit(0);
+        String botones[] = {"Cerrar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(this, "Desea cerrar la aplicación?", "Aviso",
+                0, 0, null, botones, this);
+        if (eleccion == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else if (eleccion == JOptionPane.NO_OPTION) {
+            System.out.println("Se cancelo el cierre");
+        }
     }//GEN-LAST:event_jMenuSalirMouseClicked
 
     private void txtCodTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodTicketActionPerformed
@@ -867,6 +918,10 @@ public class VentaForm extends javax.swing.JFrame {
         tsaldo = a - b;
         txtSaldoPago.setText(String.valueOf(tsaldo));
     }//GEN-LAST:event_btnSubTotalActionPerformed
+
+    private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecioActionPerformed
 
     //NUEVO
     void nuevo() {
@@ -1006,6 +1061,7 @@ public class VentaForm extends javax.swing.JFrame {
     private javax.swing.JSpinner txtCantidad;
     private javax.swing.JTextField txtCodProducto;
     private javax.swing.JTextField txtCodTicket;
+    private javax.swing.JTextField txtEmp;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtProducto;
@@ -1019,4 +1075,5 @@ public class VentaForm extends javax.swing.JFrame {
     private void setText(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }

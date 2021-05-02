@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
+import modelo.Eventos;
 
 public class UsuariosForm extends javax.swing.JFrame {
 
@@ -18,6 +19,7 @@ public class UsuariosForm extends javax.swing.JFrame {
     Usuarios u = new Usuarios();
     List<String> sucursal = dao.listarSucursal();
     seguridad seg = new seguridad();
+    Eventos event = new Eventos();
 
     DefaultTableModel modelo = new DefaultTableModel();
     DefaultTableCellRenderer centrarTabla = new DefaultTableCellRenderer();
@@ -33,6 +35,7 @@ public class UsuariosForm extends javax.swing.JFrame {
         txtClave.setEnabled(false);
 
     }
+
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("imagenes/icon2.png"));
         return retValue;
@@ -124,6 +127,12 @@ public class UsuariosForm extends javax.swing.JFrame {
         jLabelApMaterno.setForeground(new java.awt.Color(255, 255, 255));
         jLabelApMaterno.setText("Clave");
 
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
+
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,7 +140,7 @@ public class UsuariosForm extends javax.swing.JFrame {
             }
         });
 
-        btnActualizar.setText("Actualizar");
+        btnActualizar.setText("Modificar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -378,7 +387,7 @@ public class UsuariosForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemProductosActionPerformed
 
     private void jMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalirActionPerformed
-        System.exit(0);
+        
     }//GEN-LAST:event_jMenuSalirActionPerformed
 
     private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
@@ -464,8 +473,19 @@ public class UsuariosForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemMensualActionPerformed
 
     private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
-        System.exit(0);
+          String botones[] = {"Cerrar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(this, "Desea cerrar la aplicación?", "Aviso",
+                0, 0, null, botones, this);
+        if (eleccion == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else if (eleccion == JOptionPane.NO_OPTION) {
+            System.out.println("Se cancelo el cierre");
+        }
     }//GEN-LAST:event_jMenuSalirMouseClicked
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        event.textKeyPress(evt);// TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreKeyTyped
     void agregar() {
         //falta validar
         //campos no vacios
@@ -522,8 +542,8 @@ public class UsuariosForm extends javax.swing.JFrame {
             if (jCheckActivo.isSelected()) {
                 est = 1;
             }
-            String password_emp_casino = seg.encriptar(clave_cajero);            
-            int sucursal = CbSucursal.getSelectedIndex() + 1;            
+            String password_emp_casino = seg.encriptar(clave_cajero);
+            int sucursal = CbSucursal.getSelectedIndex() + 1;
             Object[] ob = new Object[6];
             ob[0] = rut;
             ob[1] = nombre;
@@ -531,14 +551,14 @@ public class UsuariosForm extends javax.swing.JFrame {
             ob[3] = admin;
             ob[4] = est;
             ob[5] = id_rut;
-            int r =0;
-            if(txtClave.getPassword().length==0||!jCheckClave.isSelected()){
+            int r = 0;
+            if (txtClave.getPassword().length == 0 || !jCheckClave.isSelected()) {
                 System.out.println("actualizar sin clave");
-                r=dao.actualizar(ob);
-            }else{
+                r = dao.actualizar(ob);
+            } else {
                 System.out.println("actualizar CON clave");
-                r=dao.actualizar(ob, password_emp_casino);
-            }            
+                r = dao.actualizar(ob, password_emp_casino);
+            }
             if (r > 0) {
                 JOptionPane.showMessageDialog(null, "Usuario Actualizado correctamente", "Exito!", JOptionPane.DEFAULT_OPTION);
             } else {

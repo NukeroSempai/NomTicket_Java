@@ -1,4 +1,4 @@
-    package modelo;
+package modelo;
 
 import CONEXION_BD.Conexion;
 import java.sql.Connection;
@@ -7,43 +7,29 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TicketDAO implements CRUD{
+public class EmpleadoDAO implements CRUD {
 
     Connection con;
-    Conexion cn=new Conexion();
+    Conexion cn = new Conexion();
     PreparedStatement ps;
     ResultSet rs;
-    Ticket t=new Ticket();
+    Empleado e = new Empleado();
     int r;
-    
-    
 
-    public Ticket listarCodigo(String codigo) {
-        Ticket t=new Ticket();
-
-        String sql = "select * from TICKET where codigo_ticket=?";
+    //Actualizar saldo ticket del empleado
+    public int actualizarSaldo(int saldo, int codigo_emp) {
+        String sql = " update Empleado set saldo=? where codigo_emp=?";
         try {
-            con=cn.Conectar();
-            ps=con.prepareStatement(sql);
-            ps.setString(1, codigo);
-            rs=ps.executeQuery();
-            while (rs.next()) {
-                t.setCodigo(rs.getInt(1));
-                t.setFecha(rs.getString(2));
-                t.setHoraInicio(rs.getString(3));
-                t.setHoraTermino(rs.getString(4));
-                t.setEstado(rs.getString(5));
-                t.setValor(rs.getInt(6));
-                t.setComentario(rs.getString(7));
-                t.setRut(rs.getString(8));
-                t.setTipo(rs.getInt(9));
-            }
+            con = cn.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, saldo);
+            ps.setInt(2,codigo_emp);
+            ps.executeUpdate();
         } catch (Exception e) {
+
         }
-        return t;
+        return r;
     }
-//Metodos mantenimiento CRUD
-  
 
     @Override
     public List listar() {
@@ -64,7 +50,5 @@ public class TicketDAO implements CRUD{
     public int eliminar(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-}
 
-    
-  
+}

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modelo.Eventos;
 import modelo.Producto;
 import modelo.ProductoDAO;
 
@@ -14,6 +15,7 @@ public class ProductoForm extends javax.swing.JFrame {
     ProductoDAO dao = new ProductoDAO();
     Producto p = new Producto();
     List<String> tipoProd = dao.listarTipo();
+    Eventos event =new Eventos();
 
     DefaultTableModel modelo = new DefaultTableModel();
     int cod_prod;
@@ -186,6 +188,24 @@ public class ProductoForm extends javax.swing.JFrame {
         jLabelPrecio.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPrecio.setText("Precio");
 
+        txtNomProd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNomProdKeyTyped(evt);
+            }
+        });
+
+        txtDesc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDescKeyTyped(evt);
+            }
+        });
+
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
+
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,7 +213,7 @@ public class ProductoForm extends javax.swing.JFrame {
             }
         });
 
-        btnActualizar.setText("Actualizar");
+        btnActualizar.setText("Modificar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -444,7 +464,7 @@ public class ProductoForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemProductosActionPerformed
 
     private void jMenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSalirActionPerformed
-        System.exit(0);
+       
     }//GEN-LAST:event_jMenuSalirActionPerformed
 
     private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
@@ -511,8 +531,27 @@ public class ProductoForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemMensualActionPerformed
 
     private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
-        System.exit(0);
+          String botones[] = {"Cerrar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(this, "Desea cerrar la aplicación?", "Aviso",
+                0, 0, null, botones, this);
+        if (eleccion == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else if (eleccion == JOptionPane.NO_OPTION) {
+            System.out.println("Se cancelo el cierre");
+        }
     }//GEN-LAST:event_jMenuSalirMouseClicked
+
+    private void txtNomProdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomProdKeyTyped
+        event.textKeyPress(evt);
+    }//GEN-LAST:event_txtNomProdKeyTyped
+
+    private void txtDescKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescKeyTyped
+        event.textKeyPress(evt);
+    }//GEN-LAST:event_txtDescKeyTyped
+
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        event.numberKeyPress(evt);
+    }//GEN-LAST:event_txtPrecioKeyTyped
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

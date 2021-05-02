@@ -7,6 +7,7 @@ package vistas;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import javax.swing.JOptionPane;
 
 public class AdminHome extends javax.swing.JFrame {
 
@@ -208,7 +209,14 @@ public class AdminHome extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemMensualActionPerformed
 
     private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
-        System.exit(0);
+         String botones[] = {"Cerrar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(this, "Desea cerrar la aplicación?", "Aviso",
+                0, 0, null, botones, this);
+        if (eleccion == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else if (eleccion == JOptionPane.NO_OPTION) {
+            System.out.println("Se cancelo el cierre");
+        }
     }//GEN-LAST:event_jMenuSalirMouseClicked
 
     /**
